@@ -37,6 +37,7 @@ time. The hashes make the decision auditable if the research package changes.
 | `benchmarks/schemas/network-policy-audit.schema.json` | `5d8dbb9605d166f826f3add50189e4ad021de9c0d62e3c2582cd66a4cd11dc03` |
 | `benchmarks/scripts/run-network-policy-audit.ps1` | `4ae799d14625e75a888fe5dab00c7b7d01942b6345ab36238b4ffaea7ea3d132` |
 | `benchmarks/audits/network-policy-audit-2026-08-03.json` | `c4aea52b16239a0e7c6b5273f044fc1bb380c185a34da9e9b587c6db0c9d35c7` |
+| `benchmarks/audits/network-policy-audit-2026-08-03-elevated.json` | `8e77142729f79d89cbdef050cb5cd16e4a5bf1756b3ac21b1f003033687dbb51` |
 
 The campaign is currently `benchmark_pending`, `UNSCORED`, with 30 primary
 cells and 66 expected raw runs but zero completed runs. Every statement below
@@ -60,9 +61,10 @@ is therefore a contract decision or an explicit assumption, never a score.
 5. The control runner executable now exists at the reserved path and its digest
    is recorded above. The request/run schemas and runner integration tests are
    fail-closed tested. The isolation audit proves the process, environment,
-   repository, and Git boundaries, but its network-denial check remains
-   `INCONCLUSIVE`; branch-manifest approval and independent evidence review
-   remain release blockers, and the campaign remains `UNSCORED`.
+   repository, and Git boundaries; the elevated policy audit proves the
+   temporary OS-level network deny and cleanup. Branch-manifest approval and
+   independent evidence review remain release blockers, and the campaign
+   remains `UNSCORED`.
 
 ## 1. Exact Codex-local control-runner boundary
 
@@ -459,9 +461,10 @@ These are explicit assumptions, not verified facts:
 2. **Isolation enforcement mechanism.** The current Codex-local audit proves
    sanitised environment roots, no inherited credential/configuration values,
    no observed child process, and no observed process socket. It does not prove
-   an OS-level network-deny policy. The targeted Windows Firewall preflight is
-   recorded as `BLOCKED` because the session is not elevated; that missing
-   mechanism keeps the gate `INCONCLUSIVE`.
+   an OS-level network-deny policy. The non-elevated preflight was `BLOCKED`,
+   then the elevated policy audit passed with zero observed sockets and
+   verified cleanup; the network-deny gate is now resolved for this control
+   snapshot.
 3. **Source-native disposition.** Can the pinned OpenSpec behavior be
    reproduced locally without installing or importing its upstream runtime?
    If not, which evidence record marks `source_native` blocked/rejected while
@@ -483,7 +486,7 @@ These are explicit assumptions, not verified facts:
 
 This artifact resolves the boundary, schemas, paired read surface, case
 oracles, and evidence semantics at the design level. The fixture-only control
-runner now exists and has bounded integration tests, but it does **not** satisfy
-the runner or evidence gates until Windows isolation is independently proven,
-the branch manifest is pinned/approved, and raw evidence is independently
-reviewed. The campaign must remain `benchmark_pending` / `UNSCORED`.
+runner now exists and has bounded integration tests; the elevated Windows
+Firewall audit closes the network-deny proof, but the runner/evidence gates
+still require branch-manifest approval and independent raw-evidence review.
+The campaign must remain `benchmark_pending` / `UNSCORED`.

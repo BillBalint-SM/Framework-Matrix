@@ -56,5 +56,6 @@ socketet, de OS-szintű hálózati tiltási policy nincs függetlenül bizonyít
 
 A `test-network-policy-audit.ps1` csak adminisztrátori PowerShellből tudja
 létrehozni az ideiglenes, `pwsh.exe`-re szűkített outbound Block szabályt. A
-jelenlegi gépen a próba `BLOCKED` (`FIREWALL_ADMIN_REQUIRED`) lett; szabály nem
-jött létre és cleanup-readback alapján nem maradt vissza.
+nem-emelt preflight `BLOCKED` (`FIREWALL_ADMIN_REQUIRED`) volt, majd az emelt
+futtatás `PASS` lett: a runner alatt 0 socketet figyeltünk meg, és a szabály
+eltávolítása/read-backje sikeres volt.

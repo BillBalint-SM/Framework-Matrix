@@ -164,12 +164,12 @@ pins `benchmarks/runners/control/run.ps1` at
 PowerShell major `7`. The independent audit at
 `benchmarks/audits/control-isolation-audit-2026-08-03.json` proves the
 sanitised environment, process, repository, and Git checks, but is
-`INCONCLUSIVE` because OS-level network denial was not established. This is
-not campaign-start approval; the network gate and campaign approval remain
+`INCONCLUSIVE` because OS-level network denial was not established. The
+subsequent elevated Windows Firewall audit passed: the runner observed zero
+sockets under the exact temporary outbound Block rule, and cleanup/read-back
+passed. This is not campaign-start approval; campaign approval remains
 required.
-The follow-up Windows Firewall policy preflight is recorded as
-`BLOCKED` because the current session is not elevated; no temporary rule was
-created or left behind.
+The non-elevated policy preflight remains recorded as `BLOCKED` for provenance.
 
 ## 4. Run and evidence contract
 

@@ -1,0 +1,42 @@
+{
+  "$schema": "../schemas/network-policy-audit.schema.json",
+  "schema_version": "1.0.0",
+  "audit_id": "abk:network-policy-audit:control-artifact-dag-core-v1-elevated",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "host": "codex",
+  "status": "PASS",
+  "started_at": "2026-08-03T21:33:03Z",
+  "ended_at": "2026-08-03T21:33:10Z",
+  "is_admin": true,
+  "rule": {
+    "display_name": "Framework-Matrix-Temp-Deny-de32d14f2dfa4ab19952aa25e6e394db",
+    "program": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.6.4.0_x64__8wekyb3d8bbwe\\pwsh.exe",
+    "direction": "Outbound",
+    "action": "Block",
+    "profile": "Any",
+    "created": true,
+    "removed": true,
+    "cleanup_verified": true
+  },
+  "runner_probe_status": "PASS",
+  "runner_probe_connections_observed": 0,
+  "error_code": null,
+  "findings": [
+    {
+      "check": "firewall-rule-readback",
+      "status": "PASS",
+      "detail": "The exact temporary outbound block rule was read back before the runner probe."
+    },
+    {
+      "check": "runner-network-probe",
+      "status": "PASS",
+      "detail": "The sanitized control runner observed zero process sockets while the exact outbound block rule was active."
+    },
+    {
+      "check": "firewall-cleanup",
+      "status": "PASS",
+      "detail": "No temporary firewall rule with the generated display name remains."
+    }
+  ],
+  "limitations": []
+}

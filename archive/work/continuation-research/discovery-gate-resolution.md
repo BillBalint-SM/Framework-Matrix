@@ -32,7 +32,8 @@ benchmark campaign is complete, scored, or adopted.
   record — current independent isolation evidence and its limitations.
 - `benchmarks/schemas/network-policy-audit.schema.json`,
   `benchmarks/scripts/run-network-policy-audit.ps1`, and the dated policy
-  audit record — the elevated Windows Firewall gate and its current blocker.
+  audit records — the elevated Windows Firewall gate and its preflight/elevated
+  results.
 
 ## Integrated decisions
 
@@ -74,10 +75,10 @@ The control-runner contract slice is implemented locally and hash-pinned:
 - a sanitised PowerShell 7 isolation audit with repository/Git/process scope
   checks.
 
-The isolation audit currently stops at `INCONCLUSIVE`: no process socket was
-observed, but OS-level network denial was not independently established. The
-66-run campaign, upstream runtime, ABK source, and adoption result remain out
-of scope.
+The standalone isolation audit reports `INCONCLUSIVE` for network enforcement,
+but the elevated Windows Firewall audit now proves the OS-level deny rule,
+zero runner sockets, and cleanup. The 66-run campaign, upstream runtime, ABK
+source, and adoption result remain out of scope.
 
 ## Explicit gates before the runner is frozen
 
@@ -92,8 +93,9 @@ The following are not silently assumed:
 4. Approval of the draft weight vector, score anchors, independent review, and
    adjudication policy.
 5. A frozen executable path/digest and a passing Windows isolation proof for
-   the control runner. The current audit is recorded but remains
-   `INCONCLUSIVE` for network denial.
+   the control runner. The elevated policy audit now supplies the network
+   denial proof; branch-manifest approval and evidence review remain separate
+   gates.
 
 ## Resolved evidence contract
 
@@ -138,14 +140,18 @@ the approvals and freeze points above.
   hash-pinned in the control decision artefact.
 - The concrete `control` branch manifest exists, is schema-valid, and pins the
   runner digest and PowerShell major version; it is not yet a campaign-start
-  approval or independent isolation proof.
+  approval.
 - Isolation audit `benchmarks/audits/control-isolation-audit-2026-08-03.json`:
-  environment, process, repository, and Git checks `PASS`; network denial
-  `INCONCLUSIVE`; audit SHA-256
+  environment, process, repository, and Git checks `PASS`; standalone network
+  observation `INCONCLUSIVE`; audit SHA-256
   `059408e2f871b914cddfdfd5368185fb653a31b38e6e1f91bebf5215797976c2`.
 - Windows Firewall policy audit `benchmarks/audits/network-policy-audit-2026-08-03.json`:
-  `BLOCKED` with `FIREWALL_ADMIN_REQUIRED`; no temporary rule was created and
-  cleanup-readback passed. Audit SHA-256
+  non-elevated preflight `BLOCKED` with `FIREWALL_ADMIN_REQUIRED`; no temporary
+  rule was created and cleanup-readback passed. Audit SHA-256
   `c4aea52b16239a0e7c6b5273f044fc1bb380c185a34da9e9b587c6db0c9d35c7`.
+- Elevated Windows Firewall policy audit
+  `benchmarks/audits/network-policy-audit-2026-08-03-elevated.json`: `PASS`,
+  zero runner sockets, temporary rule removed/read back. Audit SHA-256
+  `8e77142729f79d89cbdef050cb5cd16e4a5bf1756b3ac21b1f003033687dbb51`.
 - Control runner integration suite: `3/3 PASS`; no raw campaign run or
   scorecard has been created.
