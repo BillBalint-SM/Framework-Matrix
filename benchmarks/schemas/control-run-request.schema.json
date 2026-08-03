@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:control-run-request:1.0.0",
+  "title": "Codex-local control runner request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "campaign_id",
+    "branch",
+    "case_id",
+    "repeat",
+    "fixture",
+    "contracts",
+    "run",
+    "authority",
+    "environment",
+    "runner"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "request_id": { "type": "string", "pattern": "^abk:run-request:[a-z0-9-]+$" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "branch": { "const": "control" },
+    "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+    "repeat": { "enum": [1, 2, 3] },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "sha256"],
+      "properties": {
+        "relative_path": { "$ref": "#/definitions/fixture_relative_path" },
+        "sha256": { "$ref": "#/definitions/sha256" }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["campaign_relative_path", "campaign_sha256", "schema_relative_path", "schema_sha256"],
+      "properties": {
+        "campaign_relative_path": { "$ref": "#/definitions/relative_path" },
+        "campaign_sha256": { "$ref": "#/definitions/sha256" },
+        "schema_relative_path": { "$ref": "#/definitions/relative_path" },
+        "schema_sha256": { "$ref": "#/definitions/sha256" }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "relative_run_root", "timeout_seconds", "stop_condition_id"],
+      "properties": {
+        "run_id": { "type": "string", "pattern": "^abk:run:[a-z0-9-]+$" },
+        "relative_run_root": { "type": "string", "pattern": "^runs/[A-Za-z0-9._/-]+$" },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 3600 },
+        "stop_condition_id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["read_roots", "write_root", "network", "credentials", "production_resources", "external_writes", "git_mutation", "process_spawn"],
+      "properties": {
+        "read_roots": { "const": ["campaign", "fixture", "schema"] },
+        "write_root": { "const": "run" },
+        "network": { "const": false },
+        "credentials": { "const": false },
+        "production_resources": { "const": false },
+        "external_writes": { "const": false },
+        "git_mutation": { "const": false },
+        "process_spawn": { "const": false }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["HOME", "USERPROFILE", "APPDATA", "LOCALAPPDATA", "XDG_CONFIG_HOME", "XDG_DATA_HOME"],
+      "properties": {
+        "HOME": { "$ref": "#/definitions/relative_path" },
+        "USERPROFILE": { "$ref": "#/definitions/relative_path" },
+        "APPDATA": { "$ref": "#/definitions/relative_path" },
+        "LOCALAPPDATA": { "$ref": "#/definitions/relative_path" },
+        "XDG_CONFIG_HOME": { "$ref": "#/definitions/relative_path" },
+        "XDG_DATA_HOME": { "$ref": "#/definitions/relative_path" }
+      }
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "executable_sha256", "host"],
+      "properties": {
+        "contract_version": { "const": "control-runner-v1" },
+        "executable_sha256": { "$ref": "#/definitions/sha256" },
+        "host": { "const": "codex" }
+      }
+    }
+  },
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "relative_path": { "type": "string", "pattern": "^(?![A-Za-z]:)(?![\\\\/])[\\w./\\\\-]+$" },
+    "fixture_relative_path": { "type": "string", "pattern": "^(?![A-Za-z]:)(?![\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$))[\\w./\\\\-]+$" }
+  }
+}

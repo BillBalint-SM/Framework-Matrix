@@ -9,6 +9,9 @@ projekt; annak forráskódja, branch-e és Git-története nincs ebben a repóba
 
 - `outputs/` – a végleges, átadható dossier-ok, sémák, benchmark-protokoll,
   refactor-terv, System Design DOCX és a tömörített evidence bundle.
+- `benchmarks/` – a következő empirikus kampányok befagyasztott fixture-,
+  isolation-, oracle- és evidence-contractjai; nem ABK-forráskód és nem
+  upstream runtime.
 - `sources/` – az öt vizsgált upstream repo teljes, tracked-file snapshotja a
   kutatáskor rögzített commitból, beágyazott Git-metainformáció és függőségi
   runtime nélkül.
@@ -36,6 +39,13 @@ script/config/skill/plugin/hook/Markdown/JSON bizonyíték megmaradt a
 Get-ChildItem -Recurse -File sources | Measure-Object
 Get-FileHash outputs\sdd-framework-evidence-bundle.zip -Algorithm SHA256
 tar -tf outputs\sdd-framework-evidence-bundle.zip | Select-Object -First 20
+& .\benchmarks\scripts\validate-benchmark-campaign.ps1 `
+  -CampaignPath .\benchmarks\campaigns\artifact-dag-core-v1\campaign.json `
+  -WorkspaceRoot (Get-Location).Path
+& .\benchmarks\tests\test-control-contract.ps1 `
+  -WorkspaceRoot (Get-Location).Path
+& .\benchmarks\tests\test-control-runner.ps1 `
+  -WorkspaceRoot (Get-Location).Path
 ```
 
 Ez a munkapéldány először lokálisan kerül ellenőrzésre; commit és GitHub-push

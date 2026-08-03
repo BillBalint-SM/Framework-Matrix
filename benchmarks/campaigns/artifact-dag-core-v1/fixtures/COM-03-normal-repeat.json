@@ -1,0 +1,1 @@
+{"case_id":"COM-03-normal-repeat","project":{"artifacts":[{"id":"spec","depends_on":[]},{"id":"plan","depends_on":["spec"]}],"repeat_key":"stable-input-v1"}}

@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:control-run:1.0.0",
+  "title": "Codex-local control runner result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "request_id",
+    "campaign_id",
+    "branch",
+    "case_id",
+    "repeat",
+    "runner",
+    "input",
+    "started_at",
+    "ended_at",
+    "duration_ms",
+    "terminal_state",
+    "exit_code",
+    "error",
+    "state_before",
+    "state_after",
+    "recovery",
+    "handoff"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "pattern": "^abk:run:[a-z0-9-]+$" },
+    "request_id": { "type": "string", "pattern": "^abk:run-request:[a-z0-9-]+$" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "branch": { "const": "control" },
+    "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+    "repeat": { "enum": [1, 2, 3] },
+    "runner": { "$ref": "#/definitions/runner" },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_sha256", "campaign_sha256", "schema_sha256", "request_sha256"],
+      "properties": {
+        "fixture_sha256": { "$ref": "#/definitions/sha256" },
+        "campaign_sha256": { "$ref": "#/definitions/sha256" },
+        "schema_sha256": { "$ref": "#/definitions/sha256" },
+        "request_sha256": { "$ref": "#/definitions/sha256" }
+      }
+    },
+    "started_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "ended_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "terminal_state": { "enum": ["SUCCEEDED", "STOPPED", "FAILED", "RECOVERED", "TIMED_OUT", "BLOCKED", "REJECTED"] },
+    "exit_code": { "enum": [0, 2, 3, 4, 75, 124, 130] },
+    "error": { "type": ["object", "null"] },
+    "readiness": { "anyOf": [{ "type": "null" }, { "$ref": "#/definitions/evidence_reference" }] },
+    "provenance": { "anyOf": [{ "type": "null" }, { "$ref": "#/definitions/evidence_reference" }] },
+    "state_before": { "$ref": "#/definitions/state_manifest" },
+    "state_after": { "$ref": "#/definitions/state_manifest" },
+    "recovery": { "anyOf": [{ "type": "null" }, { "type": "object" }] },
+    "handoff": { "anyOf": [{ "type": "null" }, { "type": "object" }] }
+  },
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "executable_sha256", "host"],
+      "properties": {
+        "contract_version": { "const": "control-runner-v1" },
+        "executable_sha256": { "$ref": "#/definitions/sha256" },
+        "host": { "const": "codex" }
+      }
+    },
+    "evidence_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "sha256"],
+      "properties": {
+        "relative_path": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" },
+        "sha256": { "$ref": "#/definitions/sha256" }
+      }
+    },
+    "state_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_sha256"],
+      "properties": { "manifest_sha256": { "$ref": "#/definitions/sha256" } }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "retryable", "message", "field"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+        "retryable": { "type": "boolean" },
+        "message": { "type": "string", "minLength": 1 },
+        "field": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

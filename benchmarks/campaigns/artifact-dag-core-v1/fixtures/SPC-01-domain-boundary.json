@@ -1,0 +1,1 @@
+{"case_id":"SPC-01-domain-boundary","project":{"artifacts":[{"id":"spec","depends_on":["../outside"]}]}}

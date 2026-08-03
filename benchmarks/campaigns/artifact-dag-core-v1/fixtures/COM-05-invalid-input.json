@@ -1,0 +1,1 @@
+{"case_id":"COM-05-invalid-input","project":{"artifacts":[{"id":"plan","depends_on":["missing"]}]}}

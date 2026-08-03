@@ -1,0 +1,1 @@
+{"case_id":"COM-02-normal-variant","project":{"artifacts":[{"id":"spec","depends_on":[]},{"id":"research","depends_on":["spec"]},{"id":"plan","depends_on":["spec","research"]}]}}

@@ -1,0 +1,1 @@
+{"case_id":"SPC-03-recovery-rollback","project":{"artifacts":[{"id":"spec","depends_on":[]}],"failure_after":"derived-state-write","recovery":"owned-state-only"}}

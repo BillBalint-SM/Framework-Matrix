@@ -1,0 +1,1 @@
+{"case_id":"SPC-04-composition-handoff","project":{"artifacts":[{"id":"spec","depends_on":[]},{"id":"plan","depends_on":["spec"]}],"handoff":"validated-graph"}}
