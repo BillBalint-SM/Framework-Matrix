@@ -153,5 +153,9 @@ the approvals and freeze points above.
   `benchmarks/audits/network-policy-audit-2026-08-03-elevated.json`: `PASS`,
   zero runner sockets, temporary rule removed/read back. Audit SHA-256
   `8e77142729f79d89cbdef050cb5cd16e4a5bf1756b3ac21b1f003033687dbb51`.
+- Cross-agent M1 gate review
+  `archive/work/continuation-research/m1-gate-review-2026-08-03.md`: `NEEDS_WORK`
+  / `CAMPAIGN_NOT_READY`; contract and control isolation proof are accepted,
+  while campaign-wide runner, evidence, and decision gates remain blocked.
 - Control runner integration suite: `3/3 PASS`; no raw campaign run or
   scorecard has been created.
