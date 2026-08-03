@@ -26,6 +26,9 @@ runtime dependency, credential, hálózati vagy Git-mutáció.
 
 & .\benchmarks\tests\test-control-runner.ps1 `
   -WorkspaceRoot (Get-Location).Path
+
+& .\benchmarks\tests\test-branch-manifest.ps1 `
+  -WorkspaceRoot (Get-Location).Path
 ```
 
 A validátor kizárólag `benchmark_pending` kampányt fogad el, és a kampány

@@ -8,9 +8,9 @@
 
 This document closes the control-runner and operator-read-surface discovery
 questions for M1. It freezes a Codex-local process boundary and the records
-that the future campaign runner must produce. It does not add a runner,
-install an upstream runtime, modify AI Booster Kit source, or claim that any
-campaign run has passed.
+that the campaign runner must produce. It does not install an upstream
+runtime, modify AI Booster Kit source, or claim that any campaign run has
+passed.
 
 ## Evidence read
 
@@ -28,6 +28,8 @@ time. The hashes make the decision auditable if the research package changes.
 | `benchmarks/schemas/benchmark-campaign.schema.json` | `b4cacc60fe730faab91595f3f00b73ddf8729b494413a5eab5fa295e494b8aff` |
 | `benchmarks/schemas/control-run-request.schema.json` | `ca58765bdbed0390bd1e17d8f23a1640ff456e3b23ded86646db2dc578896e32` |
 | `benchmarks/schemas/control-run.schema.json` | `2d156aad08fc5d4f268b68a0f25c85bfcc75846a76d8f7951bd8095a8cda9b81` |
+| `benchmarks/schemas/branch-manifest.schema.json` | `a1ae1315e08c124d37af6e20de6b602b526274efebfb4f724d8afb541e3f0f7c` |
+| `benchmarks/campaigns/artifact-dag-core-v1/branches/control/manifest.json` | `5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235` |
 | `benchmarks/runners/control/run.ps1` | `a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1` |
 
 The campaign is currently `benchmark_pending`, `UNSCORED`, with 30 primary
@@ -443,11 +445,10 @@ These are explicit assumptions, not verified facts:
 
 ## 9. Unresolved questions and release blockers
 
-1. **Executable availability and digest.** The reserved
-   `benchmarks/runners/control/run.ps1` path does not exist in this checkout.
-   Who owns its implementation, and what exact script hash and PowerShell
-   version will be pinned in the branch manifest? Until answered, the runner
-   gate is `BLOCKED`.
+1. **Executable availability and digest.** Resolved for the control branch:
+   `benchmarks/runners/control/run.ps1` exists, and the concrete branch
+   manifest pins its SHA-256 and PowerShell major `7`. Independent isolation
+   proof, campaign-start approval, and evidence review remain release gates.
 2. **Isolation enforcement mechanism.** What Codex-local mechanism proves
    network denial and absence of inherited credentials on the Windows host?
    A policy assertion without independent evidence is insufficient.

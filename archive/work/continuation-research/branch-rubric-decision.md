@@ -153,6 +153,18 @@ conversation state, or findings. Repeats are fresh processes with fresh roots;
 only the pinned fixture and manifest are shared. A branch cannot claim
 `runtime_smoked` or `behavior_reproduced` from static source inspection alone.
 
+### Current control manifest artifact
+
+The first concrete control manifest is now present locally at
+`benchmarks/campaigns/artifact-dag-core-v1/branches/control/manifest.json`.
+Its SHA-256 is
+`5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235`; it
+pins `benchmarks/runners/control/run.ps1` at
+`a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1` and
+PowerShell major `7`. This is a validated local artifact, not an approval to
+start the campaign: independent Windows isolation proof and campaign-start
+approval remain required.
+
 ## 4. Run and evidence contract
 
 The canonical run path is:

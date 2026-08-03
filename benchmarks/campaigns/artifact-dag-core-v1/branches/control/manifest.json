@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/branch-manifest.schema.json",
+  "schema_version": "1.0.0",
+  "manifest_id": "abk:branch-manifest:control-artifact-dag-core-v1",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "host": "codex",
+  "path_base": "repository",
+  "entrypoint_path": "benchmarks/runners/control/run.ps1",
+  "entrypoint_sha256": "a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1",
+  "snapshot_ref": "abk:control-baseline:artifact-dag-core-v1",
+  "snapshot_sha256": "a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1",
+  "reads": [
+    "campaign.json and pinned schemas",
+    "exactly one case fixture and its pinned SHA-256",
+    "control runner snapshot"
+  ],
+  "writes": ["runs/<case-id>/control/R<n>/**"],
+  "capabilities": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"],
+  "authority_level": "LOCAL_EXECUTE",
+  "checkpoint": "BEFORE_EXECUTION",
+  "runtime": {
+    "powershell_executable": "pwsh.exe",
+    "powershell_major": 7,
+    "command_template": "pwsh.exe -NoLogo -NoProfile -NonInteractive -File {entrypoint_path} -RequestPath {run_root}/request.json"
+  },
+  "network": "DENY",
+  "credentials": "DENY",
+  "production_resources": "DENY",
+  "external_writes": "DENY",
+  "git_mutation": "DENY",
+  "child_processes": "DENY",
+  "cross_run_reads": "DENY",
+  "cross_branch_reads": "DENY",
+  "real_user_config_reads_or_writes": "DENY",
+  "undocumented_effect_policy": "STOPPED"
+}

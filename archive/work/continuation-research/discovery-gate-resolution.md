@@ -127,5 +127,8 @@ the approvals and freeze points above.
   field, wrong branch/path, and terminal-state/exit-code cases.
 - Request/run schema files and the fixture-only control runner exist and are
   hash-pinned in the control decision artefact.
-- Control runner integration suite: `3/3 PASS`; no raw campaign run, branch
-  manifest, or scorecard has been created.
+- The concrete `control` branch manifest exists, is schema-valid, and pins the
+  runner digest and PowerShell major version; it is not yet a campaign-start
+  approval or independent isolation proof.
+- Control runner integration suite: `3/3 PASS`; no raw campaign run or
+  scorecard has been created.
