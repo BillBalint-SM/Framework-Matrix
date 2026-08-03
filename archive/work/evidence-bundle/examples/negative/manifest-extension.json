@@ -1,0 +1,6 @@
+{
+  "fixture_version": "1.0.0",
+  "base": "../capability-component-pattern-adoption.example.json",
+  "mutation": {"operation":"add","path":"/extensions","value":{"openspec":{}}},
+  "expected_error": "ROOT_ADDITIONAL_PROPERTY"
+}

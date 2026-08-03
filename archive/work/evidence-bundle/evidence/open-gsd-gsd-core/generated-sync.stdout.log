@@ -1,0 +1,15 @@
+
+> @opengsd/gsd-core@1.9.1 lint:generated-sync
+> node scripts/gen-capability-registry.cjs --check && node scripts/gen-loop-host-contract.cjs --check && node scripts/gen-capability-matrix.cjs --check && node scripts/sync-manifest-versions.cjs --check && node scripts/gen-inventory-manifest.cjs --check && node scripts/generate-package-identity.cjs --check && node scripts/gen-plugin-skills.cjs --check && node scripts/gen-registry.cjs --check && node scripts/gen-adr-index.cjs --check && node scripts/check-glossary-refs.cjs --check && node scripts/lint-compiled-artifact-sync.cjs --check && node scripts/gen-context-index.cjs --check
+
+gsd-core/bin/lib/capability-registry.cjs is up to date.
+gsd-core/bin/lib/loop-host-contract.cjs is up to date.
+docs\reference\capability-matrix.md is up to date.
+All 47 versioned manifests in sync at 1.9.1.
+docs/INVENTORY-MANIFEST.json is up to date.
+gen-plugin-skills: 71 skills up to date
+docs/registries/*.md are up to date.
+docs/adr/README.md index is up to date (71 ADRs).
+CONTEXT.md glossary references are current (49 refs checked, allRuntimes parity ok).
+ok compiled-artifact-sync: 9 tracked artifact(s) match their source
+docs\CONTEXT-INDEX.json is up to date.

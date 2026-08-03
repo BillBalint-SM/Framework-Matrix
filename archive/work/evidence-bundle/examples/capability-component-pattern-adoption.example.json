@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "abk:pattern-adoption:artifact-dag-core",
+  "kind": "pattern_adoption",
+  "name": "ABK Artifact DAG core candidate",
+  "summary": "Research-backed candidate for an ABK-native artifact graph derived from useful upstream behavior without retaining an upstream runtime dependency.",
+  "component_type": "state_contract",
+  "scope_layer": "PROJECT",
+  "version": "0.1.0",
+  "owners": {
+    "component_owner": "platform_architecture",
+    "outcome_owner": "ai_booster_kit_owner",
+    "review_owner": "independent_reviewer"
+  },
+  "source_patterns": [
+    {
+      "source_id": "openspec_artifact_graph",
+      "repository": "Fission-AI/openspec",
+      "commit": "45cca5db6137ed209117cc70510eb3e057fb981b",
+      "path": "src/core/artifact-graph",
+      "observed_behavior": "The source derives artifact readiness and dependency relationships from project files instead of treating conversation memory as the project state.",
+      "evidence_tier": "S2",
+      "permission_status": "reviewed"
+    }
+  ],
+  "intended_abk_role": {
+    "problem": "AI Booster Kit needs deterministic, inspectable project artifact relationships that survive sessions and do not depend on an upstream framework runtime.",
+    "behavior": "Load ABK-owned artifact declarations, validate identifiers and edges, reject cycles or unknown dependencies, and emit a stable readiness graph with source provenance.",
+    "inputs": [
+      "Explicit project root and ABK artifact declarations",
+      "Pinned schema version and source revision"
+    ],
+    "outputs": [
+      "Validated artifact graph",
+      "Stable readiness and provenance evidence"
+    ],
+    "stop_conditions": [
+      "Unknown artifact or dependency",
+      "Cycle, duplicate identity, malformed source, or root escape"
+    ]
+  },
+  "autonomy_profile": {
+    "authority_level": "ADVISORY",
+    "delegated_scope": "Read and validate explicitly selected ABK project artifacts without generating or modifying project content.",
+    "checkpoint": "NONE",
+    "audit_required": true,
+    "recovery_required": false
+  },
+  "side_effect_profile": {
+    "operations": [
+      {
+        "effect_id": "read_project_artifacts",
+        "class": "LOCAL_READ",
+        "target_scope": "Explicit ABK project artifact root",
+        "declared": true,
+        "reversible": true,
+        "recovery": "No state mutation occurs; discard the derived in-memory graph and retained evidence if the run is invalidated.",
+        "evidence_ids": ["source_dossier"]
+      }
+    ],
+    "undocumented_effect_policy": "STOPPED"
+  },
+  "runtime_independence": {
+    "upstream_runtime_required": false,
+    "upstream_package_required": false,
+    "codex_local_reproducible": false,
+    "independence_evidence_ids": ["benchmark_protocol"]
+  },
+  "lifecycle": {
+    "current_state": "SOURCE_VERIFIED",
+    "history": [
+      {
+        "sequence": 1,
+        "from": "DISCOVERED",
+        "to": "SOURCE_VERIFIED",
+        "occurred_at": "2026-08-02T20:00:00Z",
+        "approval_id": null,
+        "evidence_ids": ["source_dossier", "pattern_catalog"]
+      }
+    ]
+  },
+  "provenance": {
+    "adaptation_mode": "behavioral_reimplementation",
+    "verbatim_copy": false,
+    "license_is_quality_gate": false,
+    "notes": "The observed behavior is a research input. Names, schemas, authority boundaries, implementation, and validation remain ABK-native."
+  },
+  "permission_state": {
+    "status": "not_required",
+    "owner": "ai_booster_kit_owner",
+    "decision_evidence_ids": []
+  },
+  "evidence": [
+    {
+      "evidence_id": "source_dossier",
+      "type": "source",
+      "status": "verified",
+      "locator": "outputs/02-fission-openspec.md",
+      "content_sha256": "22b10338e2361b5e267d5fbac30a5797f5329fb250c78559549f89656da8a234",
+      "summary": "Pinned OpenSpec dossier and runtime evidence for the observed artifact-graph behavior."
+    },
+    {
+      "evidence_id": "pattern_catalog",
+      "type": "review",
+      "status": "verified",
+      "locator": "outputs/06-reusable-pattern-catalog.md",
+      "content_sha256": "0914a7889a02cb622b258c2d9134931980263a6c032e6f6e0ba4814439aa6765",
+      "summary": "Cross-framework synthesis that separates observed behavior from the proposed ABK-native target."
+    },
+    {
+      "evidence_id": "benchmark_protocol",
+      "type": "benchmark",
+      "status": "planned",
+      "locator": "outputs/08-empirical-benchmark-protocol.md",
+      "content_sha256": "d38c6c174a8ada50e9689b6e7a0f1f41fff36a7c9ce3ca23fd0c3b4606d0724e",
+      "summary": "Accepted but not yet executed three-branch Codex-local benchmark contract."
+    }
+  ],
+  "benchmark_scorecard_id": "abk:scorecard:artifact-dag-core",
+  "composition": {
+    "dependencies": ["ABK artifact identity and project-root contracts"],
+    "handoff_contracts": ["Readiness graph can be consumed by recommendation and validation components only after schema validation"],
+    "conflict_boundaries": ["The derived graph cannot overwrite source artifacts or become an external framework projection"]
+  }
+}

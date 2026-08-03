@@ -1,0 +1,12 @@
+
+> @opengsd/gsd-core@1.9.1 check:env
+> node scripts/check-env.cjs
+
+=== Environment Check ===
+  [PASS]  node-version               Node 26.4.0 satisfies >=22.0.0
+  [PASS]  npm-version                npm 10.9.8 satisfies >=10.0.0
+  [PASS]  lockfile-present           package-lock.json exists
+  [PASS]  lockfile-sync              package-lock.json is in sync with package.json
+  [FAIL]  version-manager-pin        Active Node major (26) does NOT match .nvmrc pin (22) — run 'nvm use' or equivalent
+
+Result: ONE OR MORE CHECKS FAILED — see above

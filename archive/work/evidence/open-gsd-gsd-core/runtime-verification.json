@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "pin": "33985c11a9f0a27443f8b8fb114b2122d653cd78",
+  "runtimeRepository": "C:\\Users\\littl\\Documents\\Codex\\2026-08-02\\research-c-users-littl-agents-skills\\work\\runtime\\open-gsd-gsd-core-test",
+  "evidenceGeneratedUtc": "2026-08-02T13:49:42.6533251+00:00",
+  "timeoutRuns": {
+    "status": "unverified_coordinator_report",
+    "reason": "No exact command or persisted stdout/stderr/process-cleanup artifact was supplied for the 244 s and 122.7 s runs; they were not rerun during correction."
+  },
+  "targeted865Run": {
+    "status": "unverified_coordinator_report",
+    "reason": "The exact 18 test paths and command were not supplied; the 877/865/12 claim was not rerun during correction."
+  },
+  "commands": [
+    {
+      "name": "node-version",
+      "command": "node --version",
+      "startUtc": "2026-08-02T13:49:30.8863662+00:00",
+      "durationMs": 35,
+      "exitCode": 0,
+      "stdout": "node-version.stdout.log",
+      "stderr": "node-version.stderr.log"
+    },
+    {
+      "name": "npm-version",
+      "command": "node <NODE_HOME>/node_modules/npm/bin/npm-cli.js --version",
+      "startUtc": "2026-08-02T13:49:30.9288049+00:00",
+      "durationMs": 105,
+      "exitCode": 0,
+      "stdout": "npm-version.stdout.log",
+      "stderr": "npm-version.stderr.log"
+    },
+    {
+      "name": "check-env",
+      "command": "node <NODE_HOME>/node_modules/npm/bin/npm-cli.js run check:env",
+      "startUtc": "2026-08-02T13:49:31.0355403+00:00",
+      "durationMs": 1011,
+      "exitCode": 0,
+      "stdout": "check-env.stdout.log",
+      "stderr": "check-env.stderr.log"
+    },
+    {
+      "name": "generated-sync",
+      "command": "node <NODE_HOME>/node_modules/npm/bin/npm-cli.js run lint:generated-sync",
+      "startUtc": "2026-08-02T13:49:32.0488606+00:00",
+      "durationMs": 3909,
+      "exitCode": 0,
+      "stdout": "generated-sync.stdout.log",
+      "stderr": "generated-sync.stderr.log"
+    },
+    {
+      "name": "issue-607",
+      "command": "node --test tests/issue-607-installer-dry-run.install.test.cjs",
+      "startUtc": "2026-08-02T13:49:35.9606903+00:00",
+      "durationMs": 1058,
+      "exitCode": 0,
+      "stdout": "issue-607.stdout.log",
+      "stderr": "issue-607.stderr.log"
+    },
+    {
+      "name": "atref-composition",
+      "command": "node --test --test-name-pattern=atRefContractStillResolvesAfterComposition tests/workflow-fragments-emission.install.test.cjs",
+      "startUtc": "2026-08-02T13:49:37.0201086+00:00",
+      "durationMs": 5632,
+      "exitCode": 0,
+      "stdout": "atref-composition.stdout.log",
+      "stderr": "atref-composition.stderr.log"
+    }
+  ]
+}

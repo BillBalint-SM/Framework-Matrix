@@ -1,0 +1,200 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import {
+  isInteractive,
+  isNonInteractivePromptError,
+  resolveNoInteractive,
+  InteractiveOptions,
+} from '../../src/utils/interactive.js';
+
+describe('interactive utilities', () => {
+  let originalOpenSpecInteractive: string | undefined;
+  let originalCI: string | undefined;
+  let originalStdinIsTTY: boolean | undefined;
+
+  beforeEach(() => {
+    // Save original environment
+    originalOpenSpecInteractive = process.env.OPEN_SPEC_INTERACTIVE;
+    originalCI = process.env.CI;
+    originalStdinIsTTY = process.stdin.isTTY;
+
+    // Clear environment for clean testing
+    delete process.env.OPEN_SPEC_INTERACTIVE;
+    delete process.env.CI;
+  });
+
+  afterEach(() => {
+    // Restore original environment
+    if (originalOpenSpecInteractive !== undefined) {
+      process.env.OPEN_SPEC_INTERACTIVE = originalOpenSpecInteractive;
+    } else {
+      delete process.env.OPEN_SPEC_INTERACTIVE;
+    }
+    if (originalCI !== undefined) {
+      process.env.CI = originalCI;
+    } else {
+      delete process.env.CI;
+    }
+    // Restore stdin.isTTY
+    Object.defineProperty(process.stdin, 'isTTY', {
+      value: originalStdinIsTTY,
+      writable: true,
+      configurable: true,
+    });
+  });
+
+  describe('resolveNoInteractive', () => {
+    it('should return true when noInteractive is true', () => {
+      expect(resolveNoInteractive({ noInteractive: true })).toBe(true);
+    });
+
+    it('should return true when interactive is false (Commander.js style)', () => {
+      // This is how Commander.js handles --no-interactive flag
+      expect(resolveNoInteractive({ interactive: false })).toBe(true);
+    });
+
+    it('should return false when noInteractive is false', () => {
+      expect(resolveNoInteractive({ noInteractive: false })).toBe(false);
+    });
+
+    it('should return false when interactive is true', () => {
+      expect(resolveNoInteractive({ interactive: true })).toBe(false);
+    });
+
+    it('should return false for empty options object', () => {
+      expect(resolveNoInteractive({})).toBe(false);
+    });
+
+    it('should return false for undefined', () => {
+      expect(resolveNoInteractive(undefined)).toBe(false);
+    });
+
+    it('should handle boolean value true', () => {
+      expect(resolveNoInteractive(true)).toBe(true);
+    });
+
+    it('should handle boolean value false', () => {
+      expect(resolveNoInteractive(false)).toBe(false);
+    });
+
+    it('should prioritize noInteractive over interactive when both set', () => {
+      // noInteractive: true should win
+      expect(resolveNoInteractive({ noInteractive: true, interactive: true })).toBe(true);
+      // If noInteractive is false, check interactive
+      expect(resolveNoInteractive({ noInteractive: false, interactive: false })).toBe(true);
+    });
+  });
+
+  describe('isInteractive', () => {
+    it('should return false when noInteractive is true', () => {
+      expect(isInteractive({ noInteractive: true })).toBe(false);
+    });
+
+    it('should return false when interactive is false (Commander.js --no-interactive)', () => {
+      expect(isInteractive({ interactive: false })).toBe(false);
+    });
+
+    it('should return false when OPEN_SPEC_INTERACTIVE env var is 0', () => {
+      process.env.OPEN_SPEC_INTERACTIVE = '0';
+      Object.defineProperty(process.stdin, 'isTTY', { value: true, writable: true, configurable: true });
+      expect(isInteractive({})).toBe(false);
+    });
+
+    it('should return false when CI env var is set', () => {
+      process.env.CI = 'true';
+      Object.defineProperty(process.stdin, 'isTTY', { value: true, writable: true, configurable: true });
+      expect(isInteractive({})).toBe(false);
+    });
+
+    it('should return false when CI env var is set to any value', () => {
+      // CI can be set to any value, not just "true"
+      process.env.CI = '1';
+      Object.defineProperty(process.stdin, 'isTTY', { value: true, writable: true, configurable: true });
+      expect(isInteractive({})).toBe(false);
+    });
+
+    it('should return false when stdin is not a TTY', () => {
+      Object.defineProperty(process.stdin, 'isTTY', { value: false, writable: true, configurable: true });
+      expect(isInteractive({})).toBe(false);
+    });
+
+    it('should return true when stdin is TTY and no flags disable it', () => {
+      Object.defineProperty(process.stdin, 'isTTY', { value: true, writable: true, configurable: true });
+      expect(isInteractive({})).toBe(true);
+    });
+
+    it('should return true when stdin is TTY and options are undefined', () => {
+      Object.defineProperty(process.stdin, 'isTTY', { value: true, writable: true, configurable: true });
+      expect(isInteractive(undefined)).toBe(true);
+    });
+  });
+
+  describe('isNonInteractivePromptError', () => {
+    function setStdinIsTTY(value: boolean): void {
+      Object.defineProperty(process.stdin, 'isTTY', { value, writable: true, configurable: true });
+    }
+
+    function exitPromptError(message: string): Error {
+      const error = new Error(message);
+      error.name = 'ExitPromptError';
+      return error;
+    }
+
+    it('recognizes a prompt that failed with no terminal to answer it', () => {
+      setStdinIsTTY(false);
+      expect(
+        isNonInteractivePromptError(exitPromptError('User force closed the prompt with 0 null'))
+      ).toBe(true);
+    });
+
+    it('recognizes the failure by name alone', () => {
+      // An @inquirer upgrade may reword the message; the error class is the
+      // other half of the signal and must stand on its own.
+      setStdinIsTTY(false);
+      expect(isNonInteractivePromptError(exitPromptError('prompt closed'))).toBe(true);
+    });
+
+    it('recognizes the failure by message alone', () => {
+      // ...and vice versa, if the class is ever renamed or duplicated by a
+      // bundled copy of the library.
+      setStdinIsTTY(false);
+      const plain = new Error('User force closed the prompt with 0 null');
+      expect(isNonInteractivePromptError(plain)).toBe(true);
+    });
+
+    it('treats a SIGINT cancellation as a cancellation, terminal or not', () => {
+      const sigint = exitPromptError('User force closed the prompt with SIGINT');
+      setStdinIsTTY(true);
+      expect(isNonInteractivePromptError(sigint)).toBe(false);
+      // A script started from a terminal has a piped stdin and still receives
+      // Ctrl-C: the signal, not the terminal, proves the user was there.
+      setStdinIsTTY(false);
+      expect(isNonInteractivePromptError(sigint)).toBe(false);
+    });
+
+    it('honors the same non-interactive signals as isInteractive()', () => {
+      const failure = exitPromptError('User force closed the prompt with 0 null');
+
+      // A pty-allocating CI runner: a terminal exists, but CI declares that
+      // nobody is watching it.
+      setStdinIsTTY(true);
+      expect(isNonInteractivePromptError(failure)).toBe(false);
+
+      process.env.CI = 'true';
+      expect(isNonInteractivePromptError(failure)).toBe(true);
+      delete process.env.CI;
+
+      process.env.OPEN_SPEC_INTERACTIVE = '0';
+      expect(isNonInteractivePromptError(failure)).toBe(true);
+      delete process.env.OPEN_SPEC_INTERACTIVE;
+
+      expect(isNonInteractivePromptError(failure, { interactive: false })).toBe(true);
+    });
+
+    it('ignores unrelated failures', () => {
+      setStdinIsTTY(false);
+      expect(isNonInteractivePromptError(new Error('disk full'))).toBe(false);
+      expect(isNonInteractivePromptError('not an error')).toBe(false);
+      expect(isNonInteractivePromptError(undefined)).toBe(false);
+    });
+  });
+});

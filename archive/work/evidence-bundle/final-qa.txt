@@ -1,0 +1,23 @@
+Candidate              Head     Files  Gears  Sections  Citations  Worktree
+github-spec-kit        d1e86f6    530    525        16  valid      clean
+fission-openspec       45cca5d   1041   1036        16  valid      clean
+open-gsd-gsd-core      33985c1   2730   2725        16  valid      clean
+christopherkahler-paul 960b05c    108    106        16  valid      clean
+bmad-method            770d425    618    608        16  valid      clean
+
+TotalFiles: 5027
+TotalBytes: 62639898
+TotalGears: 5000
+Pending: 0
+WithoutEvidence: 0
+InvalidDispositions: 0
+StaticOnlyNotExecutable: 2424
+BlockedPendingEmpiricalCampaign: 2576
+RowLevelEmpiricalClaims: 0
+PatternCitations: valid
+AdoptionContracts: valid (2 stored positives, 4 mutation negatives, 9 regression rejections, 3 threshold outcomes)
+EmpiricalCampaignExecuted: false
+CompletedCampaigns: 0
+Chosen: 0
+Adopted: 0
+DocxSha256: ED19B49730E1E2DFB42B0459039C070BA683D3F3118CA8296B83426C0F8E7FA2

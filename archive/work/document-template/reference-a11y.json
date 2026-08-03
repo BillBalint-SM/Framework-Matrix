@@ -1,0 +1,38 @@
+{
+  "file": "work\\document-template\\reference.docx",
+  "counts": {
+    "high": 1,
+    "medium": 2,
+    "low": 0
+  },
+  "findings": [
+    {
+      "severity": "medium",
+      "kind": "heading_skip",
+      "message": "Heading level jumped from 1 to 3",
+      "context": {
+        "part": "word/document.xml",
+        "text": "Core components"
+      }
+    },
+    {
+      "severity": "medium",
+      "kind": "heading_skip",
+      "message": "Heading level jumped from 1 to 3",
+      "context": {
+        "part": "word/document.xml",
+        "text": "Primary data contract"
+      }
+    },
+    {
+      "severity": "high",
+      "kind": "image_missing_alt",
+      "message": "Image missing alt text (descr/title empty)",
+      "context": {
+        "part": "word/document.xml",
+        "id": "1",
+        "name": "image1.png"
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "pin": "33985c11a9f0a27443f8b8fb114b2122d653cd78",
+  "inventoryFiles": 2730,
+  "gearFiles": 2725,
+  "gearBytes": 36203101,
+  "gearLfBytes": 773276,
+  "gearNulFiles": 3,
+  "referenceRows": 42366,
+  "syntaxCounts": {
+    "path_token": 28721,
+    "markdown_link": 4236,
+    "module_import": 8745,
+    "at_include": 664
+  },
+  "terminalCounts": {
+    "dynamic_or_template": 6351,
+    "source_file": 17937,
+    "fixture_history_example": 4291,
+    "runtime_artifact": 1897,
+    "external": 5336,
+    "package_or_builtin": 1347,
+    "prompt_prose_or_schema_literal": 362,
+    "generated_projection_source": 2591,
+    "code_config_or_generated_literal": 335,
+    "configuration_or_dependency_pattern": 497,
+    "build_runtime_projection_literal": 12,
+    "generated_historical_or_missing_link": 21,
+    "prose_example": 438,
+    "source_projection": 936,
+    "embedded_example_import": 13,
+    "confirmed_broken": 2
+  }
+}

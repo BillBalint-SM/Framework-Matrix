@@ -1,0 +1,251 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:pattern-adoption-scorecard:1.0.0",
+  "title": "ABK empirical pattern-adoption scorecard",
+  "description": "Strict Codex-local three-branch scorecard. CHOSEN is empirical selection; ADOPTED is intentionally outside this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scorecard_id",
+    "candidate_manifest_id",
+    "protocol_id",
+    "evaluated_at",
+    "status",
+    "host",
+    "hard_gates",
+    "benchmark",
+    "branch_scores",
+    "outcome",
+    "outcome_formula",
+    "rationale",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "scorecard_id": { "$ref": "#/definitions/reference_id" },
+    "candidate_manifest_id": { "$ref": "#/definitions/reference_id" },
+    "protocol_id": { "const": "abk:benchmark:pattern-adoption-v1" },
+    "evaluated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["benchmark_pending", "running", "complete", "superseded"] },
+    "host": { "const": "codex" },
+    "hard_gates": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/definitions/hard_gate" }
+    },
+    "benchmark": { "$ref": "#/definitions/benchmark" },
+    "branch_scores": {
+      "type": "array",
+      "maxItems": 3,
+      "items": { "$ref": "#/definitions/branch_score" }
+    },
+    "outcome": { "enum": ["UNSCORED", "REJECTED", "CANDIDATE", "CHOSEN"] },
+    "outcome_formula": {
+      "const": "incomplete=>UNSCORED;critical_min<=4=>REJECTED;weighted_average<8=>CANDIDATE;weighted_average>=8=>CHOSEN"
+    },
+    "rationale": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/evidence" },
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": { "not": { "properties": { "status": { "const": "complete" } } } },
+      "then": {
+        "properties": {
+          "outcome": { "const": "UNSCORED" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "complete" } } },
+      "then": {
+        "properties": {
+          "hard_gates": {
+            "items": {
+              "allOf": [
+                { "$ref": "#/definitions/hard_gate" },
+                { "properties": { "status": { "const": "pass" } } }
+              ]
+            }
+          },
+          "benchmark": {
+            "allOf": [
+              { "$ref": "#/definitions/benchmark" },
+              {
+                "properties": {
+                  "status": { "const": "complete" },
+                  "completed_primary_cells": { "const": 30 },
+                  "completed_raw_runs": { "minimum": 30 }
+                }
+              }
+            ]
+          },
+          "branch_scores": { "minItems": 3, "maxItems": 3 }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "maxLength": 120
+    },
+    "reference_id": {
+      "type": "string",
+      "pattern": "^abk:[a-z][a-z0-9-]*:[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+      "maxLength": 180
+    },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/identifier" }
+    },
+    "hard_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "status", "rationale", "evidence_ids"],
+      "properties": {
+        "gate_id": {
+          "enum": [
+            "observable_state_and_errors",
+            "testable_behavior",
+            "declared_authority_and_side_effects",
+            "reversible_or_recoverable",
+            "upstream_runtime_independence",
+            "no_undocumented_side_effects"
+          ]
+        },
+        "status": { "enum": ["pass", "fail", "pending"] },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "case_repeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id", "case_class", "model_dependent", "repeats"],
+      "properties": {
+        "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+        "case_class": { "enum": ["common", "component_specific"] },
+        "model_dependent": { "type": "boolean" },
+        "repeats": { "enum": [1, 3] }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "case_count",
+        "common_case_count",
+        "specific_case_count",
+        "branches",
+        "primary_cell_count",
+        "case_repeat_policy",
+        "expected_raw_runs",
+        "completed_primary_cells",
+        "completed_raw_runs",
+        "run_evidence_ids"
+      ],
+      "properties": {
+        "status": { "enum": ["planned", "running", "complete", "inconclusive"] },
+        "case_count": { "const": 10 },
+        "common_case_count": { "const": 6 },
+        "specific_case_count": { "const": 4 },
+        "branches": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "enum": ["control", "source_native", "abk_native"] }
+        },
+        "primary_cell_count": { "const": 30 },
+        "case_repeat_policy": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": { "$ref": "#/definitions/case_repeat" }
+        },
+        "expected_raw_runs": { "type": "integer", "minimum": 30, "maximum": 90 },
+        "completed_primary_cells": { "type": "integer", "minimum": 0, "maximum": 30 },
+        "completed_raw_runs": { "type": "integer", "minimum": 0, "maximum": 90 },
+        "run_evidence_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/identifier" }
+        }
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension_id", "critical", "score", "weight", "rationale", "evidence_ids"],
+      "properties": {
+        "dimension_id": {
+          "enum": [
+            "task_success",
+            "correctness_and_evidence",
+            "repeatability",
+            "state_and_error_observability",
+            "stop_and_recovery",
+            "context_and_token_efficiency",
+            "runtime_and_operational_overhead",
+            "composition_and_handoff",
+            "useful_autonomy",
+            "understandability_and_maintainability"
+          ]
+        },
+        "critical": { "type": "boolean" },
+        "score": { "type": "number", "minimum": 1, "maximum": 10 },
+        "weight": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "branch_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch",
+        "dimensions",
+        "critical_minimum",
+        "weighted_average",
+        "calculation",
+        "evidence_ids"
+      ],
+      "properties": {
+        "branch": { "enum": ["control", "source_native", "abk_native"] },
+        "dimensions": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": { "$ref": "#/definitions/dimension" }
+        },
+        "critical_minimum": { "type": "number", "minimum": 1, "maximum": 10 },
+        "weighted_average": { "type": "number", "minimum": 1, "maximum": 10 },
+        "calculation": { "const": "round3(sum(score*weight))" },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "status", "locator", "content_sha256", "summary"],
+      "properties": {
+        "evidence_id": { "$ref": "#/definitions/identifier" },
+        "status": { "enum": ["planned", "verified", "passed", "failed", "inconclusive"] },
+        "locator": { "type": "string", "minLength": 3, "maxLength": 1000 },
+        "content_sha256": { "$ref": "#/definitions/sha256" },
+        "summary": { "type": "string", "minLength": 10, "maxLength": 1000 }
+      }
+    }
+  }
+}

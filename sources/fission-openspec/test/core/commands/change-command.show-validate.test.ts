@@ -1,0 +1,147 @@
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { ChangeCommand } from '../../../src/commands/change.js';
+import path from 'path';
+import { promises as fs } from 'fs';
+import os from 'os';
+
+describe('ChangeCommand.show/validate', () => {
+  let cmd: ChangeCommand;
+  let changeName: string;
+  let tempRoot: string;
+  let originalCwd: string;
+
+  beforeAll(async () => {
+    cmd = new ChangeCommand();
+    originalCwd = process.cwd();
+    tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec-change-command-'));
+    const changesDir = path.join(tempRoot, 'openspec', 'changes', 'sample-change');
+    await fs.mkdir(changesDir, { recursive: true });
+    const proposal = `# Change: Sample Change\n\n## Why\nConsistency in tests.\n\n## What Changes\n- **auth:** Add requirement`;
+    await fs.writeFile(path.join(changesDir, 'proposal.md'), proposal, 'utf-8');
+    process.chdir(tempRoot);
+    changeName = 'sample-change';
+  });
+
+  afterAll(async () => {
+    process.chdir(originalCwd);
+    await fs.rm(tempRoot, { recursive: true, force: true });
+  });
+
+  it('show --json prints JSON including deltas', async () => {
+    const logs: string[] = [];
+    const origLog = console.log;
+    try {
+      console.log = (msg?: any, ...args: any[]) => {
+        logs.push([msg, ...args].filter(Boolean).join(' '));
+      };
+
+      await cmd.show(changeName, { json: true });
+
+      const output = logs.join('\n');
+      const parsed = JSON.parse(output);
+      expect(parsed).toHaveProperty('deltas');
+      expect(Array.isArray(parsed.deltas)).toBe(true);
+    } finally {
+      console.log = origLog;
+    }
+  });
+
+  it('error when no change specified: prints available IDs', async () => {
+    const logsErr: string[] = [];
+    const origErr = console.error;
+    try {
+      console.error = (msg?: any, ...args: any[]) => {
+        logsErr.push([msg, ...args].filter(Boolean).join(' '));
+      };
+      await cmd.show(undefined as unknown as string, { json: false } as any);
+      // Should have set exit code and printed hint
+      expect(process.exitCode).toBe(1);
+      const errOut = logsErr.join('\n');
+      expect(errOut).toMatch(/No change specified/);
+      expect(errOut).toMatch(/Available IDs/);
+    } finally {
+      console.error = origErr;
+      process.exitCode = 0;
+    }
+  });
+
+  it('show --json --requirements-only returns minimal object with deltas (deprecated alias)', async () => {
+    const logs: string[] = [];
+    const origLog = console.log;
+    try {
+      console.log = (msg?: any, ...args: any[]) => {
+        logs.push([msg, ...args].filter(Boolean).join(' '));
+      };
+
+      await cmd.show(changeName, { json: true, requirementsOnly: true });
+
+      const output = logs.join('\n');
+      const parsed = JSON.parse(output);
+      expect(parsed).toHaveProperty('deltas');
+      expect(Array.isArray(parsed.deltas)).toBe(true);
+      if (parsed.deltas.length > 0) {
+        expect(parsed.deltas[0]).toHaveProperty('spec');
+        expect(parsed.deltas[0]).toHaveProperty('operation');
+        expect(parsed.deltas[0]).toHaveProperty('description');
+      }
+    } finally {
+      console.log = origLog;
+    }
+  });
+
+  describe('resolving a change that has no proposal.md', () => {
+    it('names the missing proposal and points at status', async () => {
+      await fs.mkdir(path.join(tempRoot, 'openspec', 'changes', 'scaffolded'), { recursive: true });
+
+      await expect(cmd.show('scaffolded', { json: false })).rejects.toThrow(
+        /Change "scaffolded" has no proposal\.md yet\..*openspec status --change scaffolded/s
+      );
+    });
+
+    it('does not treat a stray file under changes/ as a change', async () => {
+      await fs.writeFile(path.join(tempRoot, 'openspec', 'changes', 'notes.md'), 'not a change', 'utf-8');
+
+      // Must stay the plain not-found error: `status --change notes.md` cannot work.
+      await expect(cmd.show('notes.md', { json: false })).rejects.toThrow(/not found at/);
+      await expect(cmd.show('notes.md', { json: false })).rejects.not.toThrow(/has no proposal\.md yet/);
+    });
+
+    it('does not read a proposal outside changes/ via a traversing name', async () => {
+      // Reachable target: openspec/changes/../../proposal.md is tempRoot/proposal.md.
+      // Without containment this resolves and the file is printed verbatim.
+      await fs.writeFile(path.join(tempRoot, 'proposal.md'), '# Outside the changes directory', 'utf-8');
+      const traversal = path.join('..', '..');
+
+      await expect(cmd.show(traversal, { json: false })).rejects.toThrow(/not found at/);
+      await expect(cmd.show(traversal, { json: false })).rejects.not.toThrow(/has no proposal\.md yet/);
+    });
+
+    it('does not treat a nested name as a change', async () => {
+      const nested = path.join('sample-change', 'specs');
+      await fs.mkdir(path.join(tempRoot, 'openspec', 'changes', 'sample-change', 'specs'), { recursive: true });
+
+      await expect(cmd.show(nested, { json: false })).rejects.toThrow(/not found at/);
+      await expect(cmd.show(nested, { json: false })).rejects.not.toThrow(/has no proposal\.md yet/);
+    });
+  });
+
+  it('validate --strict --json returns a report with valid boolean', async () => {
+    const logs: string[] = [];
+    const origLog = console.log;
+    try {
+      console.log = (msg?: any, ...args: any[]) => {
+        logs.push([msg, ...args].filter(Boolean).join(' '));
+      };
+
+      await cmd.validate(changeName, { strict: true, json: true });
+
+      const output = logs.join('\n');
+      const parsed = JSON.parse(output);
+      expect(parsed).toHaveProperty('valid');
+      expect(parsed).toHaveProperty('issues');
+      expect(Array.isArray(parsed.issues)).toBe(true);
+    } finally {
+      console.log = origLog;
+    }
+  });
+});

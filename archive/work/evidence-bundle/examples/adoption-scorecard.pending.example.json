@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0.0",
+  "scorecard_id": "abk:scorecard:artifact-dag-core",
+  "candidate_manifest_id": "abk:pattern-adoption:artifact-dag-core",
+  "protocol_id": "abk:benchmark:pattern-adoption-v1",
+  "evaluated_at": "2026-08-02T20:00:00Z",
+  "status": "benchmark_pending",
+  "host": "codex",
+  "hard_gates": [
+    {"gate_id":"observable_state_and_errors","status":"pending","rationale":"The ABK-native prototype benchmark has not run.","evidence_ids":["benchmark_protocol"]},
+    {"gate_id":"testable_behavior","status":"pending","rationale":"The fixed ten-case campaign has not run.","evidence_ids":["benchmark_protocol"]},
+    {"gate_id":"declared_authority_and_side_effects","status":"pending","rationale":"The manifest is declared but runtime verification is pending.","evidence_ids":["benchmark_protocol"]},
+    {"gate_id":"reversible_or_recoverable","status":"pending","rationale":"Recovery behavior awaits the specific recovery case.","evidence_ids":["benchmark_protocol"]},
+    {"gate_id":"upstream_runtime_independence","status":"pending","rationale":"Codex-local independence has not yet been demonstrated.","evidence_ids":["benchmark_protocol"]},
+    {"gate_id":"no_undocumented_side_effects","status":"pending","rationale":"Negative before-and-after state evidence is not yet available.","evidence_ids":["benchmark_protocol"]}
+  ],
+  "benchmark": {
+    "status": "planned",
+    "case_count": 10,
+    "common_case_count": 6,
+    "specific_case_count": 4,
+    "branches": ["control", "source_native", "abk_native"],
+    "primary_cell_count": 30,
+    "case_repeat_policy": [
+      {"case_id":"COM-01-normal-primary","case_class":"common","model_dependent":true,"repeats":3},
+      {"case_id":"COM-02-normal-variant","case_class":"common","model_dependent":true,"repeats":3},
+      {"case_id":"COM-03-normal-repeat","case_class":"common","model_dependent":true,"repeats":3},
+      {"case_id":"COM-04-boundary-minimum","case_class":"common","model_dependent":false,"repeats":1},
+      {"case_id":"COM-05-invalid-input","case_class":"common","model_dependent":false,"repeats":1},
+      {"case_id":"COM-06-stop-interrupt","case_class":"common","model_dependent":true,"repeats":3},
+      {"case_id":"SPC-01-domain-boundary","case_class":"component_specific","model_dependent":false,"repeats":1},
+      {"case_id":"SPC-02-failure-path","case_class":"component_specific","model_dependent":false,"repeats":1},
+      {"case_id":"SPC-03-recovery-rollback","case_class":"component_specific","model_dependent":true,"repeats":3},
+      {"case_id":"SPC-04-composition-handoff","case_class":"component_specific","model_dependent":true,"repeats":3}
+    ],
+    "expected_raw_runs": 66,
+    "completed_primary_cells": 0,
+    "completed_raw_runs": 0,
+    "run_evidence_ids": []
+  },
+  "branch_scores": [],
+  "outcome": "UNSCORED",
+  "outcome_formula": "incomplete=>UNSCORED;critical_min<=4=>REJECTED;weighted_average<8=>CANDIDATE;weighted_average>=8=>CHOSEN",
+  "rationale": "No branch may receive an empirical adoption status until the complete Codex-local campaign has executed and all three scorecards can be recomputed.",
+  "evidence": [
+    {
+      "evidence_id": "benchmark_protocol",
+      "status": "planned",
+      "locator": "outputs/08-empirical-benchmark-protocol.md",
+      "content_sha256": "d38c6c174a8ada50e9689b6e7a0f1f41fff36a7c9ce3ca23fd0c3b4606d0724e",
+      "summary": "Accepted fixed benchmark contract; no execution evidence exists yet."
+    }
+  ]
+}

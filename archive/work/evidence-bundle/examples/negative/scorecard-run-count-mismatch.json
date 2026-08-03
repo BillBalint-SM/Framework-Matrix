@@ -1,0 +1,6 @@
+{
+  "fixture_version": "1.0.0",
+  "base": "../adoption-scorecard.pending.example.json",
+  "mutation": {"operation":"set","path":"/benchmark/expected_raw_runs","value":67},
+  "expected_error": "RAW_RUN_COUNT_MISMATCH"
+}
