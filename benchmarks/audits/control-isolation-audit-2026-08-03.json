@@ -1,0 +1,77 @@
+{
+  "$schema": "../schemas/isolation-audit.schema.json",
+  "schema_version": "1.0.0",
+  "audit_id": "abk:isolation-audit:control-artifact-dag-core-v1-2026-08-03",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "manifest_id": "abk:branch-manifest:control-artifact-dag-core-v1",
+  "host": "codex",
+  "status": "INCONCLUSIVE",
+  "started_at": "2026-08-03T19:22:36Z",
+  "ended_at": "2026-08-03T19:22:41Z",
+  "runner_sha256": "a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1",
+  "manifest_sha256": "5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235",
+  "process": {
+    "launcher": "System.Diagnostics.ProcessStartInfo",
+    "child_executable": "pwsh.exe",
+    "powershell_major": 7,
+    "runner_exit_code": 0,
+    "child_processes_observed": 0
+  },
+  "environment": {
+    "sanitized": true,
+    "credential_values_inherited": false,
+    "real_config_inherited": false,
+    "roots": [
+      "HOME",
+      "USERPROFILE",
+      "APPDATA",
+      "LOCALAPPDATA",
+      "XDG_CONFIG_HOME",
+      "XDG_DATA_HOME",
+      "CODEX_HOME",
+      "TEMP",
+      "TMP"
+    ]
+  },
+  "scope": {
+    "repository_unchanged": true,
+    "git_unchanged": true,
+    "owner_run_only": true,
+    "outside_changed_files": 0
+  },
+  "network": {
+    "probe": "process-connection-observation-only",
+    "connections_observed": 0,
+    "enforcement": "NOT_PROVEN"
+  },
+  "findings": [
+    {
+      "check": "environment-sanitization",
+      "status": "PASS",
+      "detail": "The child process received only a machine/runtime allowlist and fresh per-run roots for user/config/cache variables."
+    },
+    {
+      "check": "process-boundary",
+      "status": "PASS",
+      "detail": "No undeclared child process was observed; maximum observed count was 0."
+    },
+    {
+      "check": "repository-scope",
+      "status": "PASS",
+      "detail": "No changed repository file was observed outside the excluded run root; changed count was 0."
+    },
+    {
+      "check": "git-scope",
+      "status": "PASS",
+      "detail": "HEAD, branch, and porcelain worktree state matched before and after the audit."
+    },
+    {
+      "check": "network-denial",
+      "status": "INCONCLUSIVE",
+      "detail": "No process socket was observed (0), but no OS-level deny policy was independently established."
+    }
+  ],
+  "limitations": [
+    "OS-level network denial was not established; the audit observed process connections only and therefore remains INCONCLUSIVE."
+  ]
+}

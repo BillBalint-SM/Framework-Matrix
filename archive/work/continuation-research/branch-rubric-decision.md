@@ -161,9 +161,12 @@ Its SHA-256 is
 `5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235`; it
 pins `benchmarks/runners/control/run.ps1` at
 `a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1` and
-PowerShell major `7`. This is a validated local artifact, not an approval to
-start the campaign: independent Windows isolation proof and campaign-start
-approval remain required.
+PowerShell major `7`. The independent audit at
+`benchmarks/audits/control-isolation-audit-2026-08-03.json` proves the
+sanitised environment, process, repository, and Git checks, but is
+`INCONCLUSIVE` because OS-level network denial was not established. This is
+not campaign-start approval; the network gate and campaign approval remain
+required.
 
 ## 4. Run and evidence contract
 

@@ -48,6 +48,8 @@ tar -tf outputs\sdd-framework-evidence-bundle.zip | Select-Object -First 20
   -WorkspaceRoot (Get-Location).Path
 & .\benchmarks\tests\test-branch-manifest.ps1 `
   -WorkspaceRoot (Get-Location).Path
+& .\benchmarks\tests\test-isolation-audit.ps1 `
+  -WorkspaceRoot (Get-Location).Path
 ```
 
 Ez a munkapéldány először lokálisan kerül ellenőrzésre; commit és GitHub-push

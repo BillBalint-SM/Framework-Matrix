@@ -31,6 +31,9 @@ time. The hashes make the decision auditable if the research package changes.
 | `benchmarks/schemas/branch-manifest.schema.json` | `a1ae1315e08c124d37af6e20de6b602b526274efebfb4f724d8afb541e3f0f7c` |
 | `benchmarks/campaigns/artifact-dag-core-v1/branches/control/manifest.json` | `5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235` |
 | `benchmarks/runners/control/run.ps1` | `a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1` |
+| `benchmarks/schemas/isolation-audit.schema.json` | `f2e7539be56b6fe4aa9b197e54301d0f217b3a9a8bf8e13784699708a088ed15` |
+| `benchmarks/scripts/run-control-isolation-audit.ps1` | `b49d28742f5e8e33be7399fd91e0f357f1d557aad71c69c3b972e28fa7b7b136` |
+| `benchmarks/audits/control-isolation-audit-2026-08-03.json` | `059408e2f871b914cddfdfd5368185fb653a31b38e6e1f91bebf5215797976c2` |
 
 The campaign is currently `benchmark_pending`, `UNSCORED`, with 30 primary
 cells and 66 expected raw runs but zero completed runs. Every statement below
@@ -53,9 +56,10 @@ is therefore a contract decision or an explicit assumption, never a score.
    than `SUCCEEDED` can be treated as readiness success.
 5. The control runner executable now exists at the reserved path and its digest
    is recorded above. The request/run schemas and runner integration tests are
-   fail-closed tested, but process-level isolation proof, branch-manifest
-   approval, and independent evidence review remain release blockers; the
-   campaign remains `UNSCORED`.
+   fail-closed tested. The isolation audit proves the process, environment,
+   repository, and Git boundaries, but its network-denial check remains
+   `INCONCLUSIVE`; branch-manifest approval and independent evidence review
+   remain release blockers, and the campaign remains `UNSCORED`.
 
 ## 1. Exact Codex-local control-runner boundary
 
@@ -449,9 +453,11 @@ These are explicit assumptions, not verified facts:
    `benchmarks/runners/control/run.ps1` exists, and the concrete branch
    manifest pins its SHA-256 and PowerShell major `7`. Independent isolation
    proof, campaign-start approval, and evidence review remain release gates.
-2. **Isolation enforcement mechanism.** What Codex-local mechanism proves
-   network denial and absence of inherited credentials on the Windows host?
-   A policy assertion without independent evidence is insufficient.
+2. **Isolation enforcement mechanism.** The current Codex-local audit proves
+   sanitised environment roots, no inherited credential/configuration values,
+   no observed child process, and no observed process socket. It does not prove
+   an OS-level network-deny policy; that missing mechanism keeps the gate
+   `INCONCLUSIVE`.
 3. **Source-native disposition.** Can the pinned OpenSpec behavior be
    reproduced locally without installing or importing its upstream runtime?
    If not, which evidence record marks `source_native` blocked/rejected while

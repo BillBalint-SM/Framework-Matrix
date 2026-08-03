@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:isolation-audit:1.0.0",
+  "title": "Codex-local control branch isolation audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "audit_id",
+    "campaign_id",
+    "manifest_id",
+    "host",
+    "status",
+    "started_at",
+    "ended_at",
+    "runner_sha256",
+    "manifest_sha256",
+    "process",
+    "environment",
+    "scope",
+    "network",
+    "findings",
+    "limitations"
+  ],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "audit_id": { "type": "string", "pattern": "^abk:isolation-audit:[a-z][a-z0-9-]*$" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "manifest_id": { "type": "string", "pattern": "^abk:branch-manifest:[a-z][a-z0-9-]*$" },
+    "host": { "const": "codex" },
+    "status": { "enum": ["PASS", "INCONCLUSIVE", "BLOCKED", "FAILED"] },
+    "started_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "ended_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "runner_sha256": { "$ref": "#/definitions/sha256" },
+    "manifest_sha256": { "$ref": "#/definitions/sha256" },
+    "process": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["launcher", "child_executable", "powershell_major", "runner_exit_code", "child_processes_observed"],
+      "properties": {
+        "launcher": { "const": "System.Diagnostics.ProcessStartInfo" },
+        "child_executable": { "const": "pwsh.exe" },
+        "powershell_major": { "const": 7 },
+        "runner_exit_code": { "enum": [0, 2, 3, 4, 75, 124, 130] },
+        "child_processes_observed": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sanitized", "credential_values_inherited", "real_config_inherited", "roots"],
+      "properties": {
+        "sanitized": { "const": true },
+        "credential_values_inherited": { "const": false },
+        "real_config_inherited": { "const": false },
+        "roots": {
+          "const": ["HOME", "USERPROFILE", "APPDATA", "LOCALAPPDATA", "XDG_CONFIG_HOME", "XDG_DATA_HOME", "CODEX_HOME", "TEMP", "TMP"]
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_unchanged", "git_unchanged", "owner_run_only", "outside_changed_files"],
+      "properties": {
+        "repository_unchanged": { "const": true },
+        "git_unchanged": { "const": true },
+        "owner_run_only": { "const": true },
+        "outside_changed_files": { "const": 0 }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["probe", "connections_observed", "enforcement"],
+      "properties": {
+        "probe": { "const": "process-connection-observation-only" },
+        "connections_observed": { "type": "integer", "minimum": 0 },
+        "enforcement": { "enum": ["NOT_PROVEN", "OS_POLICY"] }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check", "status", "detail"],
+        "properties": {
+          "check": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "status": { "enum": ["PASS", "INCONCLUSIVE", "BLOCKED", "FAILED"] },
+          "detail": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

@@ -29,6 +29,9 @@ runtime dependency, credential, hálózati vagy Git-mutáció.
 
 & .\benchmarks\tests\test-branch-manifest.ps1 `
   -WorkspaceRoot (Get-Location).Path
+
+& .\benchmarks\tests\test-isolation-audit.ps1 `
+  -WorkspaceRoot (Get-Location).Path
 ```
 
 A validátor kizárólag `benchmark_pending` kampányt fogad el, és a kampány
@@ -42,3 +45,8 @@ evidence-t.
 A `benchmarks/runners/control/run.ps1` most már létezik és csak a fixture-only
 integrációs tesztekben fut. A teljes 66-run kampányt, source-native/ABK-native
 ágat és adoption score-t ez a runner nem indítja el.
+
+Az izolációs audit sanitizált PowerShell 7 child processben futtat egyetlen
+kontroll fixture-t, majd a repository-, Git-, process- és környezeti határokat
+ellenőrzi. A jelenlegi audit `INCONCLUSIVE`, mert a folyamat nem nyitott
+socketet, de OS-szintű hálózati tiltási policy nincs függetlenül bizonyítva.

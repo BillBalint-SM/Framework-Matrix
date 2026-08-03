@@ -9,9 +9,8 @@ Date: 2026-08-03
 This document integrates the three specialist decision artefacts produced
 before the next implementation slice. It records what is sufficiently
 specified to build, what remains an explicit product-owner decision, and the
-first bounded milestone after the gate is approved. It does not claim that a
-benchmark runner exists, that a benchmark has executed, or that any branch is
-adopted.
+first bounded milestone after the gate is approved. It does not claim that the
+benchmark campaign is complete, scored, or adopted.
 
 ## Evidence base
 
@@ -28,6 +27,9 @@ adopted.
   campaign contract.
 - `benchmarks/scripts/validate-benchmark-campaign.ps1` and
   `benchmarks/tests/test-benchmark-campaign.ps1` — current contract checks.
+- `benchmarks/schemas/isolation-audit.schema.json`,
+  `benchmarks/scripts/run-control-isolation-audit.ps1`, and the dated audit
+  record — current independent isolation evidence and its limitations.
 
 ## Integrated decisions
 
@@ -55,22 +57,24 @@ adopted.
    vector summing to 1.00; critical dimensions are task success, correctness
    and evidence, repeatability, state/error observability, and stop/recovery.
 
-## What is ready to build
+## What is implemented and what remains
 
-The next bounded implementation slice can be the **control-runner contract
-slice**:
+The control-runner contract slice is implemented locally and hash-pinned:
 
 - request and run schemas;
-- one local control entrypoint;
+- one local control entrypoint and concrete branch manifest;
 - owned run-root creation and path-safety checks;
 - deterministic JSON/Markdown projection;
 - terminal-state and evidence-inventory validation;
 - negative tests for out-of-root input, partial output, interruption, and
-  premature success.
+  premature success;
+- a sanitised PowerShell 7 isolation audit with repository/Git/process scope
+  checks.
 
-This slice must stop at contract validation and fixture execution. It must not
-start the 66-run campaign, implement an upstream runtime, add ABK source, or
-publish an adoption result.
+The isolation audit currently stops at `INCONCLUSIVE`: no process socket was
+observed, but OS-level network denial was not independently established. The
+66-run campaign, upstream runtime, ABK source, and adoption result remain out
+of scope.
 
 ## Explicit gates before the runner is frozen
 
@@ -84,8 +88,9 @@ The following are not silently assumed:
    explicit rejection with evidence, or a documented non-comparable branch.
 4. Approval of the draft weight vector, score anchors, independent review, and
    adjudication policy.
-5. A frozen executable path/digest and a Windows isolation proof for the
-   control runner.
+5. A frozen executable path/digest and a passing Windows isolation proof for
+   the control runner. The current audit is recorded but remains
+   `INCONCLUSIVE` for network denial.
 
 ## Resolved evidence contract
 
@@ -111,7 +116,8 @@ Exit criteria:
 - all declared negative paths terminate with typed evidence;
 - JSON is canonical and Markdown is a deterministic projection;
 - campaign validation and regression tests pass;
-- no benchmark outcome is claimed and no GitHub state is changed.
+- no benchmark outcome or adoption result is claimed; publication remains a
+  separate explicitly approved delivery step.
 
 The 66 expected raw runs remain the subsequent M1 campaign milestone, gated on
 the approvals and freeze points above.
@@ -130,5 +136,9 @@ the approvals and freeze points above.
 - The concrete `control` branch manifest exists, is schema-valid, and pins the
   runner digest and PowerShell major version; it is not yet a campaign-start
   approval or independent isolation proof.
+- Isolation audit `benchmarks/audits/control-isolation-audit-2026-08-03.json`:
+  environment, process, repository, and Git checks `PASS`; network denial
+  `INCONCLUSIVE`; audit SHA-256
+  `059408e2f871b914cddfdfd5368185fb653a31b38e6e1f91bebf5215797976c2`.
 - Control runner integration suite: `3/3 PASS`; no raw campaign run or
   scorecard has been created.
