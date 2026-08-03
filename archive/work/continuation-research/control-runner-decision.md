@@ -34,6 +34,9 @@ time. The hashes make the decision auditable if the research package changes.
 | `benchmarks/schemas/isolation-audit.schema.json` | `f2e7539be56b6fe4aa9b197e54301d0f217b3a9a8bf8e13784699708a088ed15` |
 | `benchmarks/scripts/run-control-isolation-audit.ps1` | `b49d28742f5e8e33be7399fd91e0f357f1d557aad71c69c3b972e28fa7b7b136` |
 | `benchmarks/audits/control-isolation-audit-2026-08-03.json` | `059408e2f871b914cddfdfd5368185fb653a31b38e6e1f91bebf5215797976c2` |
+| `benchmarks/schemas/network-policy-audit.schema.json` | `5d8dbb9605d166f826f3add50189e4ad021de9c0d62e3c2582cd66a4cd11dc03` |
+| `benchmarks/scripts/run-network-policy-audit.ps1` | `4ae799d14625e75a888fe5dab00c7b7d01942b6345ab36238b4ffaea7ea3d132` |
+| `benchmarks/audits/network-policy-audit-2026-08-03.json` | `c4aea52b16239a0e7c6b5273f044fc1bb380c185a34da9e9b587c6db0c9d35c7` |
 
 The campaign is currently `benchmark_pending`, `UNSCORED`, with 30 primary
 cells and 66 expected raw runs but zero completed runs. Every statement below
@@ -456,8 +459,9 @@ These are explicit assumptions, not verified facts:
 2. **Isolation enforcement mechanism.** The current Codex-local audit proves
    sanitised environment roots, no inherited credential/configuration values,
    no observed child process, and no observed process socket. It does not prove
-   an OS-level network-deny policy; that missing mechanism keeps the gate
-   `INCONCLUSIVE`.
+   an OS-level network-deny policy. The targeted Windows Firewall preflight is
+   recorded as `BLOCKED` because the session is not elevated; that missing
+   mechanism keeps the gate `INCONCLUSIVE`.
 3. **Source-native disposition.** Can the pinned OpenSpec behavior be
    reproduced locally without installing or importing its upstream runtime?
    If not, which evidence record marks `source_native` blocked/rejected while

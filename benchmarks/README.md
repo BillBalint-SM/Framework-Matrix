@@ -32,6 +32,9 @@ runtime dependency, credential, hálózati vagy Git-mutáció.
 
 & .\benchmarks\tests\test-isolation-audit.ps1 `
   -WorkspaceRoot (Get-Location).Path
+
+& .\benchmarks\tests\test-network-policy-audit.ps1 `
+  -WorkspaceRoot (Get-Location).Path
 ```
 
 A validátor kizárólag `benchmark_pending` kampányt fogad el, és a kampány
@@ -50,3 +53,8 @@ Az izolációs audit sanitizált PowerShell 7 child processben futtat egyetlen
 kontroll fixture-t, majd a repository-, Git-, process- és környezeti határokat
 ellenőrzi. A jelenlegi audit `INCONCLUSIVE`, mert a folyamat nem nyitott
 socketet, de OS-szintű hálózati tiltási policy nincs függetlenül bizonyítva.
+
+A `test-network-policy-audit.ps1` csak adminisztrátori PowerShellből tudja
+létrehozni az ideiglenes, `pwsh.exe`-re szűkített outbound Block szabályt. A
+jelenlegi gépen a próba `BLOCKED` (`FIREWALL_ADMIN_REQUIRED`) lett; szabály nem
+jött létre és cleanup-readback alapján nem maradt vissza.

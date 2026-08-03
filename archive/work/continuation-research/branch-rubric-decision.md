@@ -167,6 +167,9 @@ sanitised environment, process, repository, and Git checks, but is
 `INCONCLUSIVE` because OS-level network denial was not established. This is
 not campaign-start approval; the network gate and campaign approval remain
 required.
+The follow-up Windows Firewall policy preflight is recorded as
+`BLOCKED` because the current session is not elevated; no temporary rule was
+created or left behind.
 
 ## 4. Run and evidence contract
 

@@ -30,6 +30,9 @@ benchmark campaign is complete, scored, or adopted.
 - `benchmarks/schemas/isolation-audit.schema.json`,
   `benchmarks/scripts/run-control-isolation-audit.ps1`, and the dated audit
   record — current independent isolation evidence and its limitations.
+- `benchmarks/schemas/network-policy-audit.schema.json`,
+  `benchmarks/scripts/run-network-policy-audit.ps1`, and the dated policy
+  audit record — the elevated Windows Firewall gate and its current blocker.
 
 ## Integrated decisions
 
@@ -140,5 +143,9 @@ the approvals and freeze points above.
   environment, process, repository, and Git checks `PASS`; network denial
   `INCONCLUSIVE`; audit SHA-256
   `059408e2f871b914cddfdfd5368185fb653a31b38e6e1f91bebf5215797976c2`.
+- Windows Firewall policy audit `benchmarks/audits/network-policy-audit-2026-08-03.json`:
+  `BLOCKED` with `FIREWALL_ADMIN_REQUIRED`; no temporary rule was created and
+  cleanup-readback passed. Audit SHA-256
+  `c4aea52b16239a0e7c6b5273f044fc1bb380c185a34da9e9b587c6db0c9d35c7`.
 - Control runner integration suite: `3/3 PASS`; no raw campaign run or
   scorecard has been created.

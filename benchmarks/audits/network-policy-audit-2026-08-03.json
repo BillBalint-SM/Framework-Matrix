@@ -1,0 +1,39 @@
+{
+  "$schema": "../schemas/network-policy-audit.schema.json",
+  "schema_version": "1.0.0",
+  "audit_id": "abk:network-policy-audit:control-artifact-dag-core-v1-2026-08-03",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "host": "codex",
+  "status": "BLOCKED",
+  "started_at": "2026-08-03T20:38:20Z",
+  "ended_at": "2026-08-03T20:38:21Z",
+  "is_admin": false,
+  "rule": {
+    "display_name": "Framework-Matrix-Temp-Deny-f92891369d834f999e8c643fc7573fa7",
+    "program": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.6.4.0_x64__8wekyb3d8bbwe\\pwsh.exe",
+    "direction": "Outbound",
+    "action": "Block",
+    "profile": "Any",
+    "created": false,
+    "removed": false,
+    "cleanup_verified": true
+  },
+  "runner_probe_status": "NOT_RUN",
+  "runner_probe_connections_observed": 0,
+  "error_code": "FIREWALL_ADMIN_REQUIRED",
+  "findings": [
+    {
+      "check": "admin-privilege",
+      "status": "BLOCKED",
+      "detail": "The current PowerShell session is not elevated; no firewall rule was created."
+    },
+    {
+      "check": "firewall-cleanup",
+      "status": "PASS",
+      "detail": "No temporary firewall rule with the generated display name remains."
+    }
+  ],
+  "limitations": [
+    "Run this audit from an elevated PowerShell session to exercise the temporary OS-level deny rule."
+  ]
+}
