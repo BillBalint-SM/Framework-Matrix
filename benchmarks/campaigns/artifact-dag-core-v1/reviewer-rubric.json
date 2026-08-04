@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/reviewer-rubric.schema.json",
+  "schema_version": "1.0.0",
+  "rubric_id": "abk:rubric:artifact-dag-core-v1",
+  "protocol_id": "abk:benchmark:pattern-adoption-v1",
+  "dimensions": [
+    { "dimension_id": "task_success", "critical": true, "weight": 0.20 },
+    { "dimension_id": "correctness_and_evidence", "critical": true, "weight": 0.20 },
+    { "dimension_id": "repeatability", "critical": true, "weight": 0.15 },
+    { "dimension_id": "state_and_error_observability", "critical": true, "weight": 0.10 },
+    { "dimension_id": "stop_and_recovery", "critical": true, "weight": 0.10 },
+    { "dimension_id": "context_and_token_efficiency", "critical": false, "weight": 0.05 },
+    { "dimension_id": "runtime_and_operational_overhead", "critical": false, "weight": 0.05 },
+    { "dimension_id": "composition_and_handoff", "critical": false, "weight": 0.05 },
+    { "dimension_id": "useful_autonomy", "critical": false, "weight": 0.05 },
+    { "dimension_id": "understandability_and_maintainability", "critical": false, "weight": 0.05 }
+  ],
+  "reviewer_count": 2,
+  "adjudication_rules": {
+    "case_score_aggregation": "arithmetic_mean_round1",
+    "branch_score_aggregation": "arithmetic_mean_round1",
+    "weighted_average": "round3(sum(score*weight))",
+    "mean_difference_maximum": 1,
+    "greater_difference_requires_third_adjudicator": true,
+    "authority_or_ownership_dispute_outcome": "inconclusive"
+  }
+}

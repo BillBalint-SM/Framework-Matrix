@@ -87,3 +87,38 @@ reviewer-dimenziók nincsenek kitöltve. A scorecard nem állít elő automatiku
 
 Ez a munkapéldány először lokálisan kerül ellenőrzésre; commit és GitHub-push
 csak külön jóváhagyott kézbesítési lépésként történik.
+
+## Reviewer-input és branch-scorecard gate
+
+A teljes kampány immutable evidence snapshotjára branchenként külön scorecard
+készül. A reviewer-szerződést a
+[`benchmarks/schemas/reviewer-input.schema.json`](benchmarks/schemas/reviewer-input.schema.json),
+a befagyasztott tízdimenziós rubrikát pedig a
+[`benchmarks/campaigns/artifact-dag-core-v1/reviewer-rubric.json`](benchmarks/campaigns/artifact-dag-core-v1/reviewer-rubric.json)
+rögzíti. Minden branchhez pontosan két független reviewer-input szükséges;
+az aktuális canonical `reviewer-inputs/` könyvtár szándékosan csak a szerződés
+README-jét tartalmazza, ezért a generált
+[`scorecards/`](benchmarks/campaigns/artifact-dag-core-v1/scorecards/) artifactok
+`running`/`UNSCORED` állapotúak.
+
+Az ellenőrző és generáló entrypoint:
+
+```powershell
+& .\benchmarks\scripts\validate-reviewer-scorecards.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -RunRoot .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-20260805 `
+  -ReviewerInputRoot .\benchmarks\campaigns\artifact-dag-core-v1\reviewer-inputs `
+  -ScorecardRoot .\benchmarks\campaigns\artifact-dag-core-v1\scorecards
+```
+
+Az entrypoint hash- és útvonal-ellenőrzéssel csak a rögzített run/oracle
+bizonyítékokra enged hivatkozni, nem ír felül meglévő outputot, és fail-closed
+marad, ha nincs két `submitted` review, a reviewer-gate-ek nem egyhangúak,
+vagy a két reviewer bármely dimenzióban egynél nagyobb eltérést ad. Ilyenkor
+`REVIEW_ADJUDICATION_REQUIRED` blokkoló keletkezik; a harmadik adjudicator
+artifact külön következő szelet, automatikus score vagy döntés nem készül.
+
+```powershell
+& .\benchmarks\tests\test-reviewer-scorecards.ps1 `
+  -WorkspaceRoot (Get-Location).Path
+```

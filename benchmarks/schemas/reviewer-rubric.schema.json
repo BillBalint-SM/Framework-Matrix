@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:reviewer-rubric:1.0.0",
+  "title": "Framework-Matrix frozen reviewer rubric",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rubric_id", "protocol_id", "dimensions", "reviewer_count", "adjudication_rules"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "rubric_id": { "type": "string", "pattern": "^abk:rubric:[a-z0-9-]+$" },
+    "protocol_id": { "const": "abk:benchmark:pattern-adoption-v1" },
+    "dimensions": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "$ref": "#/definitions/dimension" } },
+    "reviewer_count": { "const": 2 },
+    "adjudication_rules": { "$ref": "#/definitions/adjudication" }
+  },
+  "definitions": {
+    "dimension": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dimension_id", "critical", "weight"],
+      "properties": {
+        "dimension_id": { "enum": ["task_success", "correctness_and_evidence", "repeatability", "state_and_error_observability", "stop_and_recovery", "context_and_token_efficiency", "runtime_and_operational_overhead", "composition_and_handoff", "useful_autonomy", "understandability_and_maintainability"] },
+        "critical": { "type": "boolean" },
+        "weight": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+      }
+    },
+    "adjudication": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_score_aggregation", "branch_score_aggregation", "weighted_average", "mean_difference_maximum", "greater_difference_requires_third_adjudicator", "authority_or_ownership_dispute_outcome"],
+      "properties": {
+        "case_score_aggregation": { "const": "arithmetic_mean_round1" },
+        "branch_score_aggregation": { "const": "arithmetic_mean_round1" },
+        "weighted_average": { "const": "round3(sum(score*weight))" },
+        "mean_difference_maximum": { "const": 1 },
+        "greater_difference_requires_third_adjudicator": { "const": true },
+        "authority_or_ownership_dispute_outcome": { "const": "inconclusive" }
+      }
+    }
+  }
+}

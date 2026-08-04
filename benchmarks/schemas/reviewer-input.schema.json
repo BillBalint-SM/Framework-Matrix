@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:reviewer-input:1.0.0",
+  "title": "Framework-Matrix independent reviewer input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_id", "campaign_id", "scorecard_id", "rubric_id", "branch", "reviewer_key", "status", "reviewed_at", "evidence_snapshot_path", "evidence_snapshot_sha256", "case_scores", "hard_gates", "rationale", "blockers"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "review_id": { "type": "string", "pattern": "^abk:review:[a-z0-9-]+$" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "scorecard_id": { "type": "string", "pattern": "^abk:scorecard:artifact-dag-core-v1-(control|source-native|abk-native)$" },
+    "rubric_id": { "const": "abk:rubric:artifact-dag-core-v1" },
+    "branch": { "enum": ["control", "source_native", "abk_native"] },
+    "reviewer_key": { "enum": ["reviewer-01", "reviewer-02"] },
+    "status": { "enum": ["planned", "submitted"] },
+    "reviewed_at": { "type": "string", "format": "date-time" },
+    "evidence_snapshot_path": { "const": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json" },
+    "evidence_snapshot_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "case_scores": { "type": "array", "maxItems": 10, "items": { "$ref": "#/definitions/case_score" } },
+    "hard_gates": { "type": "array", "maxItems": 6, "items": { "$ref": "#/definitions/hard_gate" } },
+    "rationale": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "blockers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10, "maxLength": 500 } }
+  },
+  "definitions": {
+    "evidence_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+    "dimension_score": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dimension_id", "score", "rationale", "evidence_ids"],
+      "properties": {
+        "dimension_id": { "enum": ["task_success", "correctness_and_evidence", "repeatability", "state_and_error_observability", "stop_and_recovery", "context_and_token_efficiency", "runtime_and_operational_overhead", "composition_and_handoff", "useful_autonomy", "understandability_and_maintainability"] },
+        "score": { "type": "number", "minimum": 1, "maximum": 10 },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "case_score": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "dimensions", "evidence_ids"],
+      "properties": {
+        "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+        "dimensions": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "$ref": "#/definitions/dimension_score" } },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "hard_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gate_id", "status", "rationale", "evidence_ids"],
+      "properties": {
+        "gate_id": { "enum": ["observable_state_and_errors", "testable_behavior", "declared_authority_and_side_effects", "reversible_or_recoverable", "upstream_runtime_independence", "no_undocumented_side_effects"] },
+        "status": { "enum": ["pass", "fail", "pending"] },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    }
+  }
+}
