@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","campaign_id":"abk:benchmark-campaign:artifact-dag-core-v1","case_id":"SPC-03-recovery-rollback","branch":"control","roots":["spec"],"ready_set":["spec"],"artifacts":[{"id":"spec","depends_on":[],"state":"valid"}],"edges":[],"graph_sha256":"34ed1e455deb5bcd73a89a2e6391cb6397c382e750f58fc4d11547bad882d023"}

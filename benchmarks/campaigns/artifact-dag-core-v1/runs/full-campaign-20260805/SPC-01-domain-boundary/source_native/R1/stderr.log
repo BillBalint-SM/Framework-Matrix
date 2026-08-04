@@ -1,0 +1,1 @@
+DEPENDENCY_OUT_OF_ROOT: Artifact 'spec' contains an out-of-root dependency '../outside'.

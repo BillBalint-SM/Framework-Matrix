@@ -1,0 +1,4 @@
+{"event":"request_validated","detail":"abk-native-run-request-v2"}
+{"event":"inputs_verified","detail":"campaign-schema-fixture-hashes"}
+{"event":"abk_snapshot_verified","detail":"immutable-metadata-only"}
+{"event":"terminal","detail":"REJECTED"}

@@ -1,0 +1,7 @@
+{"event":"request_validated","detail":"abk-native-run-request-v2"}
+{"event":"inputs_verified","detail":"campaign-schema-fixture-hashes"}
+{"event":"abk_snapshot_verified","detail":"immutable-metadata-only"}
+{"event":"formation_graph_validated","detail":"abk-native-formation-prerequisite-graph"}
+{"event":"handoff_validated","detail":"provenance-bound-formation-graph"}
+{"event":"output_emitted","detail":"readiness-provenance-operator"}
+{"event":"terminal","detail":"SUCCEEDED"}

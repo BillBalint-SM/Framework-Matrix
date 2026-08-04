@@ -54,5 +54,36 @@ tar -tf outputs\sdd-framework-evidence-bundle.zip | Select-Object -First 20
   -WorkspaceRoot (Get-Location).Path
 ```
 
+## Teljes kampány és scorecard-gate
+
+A befagyasztott `artifact-dag-core-v1` mátrix 10 esetet, 3 ágat és az esetenkénti
+ismétlési szabályokkal összesen 66 nyers futást tartalmaz. A teljes kampányt az
+orchestrator csak a hash-pinnelt manifestek, fixture-ök és entrypointok
+ellenőrzése után indítja; a `-ValidationOnly` mód nem ír fájlt:
+
+```powershell
+& .\benchmarks\scripts\run-full-campaign.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -OutputRoot .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-YYYYMMDD `
+  -ValidationOnly
+```
+
+Futtatáshoz a `-ValidationOnly` kapcsolót el kell hagyni. Az output könyvtár
+nem írható felül, és a kampány `campaign.json` állapota a scorecard-készítés
+alatt is `benchmark_pending`/`UNSCORED` marad. A nyers futásokból külön,
+fail-closed ledger készül:
+
+```powershell
+& .\benchmarks\scripts\validate-full-campaign-scorecard.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -RunRoot .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-YYYYMMDD `
+  -OutputPath .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-YYYYMMDD\full-campaign-scorecard.json
+```
+
+66/66 nyers futás esetén is `outcome=UNSCORED` marad, amíg a független
+reviewer-dimenziók nincsenek kitöltve. A scorecard nem állít elő automatikusan
+`CHOSEN` vagy `ADOPTED` döntést; a `campaign-run-index.json`, a scorecard és az
+összes run/oracle bizonyíték együtt képezik az összehasonlítható snapshotot.
+
 Ez a munkapéldány először lokálisan kerül ellenőrzésre; commit és GitHub-push
 csak külön jóváhagyott kézbesítési lépésként történik.

@@ -1,0 +1,1 @@
+{"schema_version":"1.0.0","campaign_id":"abk:benchmark-campaign:artifact-dag-core-v1","case_id":"COM-02-normal-variant","branch":"source_native","status":"passed","terminal_state":"SUCCEEDED","error":null,"evidence_ids":["run.json","stdout.log","stderr.log","tool-events.jsonl","output-inventory.json","oracle-result.json","readiness.json","provenance.json"]}
