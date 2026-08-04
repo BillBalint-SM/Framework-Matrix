@@ -21,6 +21,14 @@ $stderrLines = [System.Collections.Generic.List[string]]::new()
 $repositoryPrefix = $repositoryRoot.TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 $runRootIsAllowed = $runRoot.StartsWith($repositoryPrefix, [StringComparison]::OrdinalIgnoreCase)
 $utf8NoBom = [Text.UTF8Encoding]::new($false)
+$global:SourceNativeSnapshot = $null
+$global:SourceNativeSnapshotPath = $null
+$global:SourceNativeSnapshotHash = $null
+$global:SourceNativeFixture = $null
+$global:SourceNativeReadiness = $null
+$global:SourceNativeProvenance = $null
+$global:SourceNativeRecovery = $null
+$global:SourceNativeHandoff = $null
 
 function New-RunnerException([string]$Code, [string]$Message, [string]$Field, [int]$ExitCode, [string]$TerminalState) {
     $exception = [System.Exception]::new($Message)
@@ -57,7 +65,8 @@ function Read-Json([string]$Path, [string]$Field) {
 }
 
 function Write-Text([string]$Path, [string]$Text) {
-    [IO.File]::WriteAllText($Path, $Text, $utf8NoBom)
+    $normalized = $Text.Replace("`r`n", "`n").Replace("`r", "`n")
+    [IO.File]::WriteAllText($Path, $normalized, $utf8NoBom)
 }
 
 function Write-Json([object]$Document, [string]$Path) {
@@ -190,6 +199,16 @@ function Write-Operator([string]$Path, [string]$TerminalState, [object]$ErrorObj
     $caseId = Get-Value $request 'case_id' 'unknown'
     $branch = Get-Value $request 'branch' 'source_native'
     $repeat = Get-Value $request 'repeat' 1
+    $resultLine = '- result: NOT_COMPARABLE or FAILED; no upstream OpenSpec runtime or package was executed.'
+    $nextActionLine = '- next_action: inspect typed evidence and keep the branch out of scoring until the boundary is resolved.'
+    if ($TerminalState -eq 'SUCCEEDED') {
+        $resultLine = '- result: SUCCEEDED; the Framework-Matrix clean-room implementation processed the fixture graph.'
+        $nextActionLine = '- next_action: compare readiness/provenance evidence against the control branch.'
+    } elseif ($TerminalState -eq 'RECOVERED') {
+        $resultLine = '- result: RECOVERED; the owned derived-state failure was rolled back.'
+    } elseif ($TerminalState -eq 'STOPPED') {
+        $resultLine = '- result: STOPPED; the declared interrupt was persisted without ambiguous success.'
+    }
     $lines = @(
         '# Source-native runner result',
         '',
@@ -199,11 +218,10 @@ function Write-Operator([string]$Path, [string]$TerminalState, [object]$ErrorObj
         "- branch: $branch",
         "- repeat: $repeat",
         '',
-        '- result: NOT_COMPARABLE; no upstream OpenSpec runtime or package was executed.',
-        '- next_action: obtain an approved, locally executable clean-room comparison boundary before scoring.',
+        $resultLine,
+        $nextActionLine,
         '',
-        '- readiness: readiness.json',
-        '- provenance: provenance.json',
+        '- readiness/provenance: emitted when graph validation reaches a comparable state.',
         '',
         '- authority: fixture, campaign, schema, and pinned source snapshot reads only; run-root writes only.',
         '- side_effects: network, credentials, production resources, external writes, Git mutation, and child processes denied.',
@@ -213,10 +231,12 @@ function Write-Operator([string]$Path, [string]$TerminalState, [object]$ErrorObj
         $lines += "- error: $($ErrorObject.code) ($($ErrorObject.field))"
         $lines += ''
     }
-    $lines += @(
-        '- links: run.json, oracle-result.json, stdout.log, stderr.log, tool-events.jsonl, output-inventory.json',
-        '- links: readiness.json, provenance.json, operator.md'
-    )
+    $lines += '- links: run.json, oracle-result.json, stdout.log, stderr.log, tool-events.jsonl, output-inventory.json'
+    if ($null -ne $Readiness) { $lines += '- link: readiness.json' }
+    if ($null -ne $Provenance) { $lines += '- link: provenance.json' }
+    if ($null -ne $global:SourceNativeRecovery) { $lines += '- link: recovery.json' }
+    if ($null -ne $global:SourceNativeHandoff) { $lines += '- link: handoff.json' }
+    $lines += '- link: operator.md'
     Write-Text $Path ($lines -join [Environment]::NewLine)
 }
 
@@ -230,15 +250,18 @@ function Write-Inventory([string]$Path) {
         $entries.Add([ordered]@{
             relative_path = $relative
             owner = 'source-native-runner'
-            disposition = 'blocked'
+            disposition = 'behavior_reproduced'
             size = [int64]$file.Length
             sha256 = Get-Hash $file.FullName
         })
     }
+    $projectionSha256 = $null
+    $operatorPath = Join-Path $runRoot 'operator.md'
+    if (Test-Path -LiteralPath $operatorPath -PathType Leaf) { $projectionSha256 = Get-Hash $operatorPath }
     Write-Json ([ordered]@{
         schema_version = '1.0.0'
         run_id = Get-Value (Get-Value $request 'run' $null) 'run_id' 'abk:run:unknown'
-        projection_sha256 = if (Test-Path -LiteralPath (Join-Path $runRoot 'operator.md') -PathType Leaf) { Get-Hash (Join-Path $runRoot 'operator.md') } else { $null }
+        projection_sha256 = $projectionSha256
         files = @($entries)
     }) $Path
 }
@@ -258,18 +281,41 @@ function Write-Evidence([string]$TerminalState, [int]$ExitCode, [object]$ErrorOb
     Write-Text (Join-Path $runRoot 'stdout.log') ($stdoutLines -join [Environment]::NewLine)
     Write-Text (Join-Path $runRoot 'stderr.log') ($stderrLines -join [Environment]::NewLine)
     Write-Text (Join-Path $runRoot 'tool-events.jsonl') ((@($events | ForEach-Object { $_ | ConvertTo-Json -Depth 30 -Compress }) -join [Environment]::NewLine))
-    Write-Json $Readiness (Join-Path $runRoot 'readiness.json')
-    Write-Json $Provenance (Join-Path $runRoot 'provenance.json')
+    $readinessPath = Join-Path $runRoot 'readiness.json'
+    $provenancePath = Join-Path $runRoot 'provenance.json'
+    if ($null -ne $Readiness) { Write-Json $Readiness $readinessPath }
+    if ($null -ne $Provenance) { Write-Json $Provenance $provenancePath }
+    $oracleStatus = switch ($TerminalState) {
+        'SUCCEEDED' { 'passed'; break }
+        'RECOVERED' { 'passed'; break }
+        'STOPPED' { 'stopped'; break }
+        'FAILED' { 'failed'; break }
+        default { 'inconclusive' }
+    }
+    $evidenceIds = [System.Collections.Generic.List[string]]::new()
+    foreach ($name in @('run.json', 'stdout.log', 'stderr.log', 'tool-events.jsonl', 'output-inventory.json', 'oracle-result.json')) { $evidenceIds.Add($name) }
+    if ($null -ne $Readiness) { $evidenceIds.Add('readiness.json') }
+    if ($null -ne $Provenance) { $evidenceIds.Add('provenance.json') }
+    if ($null -ne $global:SourceNativeRecovery) { $evidenceIds.Add('recovery.json') }
+    if ($null -ne $global:SourceNativeHandoff) { $evidenceIds.Add('handoff.json') }
+    $requestHash = $requestSha256
+    if ($null -eq $requestHash) { $requestHash = '0' * 64 }
+    $readinessReference = $null
+    if ($null -ne $Readiness) { $readinessReference = [ordered]@{ relative_path = 'readiness.json'; sha256 = Get-Hash $readinessPath } }
+    $provenanceReference = $null
+    if ($null -ne $Provenance) { $provenanceReference = [ordered]@{ relative_path = 'provenance.json'; sha256 = Get-Hash $provenancePath } }
     Write-Json ([ordered]@{
         schema_version = '1.0.0'
         campaign_id = $campaignId
         case_id = $caseId
         branch = $branch
-        status = 'inconclusive'
+        status = $oracleStatus
         terminal_state = $TerminalState
         error = $ErrorObject
-        evidence_ids = @('run.json', 'stdout.log', 'stderr.log', 'tool-events.jsonl', 'readiness.json', 'provenance.json')
+        evidence_ids = @($evidenceIds)
     }) (Join-Path $runRoot 'oracle-result.json')
+    if ($null -ne $global:SourceNativeRecovery) { Write-Json $global:SourceNativeRecovery (Join-Path $runRoot 'recovery.json') }
+    if ($null -ne $global:SourceNativeHandoff) { Write-Json $global:SourceNativeHandoff (Join-Path $runRoot 'handoff.json') }
     Write-Operator (Join-Path $runRoot 'operator.md') $TerminalState $ErrorObject $Readiness $Provenance
 
     $endedAt = [DateTime]::UtcNow
@@ -286,7 +332,7 @@ function Write-Evidence([string]$TerminalState, [int]$ExitCode, [object]$ErrorOb
             fixture_sha256 = $fixtureHash
             campaign_sha256 = $campaignHash
             schema_sha256 = $schemaHash
-            request_sha256 = if ($null -ne $requestSha256) { $requestSha256 } else { ('0' * 64) }
+            request_sha256 = $requestHash
         }
         started_at = $startedAt.ToString('yyyy-MM-ddTHH:mm:ssZ')
         ended_at = $endedAt.ToString('yyyy-MM-ddTHH:mm:ssZ')
@@ -294,15 +340,147 @@ function Write-Evidence([string]$TerminalState, [int]$ExitCode, [object]$ErrorOb
         terminal_state = $TerminalState
         exit_code = $ExitCode
         error = $ErrorObject
-        readiness = [ordered]@{ relative_path = 'readiness.json'; sha256 = Get-Hash (Join-Path $runRoot 'readiness.json') }
-        provenance = [ordered]@{ relative_path = 'provenance.json'; sha256 = Get-Hash (Join-Path $runRoot 'provenance.json') }
+        readiness = $readinessReference
+        provenance = $provenanceReference
         state_before = [ordered]@{ manifest_sha256 = (Get-TextHash '{}') }
         state_after = [ordered]@{ manifest_sha256 = (Get-TextHash '{}') }
-        recovery = $null
-        handoff = $null
+        recovery = $global:SourceNativeRecovery
+        handoff = $global:SourceNativeHandoff
     }
     Write-Json $runDocument (Join-Path $runRoot 'run.json')
     Write-Inventory (Join-Path $runRoot 'output-inventory.json')
+}
+
+function Invoke-SourceNativeGraph {
+    $fixture = $global:SourceNativeFixture
+    if ($null -eq $fixture -or $null -eq $fixture.project -or $null -eq $fixture.project.artifacts) {
+        Throw-RunnerError 'FIXTURE_GRAPH_INVALID' 'Fixture does not contain a project artifact graph.' 'project.artifacts' 3 'FAILED'
+    }
+    $artifactList = @($fixture.project.artifacts)
+    if ($artifactList.Count -eq 0) { Throw-RunnerError 'EMPTY_ARTIFACT_GRAPH' 'Artifact graph must contain at least one artifact.' 'project.artifacts' 3 'FAILED' }
+
+    $artifactsById = @{}
+    $declarationIds = [System.Collections.Generic.List[string]]::new()
+    foreach ($artifact in $artifactList) {
+        $id = [string](Get-Value $artifact 'id' '')
+        if ([string]::IsNullOrWhiteSpace($id) -or $id -notmatch '^[a-z][a-z0-9-]*$') { Throw-RunnerError 'ARTIFACT_ID_INVALID' 'Artifact id is invalid.' 'project.artifacts.id' 3 'FAILED' }
+        if ($artifactsById.ContainsKey($id)) { Throw-RunnerError 'DUPLICATE_ARTIFACT_ID' "Artifact '$id' is duplicated." 'project.artifacts.id' 3 'FAILED' }
+        $dependencies = @((Get-Value $artifact 'depends_on' @()))
+        $artifactsById[$id] = [pscustomobject]@{ id = $id; depends_on = $dependencies }
+        $declarationIds.Add($id)
+    }
+
+    $edges = [System.Collections.Generic.List[string]]::new()
+    foreach ($id in $declarationIds) {
+        $artifact = $artifactsById[$id]
+        $normalizedDependencies = [System.Collections.Generic.List[string]]::new()
+        $seenDependencies = @{}
+        foreach ($dependencyValue in @($artifact.depends_on)) {
+            $dependency = [string]$dependencyValue
+            if ([string]::IsNullOrWhiteSpace($dependency) -or $dependency -match '(^\.+)|[\\/]') {
+                Throw-RunnerError 'DEPENDENCY_OUT_OF_ROOT' "Artifact '$id' contains an out-of-root dependency '$dependency'." 'project.artifacts.depends_on' 2 'REJECTED'
+            }
+            if ($seenDependencies.ContainsKey($dependency)) { Throw-RunnerError 'DUPLICATE_DEPENDENCY' "Artifact '$id' repeats dependency '$dependency'." 'project.artifacts.depends_on' 3 'FAILED' }
+            if (-not $artifactsById.ContainsKey($dependency)) { Throw-RunnerError 'UNKNOWN_ARTIFACT_REFERENCE' "Artifact '$id' depends on unknown artifact '$dependency'." 'project.artifacts.depends_on' 3 'FAILED' }
+            $seenDependencies[$dependency] = $true
+            $normalizedDependencies.Add($dependency)
+            $edges.Add("$id -> $dependency")
+        }
+        $artifact.depends_on = @($normalizedDependencies)
+    }
+
+    $declarationIndex = @{}
+    for ($index = 0; $index -lt $declarationIds.Count; $index++) { $declarationIndex[$declarationIds[$index]] = $index }
+    $inDegree = @{}
+    $dependents = @{}
+    foreach ($id in $declarationIds) { $inDegree[$id] = @($artifactsById[$id].depends_on).Count; $dependents[$id] = [System.Collections.Generic.List[string]]::new() }
+    foreach ($id in $declarationIds) { foreach ($dependency in @($artifactsById[$id].depends_on)) { $dependents[$dependency].Add($id) } }
+    $roots = @($declarationIds | Where-Object { $inDegree[$_] -eq 0 })
+    $queue = [System.Collections.Generic.List[string]]::new()
+    foreach ($id in $roots) { $queue.Add($id) }
+    $buildOrder = [System.Collections.Generic.List[string]]::new()
+    while ($queue.Count -gt 0) {
+        $current = $queue[0]
+        $queue.RemoveAt(0)
+        $buildOrder.Add($current)
+        foreach ($dependent in @($dependents[$current])) {
+            $inDegree[$dependent] = [int]$inDegree[$dependent] - 1
+            if ($inDegree[$dependent] -eq 0) { $queue.Add($dependent) }
+        }
+        $orderedQueue = @($queue | Sort-Object { $declarationIndex[$_] })
+        $queue.Clear()
+        foreach ($id in $orderedQueue) { $queue.Add($id) }
+    }
+    if ($buildOrder.Count -ne $declarationIds.Count) { Throw-RunnerError 'GRAPH_CYCLE_DETECTED' 'Graph contains a cyclic dependency.' 'project.artifacts' 3 'FAILED' }
+
+    $normalized = [System.Collections.Generic.List[object]]::new()
+    $blocked = [ordered]@{}
+    foreach ($id in $declarationIds) {
+        $dependencies = @($artifactsById[$id].depends_on)
+        $normalized.Add([ordered]@{ id = $id; depends_on = @($dependencies); requires = @($dependencies); state = 'valid' })
+        if ($dependencies.Count -gt 0) { $blocked[$id] = @($dependencies) }
+    }
+    $graphObject = [ordered]@{ artifacts = @($normalized); edges = @($edges); roots = @($roots); build_order = @($buildOrder) }
+    $graphHash = Get-TextHash ($graphObject | ConvertTo-Json -Depth 30 -Compress)
+    $readiness = [ordered]@{
+        schema_version = '1.0.0'
+        campaign_id = $request.campaign_id
+        case_id = $request.case_id
+        branch = 'source_native'
+        validation_state = 'valid'
+        roots = @($roots)
+        ready_set = @($roots)
+        next_artifacts = @($roots)
+        completed = @()
+        blocked = $blocked
+        is_complete = $false
+        artifacts = @($normalized)
+        edges = @($edges)
+        build_order = @($buildOrder)
+        graph_sha256 = $graphHash
+        error = $null
+    }
+    $provenance = [ordered]@{
+        schema_version = '1.0.0'
+        campaign_id = $request.campaign_id
+        case_id = $request.case_id
+        branch = 'source_native'
+        comparable = $true
+        implementation = 'framework-matrix-clean-room-v1'
+        fixture_relative_path = $request.fixture.relative_path
+        fixture_sha256 = $request.fixture.sha256
+        campaign_sha256 = $request.contracts.campaign_sha256
+        schema_sha256 = $request.contracts.schema_sha256
+        source_snapshot_relative_path = $global:SourceNativeSnapshotPath
+        source_snapshot_sha256 = $global:SourceNativeSnapshotHash
+        source_revision = $global:SourceNativeSnapshot.provenance.revision
+        graph_sha256 = $graphHash
+        root_artifact_ids = @($roots)
+        error = $null
+    }
+    $global:SourceNativeReadiness = $readiness
+    $global:SourceNativeProvenance = $provenance
+    Add-Event 'graph_validated' 'clean-room-artifact-dag-and-root-provenance'
+
+    if ((Get-Value $fixture.project 'interrupt_after' '') -eq 'plan-read') {
+        Add-Event 'interrupt_received' 'plan-read'
+        Throw-RunnerError 'INTERRUPTED' 'The declared plan-read interrupt stopped the clean-room run before success.' 'project.interrupt_after' 130 'STOPPED'
+    }
+    if ((Get-Value $fixture.project 'failure_after' '') -eq 'derived-state-write') {
+        $derivedStatePath = Join-Path $runRoot 'derived-state.json'
+        Write-Json ([ordered]@{ graph_sha256 = $graphHash; owner = 'source-native-runner' }) $derivedStatePath
+        Add-Event 'derived_state_written' 'owned-run-root'
+        Remove-Item -LiteralPath $derivedStatePath -Force
+        $global:SourceNativeRecovery = [ordered]@{ status = 'recovered'; strategy = (Get-Value $fixture.project 'recovery' 'owned-state-only'); owned_paths = @('derived-state.json'); removed = $true; graph_sha256 = $graphHash }
+        Add-Event 'recovery_completed' 'owned-state-only'
+        Throw-RunnerError 'RECOVERED_AFTER_FAILURE' 'The owned derived state was rolled back and the run is resumable.' 'project.failure_after' 0 'RECOVERED'
+    }
+    if ((Get-Value $fixture.project 'handoff' '') -eq 'validated-graph') {
+        $global:SourceNativeHandoff = [ordered]@{ status = 'validated'; receiver = 'campaign-oracle'; graph_sha256 = $graphHash; provenance_sha256 = Get-TextHash ($provenance | ConvertTo-Json -Depth 30 -Compress); verified = $true }
+        Add-Event 'handoff_validated' 'provenance-bound-graph'
+    }
+    Add-Stdout "source_native clean-room completed $($request.case_id)"
+    Add-Event 'output_emitted' 'readiness-provenance-operator'
 }
 
 function Invoke-SourceNativeValidation {
@@ -362,6 +540,7 @@ function Invoke-SourceNativeValidation {
     if ((Get-Hash $fixturePath) -ne $request.fixture.sha256 -or $case.fixture_sha256 -ne $request.fixture.sha256) { Throw-RunnerError 'FIXTURE_HASH_MISMATCH' 'Fixture SHA-256 does not match the request and campaign.' 'fixture.sha256' 2 'REJECTED' }
     $fixture = Read-Json $fixturePath 'fixture'
     if ($fixture.case_id -ne $request.case_id) { Throw-RunnerError 'FIXTURE_CASE_ID_MISMATCH' 'Fixture case_id does not match the request.' 'fixture.case_id' 2 'REJECTED' }
+    $global:SourceNativeFixture = $fixture
     Add-Event 'inputs_verified' 'campaign-schema-fixture-hashes'
 
     $snapshotPath = Join-Path $benchmarksRoot 'snapshots\source-native-openspec-artifact-graph.json'
@@ -373,7 +552,6 @@ function Invoke-SourceNativeValidation {
     $global:SourceNativeSnapshot = $snapshot
     $global:SourceNativeSnapshotPath = ([IO.Path]::GetRelativePath($repositoryRoot, $snapshotPath)).Replace('\', '/')
     $global:SourceNativeSnapshotHash = Get-Hash $snapshotPath
-    $global:SourceNativeFixtureHash = $request.fixture.sha256
     Add-Event 'source_snapshot_verified' 'runtime-not-included'
 }
 
@@ -384,7 +562,10 @@ try {
     $requestSha256 = Get-Hash $requestFullPath
     try { $request = Read-Json $requestFullPath 'request' } catch { throw }
     Invoke-SourceNativeValidation
-    Throw-RunnerError 'NOT_COMPARABLE' 'A clean-room source_native comparison cannot be proven without executing an upstream runtime or package; both are intentionally excluded.' 'branch.source_native' 2 'REJECTED'
+    Invoke-SourceNativeGraph
+    Add-Event 'terminal' 'SUCCEEDED'
+    Write-Evidence 'SUCCEEDED' 0 $null $global:SourceNativeReadiness $global:SourceNativeProvenance
+    exit 0
 } catch {
     $exception = $_.Exception
     $errorObject = Get-ErrorObject $exception
@@ -393,39 +574,27 @@ try {
     Add-Stderr ("$($errorObject.code): $($errorObject.message)")
     Add-Event 'terminal' $terminalState
     Add-Stdout "source_native terminal state: $terminalState"
-    $campaignId = Get-Value $request 'campaign_id' 'abk:benchmark-campaign:artifact-dag-core-v1'
-    $caseId = Get-Value $request 'case_id' 'unknown'
-    $fixtureObject = Get-Value $request 'fixture' $null
-    $contractsObject = Get-Value $request 'contracts' $null
-    $readiness = [ordered]@{
-        schema_version = '1.0.0'
-        campaign_id = $campaignId
-        case_id = $caseId
-        branch = 'source_native'
-        validation_state = 'not_comparable'
-        roots = @()
-        ready_set = @()
-        artifacts = @()
-        edges = @()
-        graph_sha256 = $null
-        error = $errorObject
-    }
-    $provenance = [ordered]@{
-        schema_version = '1.0.0'
-        campaign_id = $campaignId
-        case_id = $caseId
-        branch = 'source_native'
-        comparable = $false
-        fixture_relative_path = Get-Value $fixtureObject 'relative_path' $null
-        fixture_sha256 = Get-Value $fixtureObject 'sha256' ('0' * 64)
-        campaign_sha256 = Get-Value $contractsObject 'campaign_sha256' ('0' * 64)
-        schema_sha256 = Get-Value $contractsObject 'schema_sha256' ('0' * 64)
-        source_snapshot_relative_path = if ($global:SourceNativeSnapshotPath) { $global:SourceNativeSnapshotPath } else { 'benchmarks/snapshots/source-native-openspec-artifact-graph.json' }
-        source_snapshot_sha256 = if ($global:SourceNativeSnapshotHash) { $global:SourceNativeSnapshotHash } else { ('0' * 64) }
-        source_revision = if ($global:SourceNativeSnapshot) { $global:SourceNativeSnapshot.provenance.revision } else { $null }
-        graph_sha256 = $null
-        root_artifact_ids = @()
-        error = $errorObject
+    $readiness = $global:SourceNativeReadiness
+    $provenance = $global:SourceNativeProvenance
+    if ($null -eq $readiness -and $null -eq $provenance -and $null -ne $global:SourceNativeSnapshot) {
+        $provenance = [ordered]@{
+            schema_version = '1.0.0'
+            campaign_id = Get-Value $request 'campaign_id' 'abk:benchmark-campaign:artifact-dag-core-v1'
+            case_id = Get-Value $request 'case_id' 'unknown'
+            branch = 'source_native'
+            comparable = $false
+            implementation = 'framework-matrix-clean-room-v1'
+            fixture_relative_path = Get-Value (Get-Value $request 'fixture' $null) 'relative_path' $null
+            fixture_sha256 = Get-Value (Get-Value $request 'fixture' $null) 'sha256' ('0' * 64)
+            campaign_sha256 = Get-Value (Get-Value $request 'contracts' $null) 'campaign_sha256' ('0' * 64)
+            schema_sha256 = Get-Value (Get-Value $request 'contracts' $null) 'schema_sha256' ('0' * 64)
+            source_snapshot_relative_path = $global:SourceNativeSnapshotPath
+            source_snapshot_sha256 = $global:SourceNativeSnapshotHash
+            source_revision = $global:SourceNativeSnapshot.provenance.revision
+            graph_sha256 = $null
+            root_artifact_ids = @()
+            error = $errorObject
+        }
     }
     if ($runRootIsAllowed) {
         try { Write-Evidence $terminalState $exitCode $errorObject $readiness $provenance } catch { Add-Stderr "EVIDENCE_WRITE_FAILED: $($_.Exception.Message)"; $exitCode = 3 }

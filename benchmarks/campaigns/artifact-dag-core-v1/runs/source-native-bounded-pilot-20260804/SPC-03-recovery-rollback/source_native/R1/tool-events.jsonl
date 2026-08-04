@@ -1,0 +1,7 @@
+{"event":"request_validated","detail":"source-native-run-request-v1"}
+{"event":"inputs_verified","detail":"campaign-schema-fixture-hashes"}
+{"event":"source_snapshot_verified","detail":"runtime-not-included"}
+{"event":"graph_validated","detail":"clean-room-artifact-dag-and-root-provenance"}
+{"event":"derived_state_written","detail":"owned-run-root"}
+{"event":"recovery_completed","detail":"owned-state-only"}
+{"event":"terminal","detail":"RECOVERED"}

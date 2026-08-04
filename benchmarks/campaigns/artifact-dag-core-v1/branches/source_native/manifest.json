@@ -7,10 +7,10 @@
   "path_base": "repository",
   "branch_id": "source_native",
   "entrypoint_path": "benchmarks/runners/source_native/run.ps1",
-  "entrypoint_sha256": "d0384863ddfe051f6fd817550048a2403011d6e498f4149b9bee21bb1611f3c3",
+  "entrypoint_sha256": "eb35b846284eac90ae7ef85c88a5b0485b778b0bf773fb23298abb35a90598ae",
   "snapshot_ref": "abk:branch-snapshot:source-native-artifact-dag-core-v1",
   "snapshot_path": "benchmarks/snapshots/source-native-openspec-artifact-graph.json",
-  "snapshot_sha256": "187f05196ea13a2acb16e79fc58df3f366b256f53afaa495e59457a1cd32cefa",
+  "snapshot_sha256": "761330320a2f1f79d43c5af7d9145eacf9be94c934cdfd6d89c1ee5d825c9d4a",
   "reads": [
     "campaign.json and pinned schemas",
     "exactly one case fixture and its pinned SHA-256",
@@ -20,11 +20,11 @@
   "capabilities": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"],
   "authority_level": "LOCAL_EXECUTE",
   "checkpoint": "BEFORE_EXECUTION",
-  "status": "NOT_COMPARABLE",
+  "status": "READY_FOR_EXECUTION",
   "disposition": {
-    "candidate_disposition": "NOT_COMPARABLE",
-    "reason": "The entrypoint validates the pinned source snapshot and emits evidence, but no approved upstream OpenSpec runtime or package is present for a behavioral comparison.",
-    "next_action": "Provide an approved executable clean-room implementation or runtime boundary, then revalidate the entrypoint hash and rerun the bounded source_native cases."
+    "candidate_disposition": "RUNNABLE",
+    "reason": "The entrypoint implements the campaign fixture-to-artifact-DAG adapter as a Framework-Matrix clean-room and emits typed readiness, provenance, recovery, handoff, and oracle evidence.",
+    "next_action": "Run the bounded source_native cases, review evidence hashes and negative-path contracts, then keep adoption scoring disabled until all required branches are comparable."
   },
   "execution_status": "NOT_EXECUTED",
   "runtime": {

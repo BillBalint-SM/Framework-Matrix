@@ -50,6 +50,6 @@
   "disposition": {
     "candidate_disposition": "READY_FOR_CLEAN_ROOM_ENTRYPOINT",
     "reason": "The pinned OpenSpec artifact-graph source and specification are present as a read-only Framework-Matrix snapshot with a complete content inventory.",
-    "next_action": "Implement and hash-pin a dedicated source_native clean-room entrypoint; do not install or execute the upstream runtime."
+    "next_action": "Review the hash-pinned source_native clean-room entrypoint against the bounded fixture cases; do not install or execute the upstream runtime."
   }
 }

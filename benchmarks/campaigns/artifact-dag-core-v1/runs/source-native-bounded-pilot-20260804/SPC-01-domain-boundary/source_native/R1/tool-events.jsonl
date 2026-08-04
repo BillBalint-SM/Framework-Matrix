@@ -1,0 +1,4 @@
+{"event":"request_validated","detail":"source-native-run-request-v1"}
+{"event":"inputs_verified","detail":"campaign-schema-fixture-hashes"}
+{"event":"source_snapshot_verified","detail":"runtime-not-included"}
+{"event":"terminal","detail":"REJECTED"}

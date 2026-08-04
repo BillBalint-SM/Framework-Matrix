@@ -39,6 +39,9 @@ runtime dependency, credential, hálózati vagy Git-mutáció.
 & .\benchmarks\tests\test-source-native-runner.ps1 `
   -WorkspaceRoot (Get-Location).Path
 
+& .\benchmarks\tests\test-source-native-bounded.ps1 `
+  -WorkspaceRoot (Get-Location).Path
+
 & .\benchmarks\tests\test-abk-native-runner.ps1 `
   -WorkspaceRoot (Get-Location).Path
 ```
@@ -70,10 +73,12 @@ eltávolítása/read-backje sikeres volt.
 
 A `benchmarks/snapshots/` metadata-only descriptorokat tartalmaz. A
 `source_native` descriptor a pinned OpenSpec artifact-graph snapshotot rögzíti
-`READY_FOR_ENTRYPOINT` állapotban; az `abk_native` descriptor a külön AI
-Booster Kit commitot bizonyítja, de az Artifact DAG összehasonlíthatósága
-`NOT_COMPARABLE`. Egyik descriptor sem másol ABK-forrást, runtime-ot vagy Git
-kapcsolatot ebbe a repóba.
+`READY_FOR_ENTRYPOINT` állapotban; a hozzá tartozó manifest már
+`READY_FOR_EXECUTION` és a lokális clean-room entrypoint futtatható. Az
+`abk_native` descriptor a külön AI Booster Kit commitot bizonyítja, de az
+Artifact DAG összehasonlíthatósága továbbra is `NOT_COMPARABLE`. Egyik
+descriptor sem másol ABK-forrást, runtime-ot vagy Git-kapcsolatot ebbe a
+repóba.
 
 ```powershell
 & .\benchmarks\tests\test-branch-snapshots.ps1 `
@@ -90,15 +95,17 @@ független snapshot-hash-t pinelnek:
 | Branch | Manifest SHA-256 | Entrypoint SHA-256 | Snapshot SHA-256 | Állapot |
 |---|---|---|---|---|
 | `control` | `5c041ba5…c9a235` | `a0e4929d…e859c1` | az entrypoint-tal azonos legacy control hash | kontroll, nem kampányfuttatás |
-| `source_native` | `0493c1f9…07723da` | `d0384863…11f3c3` | `187f0519…32cefa` | `NOT_COMPARABLE`, `NOT_EXECUTED` |
+| `source_native` | `84d24272…61c4bb2` | `eb35b846…90598ae` | `76133032…25c9d4a` | `READY_FOR_EXECUTION`, `NOT_EXECUTED` |
 | `abk_native` | `2557f41a…67e7c0` | `c3e4daf7…6658e` | `a19b1c30…875997` | `NOT_COMPARABLE`, `NOT_EXECUTED` |
 
 A két új PowerShell entrypoint fail-closed: ellenőrzi a kampány-, fixture-,
 séma- és metadata snapshot-hash-eket, csak a saját run-rootba ír evidence-et,
-majd a hiányzó engedélyezett runtime/összehasonlítható ABK snapshot miatt
-typed `REJECTED` / `NOT_COMPARABLE`, exit code `2` állapotban áll meg. Nem
-olvassa a külön AI Booster Kit checkoutot, nem indít upstream runtime-ot, és
-nem módosít Git-et.
+és nem lépi át a lokális authority-határokat. A `source_native` fixture-only
+clean-room adapter determinisztikus DAG/readiness/provenance eredményt és a
+speciális stop/recovery/handoff esetekhez typed evidence-et ad; ez nem teljes
+YAML/resolver parity. Az `abk_native` továbbra is explicit
+`NOT_COMPARABLE`/exit `2`, és nem olvassa a külön AI Booster Kit checkoutot.
+Egyik entrypoint sem indít upstream runtime-ot és nem módosít Git-et.
 
 ```powershell
 & .\benchmarks\scripts\validate-branch-manifest.ps1 `
@@ -111,4 +118,19 @@ nem módosít Git-et.
 ```
 
 Ezek az entrypointok és manifestek a futtatási szerződést zárják le; a 66 raw
-run-os kampány, scorecard és adoption outcome továbbra sincs elindítva.
+run-os kampány, scorecard és adoption outcome továbbra sincs elindítva. A
+source-native bounded harness hat pozitív/negatív esetet ellenőriz
+(`SOURCE_NATIVE_RUNNER_TESTS: 6/6 PASS`), de ez még nem kampányeredmény és nem
+adoption score.
+
+## Bounded source-native pilot
+
+A `benchmarks/scripts/run-source-native-bounded.ps1` egyszer lefuttatja mind a
+10 rögzített fixture-t a `source_native` clean-room entrypointon. A jelenlegi
+ledger és a raw evidence a
+`benchmarks/campaigns/artifact-dag-core-v1/runs/source-native-bounded-pilot-20260804/`
+könyvtárban van; a pilot `10/10 PASS`, de `full_campaign=false`, a teljes
+háromágú kampány továbbra is `66` raw run és `UNSCORED`. Az eredmény külön
+`source-native-pilot.schema.json` sémával validált. A `control` és az
+`abk_native` ág ebben a pilotban szándékosan nem futott; ez nem változtatja meg
+a campaign.json `benchmark_pending`/zero-completed állapotát.
