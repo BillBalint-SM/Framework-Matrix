@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../../schemas/branch-manifest.schema.json",
+  "schema_version": "1.0.0",
+  "manifest_id": "abk:branch-manifest:abk-native-artifact-dag-core-v1",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "host": "codex",
+  "path_base": "repository",
+  "branch_id": "abk_native",
+  "entrypoint_path": "benchmarks/runners/abk_native/run.ps1",
+  "entrypoint_sha256": "c3e4daf7cc981a08b1805783394c19c0443789486e8e150c9049ab0f5d56658e",
+  "snapshot_ref": "abk:branch-snapshot:abk-native-artifact-dag-core-v1",
+  "snapshot_path": "benchmarks/snapshots/abk-native-ai-booster-kit-feature.json",
+  "snapshot_sha256": "a19b1c30dee281dc5a8c2c27cb94d7d8ccf4c50aca855c140cf5677d1d875997",
+  "reads": [
+    "campaign.json and pinned schemas",
+    "exactly one case fixture and its pinned SHA-256",
+    "metadata-only abk_native snapshot descriptor; never the external project"
+  ],
+  "writes": ["runs/<case-id>/abk_native/R<n>/**"],
+  "capabilities": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"],
+  "authority_level": "LOCAL_EXECUTE",
+  "checkpoint": "BEFORE_EXECUTION",
+  "status": "NOT_COMPARABLE",
+  "disposition": {
+    "candidate_disposition": "NOT_COMPARABLE",
+    "reason": "The separate AI Booster Kit project has no pinned Artifact DAG implementation matching this campaign, so this entrypoint must fail closed without reading or linking that project.",
+    "next_action": "Supply an owner-approved immutable ABK-native Artifact DAG snapshot and bounded local runtime before any comparative execution or scoring."
+  },
+  "execution_status": "NOT_EXECUTED",
+  "runtime": {
+    "kind": "powershell",
+    "executable": "pwsh.exe",
+    "version": "7",
+    "command_template": "pwsh.exe -NoLogo -NoProfile -NonInteractive -File {entrypoint_path} -RequestPath {run_root}/request.json"
+  },
+  "network": "DENY",
+  "credentials": "DENY",
+  "production_resources": "DENY",
+  "external_writes": "DENY",
+  "git_mutation": "DENY",
+  "child_processes": "DENY",
+  "cross_run_reads": "DENY",
+  "cross_branch_reads": "DENY",
+  "real_user_config_reads_or_writes": "DENY",
+  "undocumented_effect_policy": "STOPPED"
+}

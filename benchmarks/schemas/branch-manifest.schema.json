@@ -39,23 +39,44 @@
     "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
     "host": { "const": "codex" },
     "path_base": { "const": "repository" },
+    "branch_id": { "enum": ["control", "source_native", "abk_native"] },
     "entrypoint_path": { "type": "string", "pattern": "^(?!PENDING$)(?![A-Za-z]:)(?![\\\\/])[A-Za-z0-9._/-]+$" },
     "entrypoint_sha256": { "$ref": "#/definitions/sha256" },
     "snapshot_ref": { "type": "string", "pattern": "^(?!PENDING$)[a-z][a-z0-9:._-]+$" },
     "snapshot_sha256": { "$ref": "#/definitions/sha256" },
+    "snapshot_path": { "type": "string", "pattern": "^(?!PENDING$)(?![A-Za-z]:)(?![\\\\/])[A-Za-z0-9._/-]+$" },
     "reads": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
-    "writes": { "const": ["runs/<case-id>/control/R<n>/**"] },
+    "writes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": { "type": "string", "pattern": "^runs/<case-id>/(control|source_native|abk_native)/R<n>/\\*\\*$" }
+    },
     "capabilities": { "const": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"] },
     "authority_level": { "const": "LOCAL_EXECUTE" },
     "checkpoint": { "const": "BEFORE_EXECUTION" },
+    "status": { "enum": ["READY_FOR_ENTRYPOINT", "READY_FOR_EXECUTION", "BLOCKED", "NOT_COMPARABLE", "REJECTED"] },
+    "disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_disposition", "reason", "next_action"],
+      "properties": {
+        "candidate_disposition": { "enum": ["READY_FOR_CLEAN_ROOM_ENTRYPOINT", "RUNNABLE", "BLOCKED", "NOT_COMPARABLE", "REJECTED"] },
+        "reason": { "type": "string", "minLength": 20, "maxLength": 1000 },
+        "next_action": { "type": "string", "minLength": 20, "maxLength": 1000 }
+      }
+    },
+    "execution_status": { "const": "NOT_EXECUTED" },
     "runtime": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["powershell_executable", "powershell_major", "command_template"],
       "properties": {
-        "powershell_executable": { "const": "pwsh.exe" },
-        "powershell_major": { "const": 7 },
-        "command_template": { "const": "pwsh.exe -NoLogo -NoProfile -NonInteractive -File {entrypoint_path} -RequestPath {run_root}/request.json" }
+        "kind": { "enum": ["powershell", "node", "python", "custom_local"] },
+        "executable": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+        "version": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$" },
+        "command_template": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "powershell_executable": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+        "powershell_major": { "type": "integer", "minimum": 1, "maximum": 99 }
       }
     },
     "network": { "const": "DENY" },
@@ -71,5 +92,48 @@
   },
   "definitions": {
     "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["branch_id"],
+        "properties": { "branch_id": { "const": "control" } }
+      },
+      "then": {
+        "properties": {
+          "writes": { "const": ["runs/<case-id>/control/R<n>/**"] }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["branch_id"],
+        "properties": { "branch_id": { "const": "source_native" } }
+      },
+      "then": {
+        "required": ["branch_id", "snapshot_path", "status", "disposition", "execution_status"],
+        "properties": {
+          "writes": { "const": ["runs/<case-id>/source_native/R<n>/**"] },
+          "runtime": {
+            "required": ["kind", "executable", "version", "command_template"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": ["branch_id"],
+        "properties": { "branch_id": { "const": "abk_native" } }
+      },
+      "then": {
+        "required": ["branch_id", "snapshot_path", "status", "disposition", "execution_status"],
+        "properties": {
+          "writes": { "const": ["runs/<case-id>/abk_native/R<n>/**"] },
+          "runtime": {
+            "required": ["kind", "executable", "version", "command_template"]
+          }
+        }
+      }
+    }
+  ]
 }

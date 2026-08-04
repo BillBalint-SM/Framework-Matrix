@@ -1,0 +1,55 @@
+{
+  "$schema": "../schemas/branch-snapshot.schema.json",
+  "schema_version": "1.0.0",
+  "snapshot_id": "abk:branch-snapshot:source-native-artifact-dag-core-v1",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "branch": "source_native",
+  "status": "READY_FOR_ENTRYPOINT",
+  "execution_status": "NOT_EXECUTED",
+  "captured_at": "2026-08-04T07:31:27Z",
+  "provenance": {
+    "source_kind": "framework-matrix-source-snapshot",
+    "source_ref": "local-framework-matrix:fission-openspec",
+    "observed_path": "sources/fission-openspec",
+    "revision": "45cca5db6137ed209117cc70510eb3e057fb981b",
+    "revision_type": "upstream-commit",
+    "transport": "local-read-only",
+    "worktree_status": "clean-snapshot"
+  },
+  "scope": {
+    "included_paths": [
+      "src/core/artifact-graph/graph.ts",
+      "src/core/artifact-graph/index.ts",
+      "src/core/artifact-graph/instruction-loader.ts",
+      "src/core/artifact-graph/outputs.ts",
+      "src/core/artifact-graph/resolver.ts",
+      "src/core/artifact-graph/schema.ts",
+      "src/core/artifact-graph/state.ts",
+      "src/core/artifact-graph/types.ts",
+      "openspec/specs/artifact-graph/spec.md"
+    ],
+    "excluded_paths": ["runtime/", "node_modules/", "cache/"],
+    "source_code_copied_into_framework_matrix": false,
+    "git_linked_into_framework_matrix": false,
+    "runtime_included": false
+  },
+  "inventory": {
+    "inventory_sha256": "d391aa5ed6d7869e0a92abbd8b020f6c3861b40f20f68b44a9cf64f7da3928fe",
+    "entries": [
+      { "path": "src/core/artifact-graph/graph.ts", "digest": "c54fad6740add5845eeaf9b58e0c06a040822d702fd36c8a723679869bf6f01d", "digest_algorithm": "SHA-256", "size": 6085 },
+      { "path": "src/core/artifact-graph/index.ts", "digest": "4c1e93709b378a1a0b5f3328f40f2935ab134a5c4cdbcf795166a4177c2e71f9", "digest_algorithm": "SHA-256", "size": 1195 },
+      { "path": "src/core/artifact-graph/instruction-loader.ts", "digest": "c8882335e44a2ad35deb98a20898cf0a720185a4bc6c40ef0c69c45ef29fc009", "digest_algorithm": "SHA-256", "size": 18849 },
+      { "path": "src/core/artifact-graph/outputs.ts", "digest": "c8622c28c92c11c9b0d54eb8df18a8001257605b500afcd8047b6c550cae2e6d", "digest_algorithm": "SHA-256", "size": 1459 },
+      { "path": "src/core/artifact-graph/resolver.ts", "digest": "807e3affc85d417e0ccd2106437864faa12bbcc5d7f542ba1fb5f78f93cf3c4a", "digest_algorithm": "SHA-256", "size": 11336 },
+      { "path": "src/core/artifact-graph/schema.ts", "digest": "df4d960e74eef90fc21ebda65af61d08db2b5a52360a46234fd8bb8fcd09bd36", "digest_algorithm": "SHA-256", "size": 3542 },
+      { "path": "src/core/artifact-graph/state.ts", "digest": "a6578fe70b030647e257987ad5a7e97c141048f5444469b7b5e15fe75c3d1b32", "digest_algorithm": "SHA-256", "size": 1224 },
+      { "path": "src/core/artifact-graph/types.ts", "digest": "e11bb3d93f0a948aeee1aa9c652f2ec3251e345f0ffefc7f980a53047eb73b82", "digest_algorithm": "SHA-256", "size": 1870 },
+      { "path": "openspec/specs/artifact-graph/spec.md", "digest": "595c147fa6f4c02f34d52e8ea5499c202bab485b96fcb4ecfca4c53671f09bf1", "digest_algorithm": "SHA-256", "size": 6208 }
+    ]
+  },
+  "disposition": {
+    "candidate_disposition": "READY_FOR_CLEAN_ROOM_ENTRYPOINT",
+    "reason": "The pinned OpenSpec artifact-graph source and specification are present as a read-only Framework-Matrix snapshot with a complete content inventory.",
+    "next_action": "Implement and hash-pin a dedicated source_native clean-room entrypoint; do not install or execute the upstream runtime."
+  }
+}

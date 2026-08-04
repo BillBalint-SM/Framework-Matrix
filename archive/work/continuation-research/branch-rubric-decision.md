@@ -138,15 +138,28 @@ or silent retry.
 
 ### Branch manifests
 
-The rows below are the exact authority and capability boundaries. The concrete
-entrypoint and snapshot hashes must be filled and approved before the runner
-gate; until then the branch is blocked rather than guessed.
+The rows below are the exact authority and capability boundaries. The control,
+source-native, and ABK-native manifests now contain concrete entrypoint and
+snapshot hashes. Their `execution_status` remains `NOT_EXECUTED`; the two new
+non-control branches are explicit `NOT_COMPARABLE` dispositions rather than
+guessed runnable candidates.
 
 | Branch / manifest ID | Read authority | Execution authority | Write authority | Branch-specific rejection rule |
 |---|---|---|---|---|
 | `control` / `abk:branch-manifest:control-artifact-dag-core-v1` | Campaign files plus a read-only snapshot of the current ABK/manual or agentless baseline; no upstream source | One pre-registered Codex-local control entrypoint; `LOCAL_EXECUTE` only inside the run sandbox | Current run root only; no ABK checkout, user config, or Git metadata | If the baseline process or terminal output schema is not named, hashed, and reproducible, stop with `control_runner_undefined`; do not substitute a new algorithm. |
 | `source_native` / `abk:branch-manifest:source-native-artifact-dag-core-v1` | Campaign files plus the pinned OpenSpec source snapshot at `45cca5d…fb981b`, read-only | A clean-room Codex-local reproduction of the observed behavior; no upstream package/runtime, network, credentials, or other host | Current run root only; source snapshot and Framework-Matrix are read-only | If reproduction needs an upstream runtime/package, another agent/host, network, or credentials, emit rejection evidence and mark the component `REJECTED`; never silently replace it. |
 | `abk_native` / `abk:branch-manifest:abk-native-artifact-dag-core-v1` | Campaign files plus a product-owner-approved, immutable ABK-native prototype snapshot; no upstream runtime/source dependency | One ABK-native Codex-local entrypoint; `LOCAL_EXECUTE` bounded to the run sandbox | Current run root only; no AI Booster Kit source change, external write, or Git mutation | Any undeclared capability, path, process, or side effect is a hard stop. A missing approved snapshot/entrypoint leaves the campaign `UNSCORED`. |
+
+Current non-control pins: `source_native` entrypoint
+`d0384863ddfe051f6fd817550048a2403011d6e498f4149b9bee21bb1611f3c3`,
+snapshot `187f05196ea13a2acb16e79fc58df3f366b256f53afaa495e59457a1cd32cefa`;
+`abk_native` entrypoint
+`c3e4daf7cc981a08b1805783394c19c0443789486e8e150c9049ab0f5d56658e`,
+ snapshot `a19b1c30dee281dc5a8c2c27cb94d7d8ccf4c50aca855c140cf5677d1d875997`.
+The corresponding manifest hashes are `0493c1f974ffda595446d1d831ccba5d5b7587416c9f41be09f09b3ef07723da`
+and `2557f41ad900709842d780d0fe3aa97e6bc2a15a0e8ec683554aa2c87167e7c0`.
+Both entrypoints validate local metadata and then emit `REJECTED` /
+`NOT_COMPARABLE`, exit `2`, without upstream or external-project execution.
 
 No branch may read another branch's manifest output, cache, transcript,
 conversation state, or findings. Repeats are fresh processes with fresh roots;
@@ -348,8 +361,8 @@ evidence but cannot substitute for these approvals:
 1. **Discovery acceptance:** primary user segment/JTBD and the canonical
    `readiness.json` operator surface (with optional Markdown projection).
 2. **Runner freeze:** the exact control entrypoint/snapshot and terminal output
-   schema; the exact `source_native` reproduction boundary or its explicit
-   rejection; and the approved immutable `abk_native` snapshot/entrypoint.
+   schema; the current `source_native` explicit rejection boundary; and a
+   future approved immutable comparable `abk_native` snapshot/entrypoint.
 3. **Campaign freeze/start:** the campaign ID, all fixture/schema/source
    hashes, 30-cell/66-run arithmetic, timeout/repeat policy, canonical
    stdout/stderr and tool/oracle evidence rule,
@@ -358,8 +371,8 @@ evidence but cannot substitute for these approvals:
 4. **Authority expansion:** any network, credential, production, external-write,
    Git, second-host, child-process, or path-root capability. M1 defaults deny
    and does not grant these capabilities implicitly.
-5. **Adoption:** promotion to `ADOPTED`, implementation of an `abk_native`
-   candidate in the separate AI Booster Kit project, or publication of a
+5. **Adoption:** promotion to `ADOPTED`, implementation of a comparable
+   `abk_native` candidate in the separate AI Booster Kit project, or publication of a
    product recommendation. The product owner cannot override an incomplete,
    failed, or `UNSCORED` campaign; a new approved experiment is required.
 

@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../../schemas/branch-manifest.schema.json",
+  "schema_version": "1.0.0",
+  "manifest_id": "abk:branch-manifest:source-native-artifact-dag-core-v1",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "host": "codex",
+  "path_base": "repository",
+  "branch_id": "source_native",
+  "entrypoint_path": "benchmarks/runners/source_native/run.ps1",
+  "entrypoint_sha256": "d0384863ddfe051f6fd817550048a2403011d6e498f4149b9bee21bb1611f3c3",
+  "snapshot_ref": "abk:branch-snapshot:source-native-artifact-dag-core-v1",
+  "snapshot_path": "benchmarks/snapshots/source-native-openspec-artifact-graph.json",
+  "snapshot_sha256": "187f05196ea13a2acb16e79fc58df3f366b256f53afaa495e59457a1cd32cefa",
+  "reads": [
+    "campaign.json and pinned schemas",
+    "exactly one case fixture and its pinned SHA-256",
+    "metadata-only source_native snapshot descriptor"
+  ],
+  "writes": ["runs/<case-id>/source_native/R<n>/**"],
+  "capabilities": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"],
+  "authority_level": "LOCAL_EXECUTE",
+  "checkpoint": "BEFORE_EXECUTION",
+  "status": "NOT_COMPARABLE",
+  "disposition": {
+    "candidate_disposition": "NOT_COMPARABLE",
+    "reason": "The entrypoint validates the pinned source snapshot and emits evidence, but no approved upstream OpenSpec runtime or package is present for a behavioral comparison.",
+    "next_action": "Provide an approved executable clean-room implementation or runtime boundary, then revalidate the entrypoint hash and rerun the bounded source_native cases."
+  },
+  "execution_status": "NOT_EXECUTED",
+  "runtime": {
+    "kind": "powershell",
+    "executable": "pwsh.exe",
+    "version": "7",
+    "command_template": "pwsh.exe -NoLogo -NoProfile -NonInteractive -File {entrypoint_path} -RequestPath {run_root}/request.json"
+  },
+  "network": "DENY",
+  "credentials": "DENY",
+  "production_resources": "DENY",
+  "external_writes": "DENY",
+  "git_mutation": "DENY",
+  "child_processes": "DENY",
+  "cross_run_reads": "DENY",
+  "cross_branch_reads": "DENY",
+  "real_user_config_reads_or_writes": "DENY",
+  "undocumented_effect_policy": "STOPPED"
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "../schemas/branch-snapshot.schema.json",
+  "schema_version": "1.0.0",
+  "snapshot_id": "abk:branch-snapshot:abk-native-artifact-dag-core-v1",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "branch": "abk_native",
+  "status": "NOT_COMPARABLE",
+  "execution_status": "NOT_EXECUTED",
+  "captured_at": "2026-08-04T18:53:48Z",
+  "provenance": {
+    "source_kind": "separate-project-git-commit",
+    "source_ref": "external-project:AI-Booster-Kit",
+    "observed_path": "C:/Users/littl/Documents/AI Booster Kit",
+    "revision": "20ed6dc401b31c3075c1c16933c404537fe075f2",
+    "revision_type": "git-commit",
+    "transport": "local-read-only",
+    "worktree_status": "dirty-external-worktree"
+  },
+  "scope": {
+    "included_paths": [
+      "src/context/storage.ts",
+      "src/context/resume.ts",
+      "src/context/markdown.ts",
+      "src/context/types.ts",
+      "src/context/validation.ts",
+      "src/readiness/evaluate.ts",
+      "src/readiness/manifest.ts",
+      "src/readiness/output.ts",
+      "src/readiness/run.ts",
+      "src/readiness/types.ts",
+      "src/orchestrator/evidence.ts",
+      "src/orchestrator/stop.ts",
+      "src/orchestrator/allowlist.ts",
+      "contract/readiness/g2as-sandbox-target.json"
+    ],
+    "excluded_paths": [".codex/", ".ua/", "node_modules/", "dist/", "graphify-out/", "output/"],
+    "source_code_copied_into_framework_matrix": false,
+    "git_linked_into_framework_matrix": false,
+    "runtime_included": false
+  },
+  "inventory": {
+    "inventory_sha256": "fdf79acee6460ca5f5c61f828459a533183f5ecac9f365fa6c86290743676d5d",
+    "entries": [
+      { "path": "src/context/storage.ts", "digest": "cc1a1d6358164a20d48838e713b69e5d9145730d", "digest_algorithm": "git-blob-SHA-1", "size": 5978 },
+      { "path": "src/context/resume.ts", "digest": "6385e5e84dc9fce660c83bedf723d59498b7c044", "digest_algorithm": "git-blob-SHA-1", "size": 8108 },
+      { "path": "src/context/markdown.ts", "digest": "87a342728f193359ebf63420eeae499d48c19685", "digest_algorithm": "git-blob-SHA-1", "size": 10550 },
+      { "path": "src/context/types.ts", "digest": "6ab4801f1db88fddfb1a4af3540b02b803315793", "digest_algorithm": "git-blob-SHA-1", "size": 3466 },
+      { "path": "src/context/validation.ts", "digest": "bb1de90bb4013f1b9923435e9f7845ad713340fc", "digest_algorithm": "git-blob-SHA-1", "size": 13900 },
+      { "path": "src/readiness/evaluate.ts", "digest": "929e30f6795de7205140b13f928c48a963a23425", "digest_algorithm": "git-blob-SHA-1", "size": 10115 },
+      { "path": "src/readiness/manifest.ts", "digest": "92bfd649089476547101409d1b8fc66f646e56bb", "digest_algorithm": "git-blob-SHA-1", "size": 5457 },
+      { "path": "src/readiness/output.ts", "digest": "cd2ee55dc3f42645508a38c09d17269595bc0fa9", "digest_algorithm": "git-blob-SHA-1", "size": 1505 },
+      { "path": "src/readiness/run.ts", "digest": "5fbacc3cf9c2a4c4fb97603403232c2377bf8fb6", "digest_algorithm": "git-blob-SHA-1", "size": 568 },
+      { "path": "src/readiness/types.ts", "digest": "e2314ef2e07e591e455595cafe33fd4353218fd4", "digest_algorithm": "git-blob-SHA-1", "size": 646 },
+      { "path": "src/orchestrator/evidence.ts", "digest": "12c7bac7453ed920aba6a3f3b8155cf723d3a9c8", "digest_algorithm": "git-blob-SHA-1", "size": 775 },
+      { "path": "src/orchestrator/stop.ts", "digest": "cacb1d7fea0b71ca9fd16ae20fa710ca9e96b90c", "digest_algorithm": "git-blob-SHA-1", "size": 18599 },
+      { "path": "src/orchestrator/allowlist.ts", "digest": "e1304f8483e73a1bed4a4fa5830f344a26407e94", "digest_algorithm": "git-blob-SHA-1", "size": 10884 },
+      { "path": "contract/readiness/g2as-sandbox-target.json", "digest": "e97ff5481c75c2dfaaca067fc9a296e9d6063609", "digest_algorithm": "git-blob-SHA-1", "size": 466 }
+    ]
+  },
+  "disposition": {
+    "candidate_disposition": "NOT_COMPARABLE",
+    "reason": "The immutable AI Booster Kit commit contains readiness, context, and orchestration contracts, but no identified Artifact DAG plus root-provenance implementation matching this campaign. The external worktree is also dirty in excluded .codex state.",
+    "next_action": "Keep abk_native blocked until a product-owner-approved immutable Artifact DAG snapshot and bounded entrypoint are supplied; do not copy source or connect the separate Git repository."
+  }
+}

@@ -28,7 +28,7 @@ time. The hashes make the decision auditable if the research package changes.
 | `benchmarks/schemas/benchmark-campaign.schema.json` | `b4cacc60fe730faab91595f3f00b73ddf8729b494413a5eab5fa295e494b8aff` |
 | `benchmarks/schemas/control-run-request.schema.json` | `ca58765bdbed0390bd1e17d8f23a1640ff456e3b23ded86646db2dc578896e32` |
 | `benchmarks/schemas/control-run.schema.json` | `2d156aad08fc5d4f268b68a0f25c85bfcc75846a76d8f7951bd8095a8cda9b81` |
-| `benchmarks/schemas/branch-manifest.schema.json` | `a1ae1315e08c124d37af6e20de6b602b526274efebfb4f724d8afb541e3f0f7c` |
+| `benchmarks/schemas/branch-manifest.schema.json` | `bdf1d27dce3a8ddef016e0d3d4841ed859360a0b48e319764ffcf76cf59f498b` |
 | `benchmarks/campaigns/artifact-dag-core-v1/branches/control/manifest.json` | `5c041ba5fe1621cf72ac2091cef7358875789c38cbc1115fe6b1d15891c9a235` |
 | `benchmarks/runners/control/run.ps1` | `a0e4929d124c831035546c8c65a1de7618da789d05a4bb24b645285421e859c1` |
 | `benchmarks/schemas/isolation-audit.schema.json` | `f2e7539be56b6fe4aa9b197e54301d0f217b3a9a8bf8e13784699708a088ed15` |
@@ -465,10 +465,12 @@ These are explicit assumptions, not verified facts:
    then the elevated policy audit passed with zero observed sockets and
    verified cleanup; the network-deny gate is now resolved for this control
    snapshot.
-3. **Source-native disposition.** Can the pinned OpenSpec behavior be
-   reproduced locally without installing or importing its upstream runtime?
-   If not, which evidence record marks `source_native` blocked/rejected while
-   preserving the required three-branch campaign contract?
+3. **Source-native disposition.** Resolved for the current gate: the pinned
+   OpenSpec snapshot has a concrete, hash-pinned `source_native` entrypoint.
+   It validates the metadata-only inputs and emits typed `REJECTED` /
+   `NOT_COMPARABLE` evidence because no approved upstream runtime/package is
+   installed or imported. A successful clean-room reproduction remains an
+   explicitly unapproved follow-up.
 4. **Reviewer rubric and weights.** The scorecard schema validates ten
    dimensions and positive weights but does not publish the weight vector.
    Which vector and adjudication procedure are frozen before scoring?
@@ -486,7 +488,8 @@ These are explicit assumptions, not verified facts:
 
 This artifact resolves the boundary, schemas, paired read surface, case
 oracles, and evidence semantics at the design level. The fixture-only control
-runner now exists and has bounded integration tests; the elevated Windows
-Firewall audit closes the network-deny proof, but the runner/evidence gates
-still require branch-manifest approval and independent raw-evidence review.
-The campaign must remain `benchmark_pending` / `UNSCORED`.
+runner and the two explicit fail-closed branch entrypoints now exist with
+bounded integration tests; the elevated Windows Firewall audit closes the
+network-deny proof. Independent raw-evidence review and campaign-start
+approval remain open. The campaign must remain `benchmark_pending` /
+`UNSCORED`.

@@ -34,6 +34,12 @@ benchmark campaign is complete, scored, or adopted.
   `benchmarks/scripts/run-network-policy-audit.ps1`, and the dated policy
   audit records — the elevated Windows Firewall gate and its preflight/elevated
   results.
+- `benchmarks/schemas/branch-snapshot.schema.json`, the two metadata-only
+  snapshot descriptors, and `benchmarks/tests/test-branch-snapshots.ps1` —
+  branch provenance and no-linkage evidence.
+- The three branch manifests, the `source_native` and `abk_native` fail-closed
+  entrypoints, and their focused tests — executable contract disposition and
+  typed non-comparable evidence.
 
 ## Integrated decisions
 
@@ -77,8 +83,10 @@ The control-runner contract slice is implemented locally and hash-pinned:
 
 The standalone isolation audit reports `INCONCLUSIVE` for network enforcement,
 but the elevated Windows Firewall audit now proves the OS-level deny rule,
-zero runner sockets, and cleanup. The 66-run campaign, upstream runtime, ABK
-source, and adoption result remain out of scope.
+zero runner sockets, and cleanup. The branch manifests and bounded
+fail-closed entrypoints now exist; their execution status remains
+`NOT_EXECUTED`. The 66-run campaign, upstream runtime, ABK source, and adoption
+result remain out of scope.
 
 ## Explicit gates before the runner is frozen
 
@@ -88,8 +96,10 @@ The following are not silently assumed:
    gate (or an explicit decision to defer interviews).
 2. Product-owner approval of the paired JSON/Markdown read surface and the
    exact control command/output schema.
-3. A disposition for `source_native`: executable clean-room reproduction,
-   explicit rejection with evidence, or a documented non-comparable branch.
+3. The `source_native` disposition is now explicit: its executable entrypoint
+   emits typed `REJECTED` / `NOT_COMPARABLE` evidence because no approved
+   upstream runtime/package is available. A successful clean-room reproduction
+   remains a future scope decision.
 4. Approval of the draft weight vector, score anchors, independent review, and
    adjudication policy.
 5. A frozen executable path/digest and a passing Windows isolation proof for
@@ -157,5 +167,22 @@ the approvals and freeze points above.
   `archive/work/continuation-research/m1-gate-review-2026-08-03.md`: `NEEDS_WORK`
   / `CAMPAIGN_NOT_READY`; contract and control isolation proof are accepted,
   while campaign-wide runner, evidence, and decision gates remain blocked.
+- Branch snapshot descriptors:
+  `benchmarks/snapshots/source-native-openspec-artifact-graph.json` is
+  schema-valid and `READY_FOR_ENTRYPOINT` (descriptor SHA-256
+  `187f05196ea13a2acb16e79fc58df3f366b256f53afaa495e59457a1cd32cefa`);
+  `benchmarks/snapshots/abk-native-ai-booster-kit-feature.json` is schema-valid
+  but `NOT_COMPARABLE` (descriptor SHA-256
+  `a19b1c30dee281dc5a8c2c27cb94d7d8ccf4c50aca855c140cf5677d1d875997`).
+- Branch manifest schema SHA-256: `bdf1d27dce3a8ddef016e0d3d4841ed859360a0b48e319764ffcf76cf59f498b`; control manifest bytes and hash remain unchanged.
+- `source_native` manifest and entrypoint are schema/hash-valid; manifest SHA-256
+  `0493c1f974ffda595446d1d831ccba5d5b7587416c9f41be09f09b3ef07723da`, entrypoint
+  SHA-256 `d0384863ddfe051f6fd817550048a2403011d6e498f4149b9bee21bb1611f3c3`;
+  focused runner test `1/1 PASS`, terminal `REJECTED`, exit `2`.
+- `abk_native` manifest and entrypoint are schema/hash-valid; manifest SHA-256
+  `2557f41ad900709842d780d0fe3aa97e6bc2a15a0e8ec683554aa2c87167e7c0`, entrypoint
+  SHA-256 `c3e4daf7cc981a08b1805783394c19c0443789486e8e150c9049ab0f5d56658e`;
+  focused runner test `1/1 PASS`, terminal `REJECTED`, exit `2`, with no
+  external-project read or link.
 - Control runner integration suite: `3/3 PASS`; no raw campaign run or
   scorecard has been created.
