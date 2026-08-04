@@ -131,6 +131,21 @@ ledger és a raw evidence a
 `benchmarks/campaigns/artifact-dag-core-v1/runs/source-native-bounded-pilot-20260804/`
 könyvtárban van; a pilot `10/10 PASS`, de `full_campaign=false`, a teljes
 háromágú kampány továbbra is `66` raw run és `UNSCORED`. Az eredmény külön
-`source-native-pilot.schema.json` sémával validált. A `control` és az
-`abk_native` ág ebben a pilotban szándékosan nem futott; ez nem változtatja meg
-a campaign.json `benchmark_pending`/zero-completed állapotát.
+`source-native-pilot.schema.json` sémával validált.
+
+## Bounded control-native pilot
+
+A `benchmarks/scripts/run-control-bounded.ps1` ugyanazt a tíz befagyasztott
+fixture-t futtatja a legacy `control` entrypointon, és nem módosítja annak
+manifest- vagy entrypoint-hashét. A pilot harness állapota `10/10 RUNS`; a
+kampány-oracle-hoz 6 eset igazodik, 4 eset eltérésként marad bizonyítékként
+(`aligned=6`, `divergent=4`). Az eltérések a control baseline jelenlegi
+interrupt, root-boundary, recovery és handoff viselkedését írják le; ez nem
+automatikus javítás és nem adoption score.
+
+A ledger és raw evidence a
+`benchmarks/campaigns/artifact-dag-core-v1/runs/control-bounded-pilot-20260804/`
+könyvtárban van, és a `control-pilot.schema.json` sémával validált. A pilot
+`full_campaign=false`, a kampány továbbra is `benchmark_pending`, nulla
+completed runnal és `UNSCORED` scorecarddal. Az `abk_native` ág továbbra is
+`NOT_COMPARABLE`, külön AI Booster Kit-forráskód vagy runtime nélkül.

@@ -1,0 +1,5 @@
+{"event":"request_validated","detail":"control-run-request-v1"}
+{"event":"inputs_verified","detail":"campaign-schema-fixture-hashes"}
+{"event":"graph_validated","detail":"artifact-dag-and-root-provenance"}
+{"event":"output_emitted","detail":"readiness-provenance-operator"}
+{"event":"terminal","detail":"SUCCEEDED"}
