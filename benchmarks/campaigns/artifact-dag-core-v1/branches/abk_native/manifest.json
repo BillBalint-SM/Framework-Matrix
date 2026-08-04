@@ -7,10 +7,10 @@
   "path_base": "repository",
   "branch_id": "abk_native",
   "entrypoint_path": "benchmarks/runners/abk_native/run.ps1",
-  "entrypoint_sha256": "c3e4daf7cc981a08b1805783394c19c0443789486e8e150c9049ab0f5d56658e",
+  "entrypoint_sha256": "14cd7ea73cf99bae9ba3b59659341aab80c1d8ed0266bd6e3074e98b4a00954c",
   "snapshot_ref": "abk:branch-snapshot:abk-native-artifact-dag-core-v1",
   "snapshot_path": "benchmarks/snapshots/abk-native-ai-booster-kit-feature.json",
-  "snapshot_sha256": "a19b1c30dee281dc5a8c2c27cb94d7d8ccf4c50aca855c140cf5677d1d875997",
+  "snapshot_sha256": "1fc620cb80bb0b32e594a21694de380722d4a83ec1b023510c0d11309472abae",
   "reads": [
     "campaign.json and pinned schemas",
     "exactly one case fixture and its pinned SHA-256",
@@ -20,11 +20,11 @@
   "capabilities": ["LOCAL_READ", "LOCAL_WRITE", "PROCESS_EXECUTION"],
   "authority_level": "LOCAL_EXECUTE",
   "checkpoint": "BEFORE_EXECUTION",
-  "status": "NOT_COMPARABLE",
+  "status": "READY_FOR_EXECUTION",
   "disposition": {
-    "candidate_disposition": "NOT_COMPARABLE",
-    "reason": "The separate AI Booster Kit project has no pinned Artifact DAG implementation matching this campaign, so this entrypoint must fail closed without reading or linking that project.",
-    "next_action": "Supply an owner-approved immutable ABK-native Artifact DAG snapshot and bounded local runtime before any comparative execution or scoring."
+    "candidate_disposition": "RUNNABLE",
+    "reason": "A local ABK-native clean-room adapter maps the campaign graph to formation prerequisites and verifies the immutable metadata-only AI Booster Kit snapshot without reading or linking the external project.",
+    "next_action": "Run the bounded ten-fixture ABK-native pilot, preserve snapshot-bound provenance, and keep the full campaign scorecard UNSCORED until review."
   },
   "execution_status": "NOT_EXECUTED",
   "runtime": {

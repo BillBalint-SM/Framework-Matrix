@@ -8,8 +8,9 @@ az oracle-t és az evidence-layoutot fagyasztja be; empirikus futást nem állí
 
 Az első kampány az OpenSpecből leválasztott `Artifact DAG + root provenance`
 minta. A `control`, `source_native` és `abk_native` ág szerződéses helye
-rögzített, de ebben az önálló repóban nincs AI Booster Kit-forráskód, upstream
-runtime dependency, credential, hálózati vagy Git-mutáció.
+rögzített. Ebben az önálló repóban nincs AI Booster Kit-forráskód, upstream
+runtime dependency, credential, hálózati vagy Git-mutáció; az ABK snapshot
+csak immutable, metadata-only provenance.
 
 ## Ellenőrzés
 
@@ -75,10 +76,10 @@ A `benchmarks/snapshots/` metadata-only descriptorokat tartalmaz. A
 `source_native` descriptor a pinned OpenSpec artifact-graph snapshotot rögzíti
 `READY_FOR_ENTRYPOINT` állapotban; a hozzá tartozó manifest már
 `READY_FOR_EXECUTION` és a lokális clean-room entrypoint futtatható. Az
-`abk_native` descriptor a külön AI Booster Kit commitot bizonyítja, de az
-Artifact DAG összehasonlíthatósága továbbra is `NOT_COMPARABLE`. Egyik
-descriptor sem másol ABK-forrást, runtime-ot vagy Git-kapcsolatot ebbe a
-repóba.
+`abk_native` descriptor a külön AI Booster Kit immutable commitját bizonyítja,
+és a helyi clean-room adapter számára összehasonlítható metadata-bound
+provenance-t ad. Egyik descriptor sem másol ABK-forrást, runtime-ot vagy
+Git-kapcsolatot ebbe a repóba.
 
 ```powershell
 & .\benchmarks\tests\test-branch-snapshots.ps1 `
@@ -96,16 +97,18 @@ független snapshot-hash-t pinelnek:
 |---|---|---|---|---|
 | `control` | `5c041ba5…c9a235` | `a0e4929d…e859c1` | az entrypoint-tal azonos legacy control hash | kontroll, nem kampányfuttatás |
 | `source_native` | `84d24272…61c4bb2` | `eb35b846…90598ae` | `76133032…25c9d4a` | `READY_FOR_EXECUTION`, `NOT_EXECUTED` |
-| `abk_native` | `2557f41a…67e7c0` | `c3e4daf7…6658e` | `a19b1c30…875997` | `NOT_COMPARABLE`, `NOT_EXECUTED` |
+| `abk_native` | `d1365718…896f01` | `14cd7ea7…00954c` | `1fc620cb…72abae` | `READY_FOR_EXECUTION`, `NOT_EXECUTED` |
 
 A két új PowerShell entrypoint fail-closed: ellenőrzi a kampány-, fixture-,
 séma- és metadata snapshot-hash-eket, csak a saját run-rootba ír evidence-et,
-és nem lépi át a lokális authority-határokat. A `source_native` fixture-only
-clean-room adapter determinisztikus DAG/readiness/provenance eredményt és a
-speciális stop/recovery/handoff esetekhez typed evidence-et ad; ez nem teljes
-YAML/resolver parity. Az `abk_native` továbbra is explicit
-`NOT_COMPARABLE`/exit `2`, és nem olvassa a külön AI Booster Kit checkoutot.
-Egyik entrypoint sem indít upstream runtime-ot és nem módosít Git-et.
+és nem lépi át a lokális authority-határokat. A `source_native` és az
+`abk_native` fixture-only clean-room adapter determinisztikus DAG/readiness/
+provenance eredményt és a speciális stop/recovery/handoff esetekhez typed
+evidence-et ad; ez nem teljes YAML/resolver parity. Az `abk_native` az ABK
+formation/prerequisite/relation/readiness szókincset helyi, összehasonlítható
+adapterként használja, miközben az immutable külső snapshotot csak
+metadata-ként ellenőrzi. Egyik entrypoint sem indít upstream runtime-ot és nem
+módosít Git-et.
 
 ```powershell
 & .\benchmarks\scripts\validate-branch-manifest.ps1 `
@@ -147,5 +150,18 @@ A ledger és raw evidence a
 `benchmarks/campaigns/artifact-dag-core-v1/runs/control-bounded-pilot-20260804/`
 könyvtárban van, és a `control-pilot.schema.json` sémával validált. A pilot
 `full_campaign=false`, a kampány továbbra is `benchmark_pending`, nulla
-completed runnal és `UNSCORED` scorecarddal. Az `abk_native` ág továbbra is
-`NOT_COMPARABLE`, külön AI Booster Kit-forráskód vagy runtime nélkül.
+completed runnal és `UNSCORED` scorecarddal.
+
+## Bounded ABK-native pilot
+
+A `benchmarks/scripts/run-abk-native-bounded.ps1` egyszer lefuttatja mind a 10
+rögzített fixture-t az `abk_native` clean-room entrypointon. A futás az
+immutable AI Booster Kit commitot snapshot-bound provenance-ként ellenőrzi, de
+nem olvassa, nem linkeli és nem futtatja a külön projektet. A pilot
+`full_campaign=false`, a scorecard `UNSCORED`, és a kampány továbbra is
+`benchmark_pending`, nulla completed raw runnal. A részletes ledger és raw
+evidence a `benchmarks/campaigns/artifact-dag-core-v1/runs/abk-native-bounded-
+pilot-20260804/` könyvtárban van, az `abk-native-pilot.schema.json` sémával
+validálva. A futás `10/10 PASS`: 6 oracle-siker, 2 typed hiba, 1 root-boundary
+inconclusive és 1 explicit stopped eredmény; az eltérő terminal ágak is
+megőrzött, összehasonlítható evidence-ként maradnak.

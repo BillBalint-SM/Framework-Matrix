@@ -4,17 +4,17 @@
   "snapshot_id": "abk:branch-snapshot:abk-native-artifact-dag-core-v1",
   "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
   "branch": "abk_native",
-  "status": "NOT_COMPARABLE",
+  "status": "READY_FOR_ENTRYPOINT",
   "execution_status": "NOT_EXECUTED",
-  "captured_at": "2026-08-04T18:53:48Z",
+  "captured_at": "2026-08-04T21:03:52Z",
   "provenance": {
     "source_kind": "separate-project-git-commit",
     "source_ref": "external-project:AI-Booster-Kit",
     "observed_path": "C:/Users/littl/Documents/AI Booster Kit",
-    "revision": "20ed6dc401b31c3075c1c16933c404537fe075f2",
+    "revision": "3eec63bd45282dad3c861710243711cc279e7e75",
     "revision_type": "git-commit",
     "transport": "local-read-only",
-    "worktree_status": "dirty-external-worktree"
+    "worktree_status": "clean-snapshot"
   },
   "scope": {
     "included_paths": [
@@ -58,8 +58,8 @@
     ]
   },
   "disposition": {
-    "candidate_disposition": "NOT_COMPARABLE",
-    "reason": "The immutable AI Booster Kit commit contains readiness, context, and orchestration contracts, but no identified Artifact DAG plus root-provenance implementation matching this campaign. The external worktree is also dirty in excluded .codex state.",
-    "next_action": "Keep abk_native blocked until a product-owner-approved immutable Artifact DAG snapshot and bounded entrypoint are supplied; do not copy source or connect the separate Git repository."
+    "candidate_disposition": "READY_FOR_CLEAN_ROOM_ENTRYPOINT",
+    "reason": "The immutable AI Booster Kit commit provides formation, relation, readiness, authority, and recovery contracts that can be mapped into a Framework-Matrix ABK-native clean-room prototype without copying source or executing the external project.",
+    "next_action": "Run the local ABK-native clean-room entrypoint against the frozen ten-fixture corpus, retain snapshot-bound provenance, and keep adoption scoring disabled until the bounded evidence is reviewed."
   }
 }

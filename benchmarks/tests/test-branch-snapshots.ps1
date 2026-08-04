@@ -83,8 +83,11 @@ foreach ($entry in $abk.inventory.entries) {
 if ($source.status -ne 'READY_FOR_ENTRYPOINT' -or $source.disposition.candidate_disposition -ne 'READY_FOR_CLEAN_ROOM_ENTRYPOINT') {
     throw 'TEST_FAILURE: source_native descriptor must be ready for entrypoint creation'
 }
-if ($abk.status -ne 'NOT_COMPARABLE' -or $abk.disposition.candidate_disposition -ne 'NOT_COMPARABLE') {
-    throw 'TEST_FAILURE: abk_native descriptor must remain NOT_COMPARABLE'
+if ($abk.status -ne 'READY_FOR_ENTRYPOINT' -or $abk.disposition.candidate_disposition -ne 'READY_FOR_CLEAN_ROOM_ENTRYPOINT') {
+    throw 'TEST_FAILURE: abk_native descriptor must be ready for the local clean-room entrypoint'
+}
+if ($abk.provenance.worktree_status -ne 'clean-snapshot') {
+    throw 'TEST_FAILURE: abk_native descriptor must pin a clean immutable snapshot'
 }
 
 Write-Output 'BRANCH_SNAPSHOT_TESTS: 2/2 PASS'

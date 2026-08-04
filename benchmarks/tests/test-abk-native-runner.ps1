@@ -5,87 +5,42 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $workspaceFull = [IO.Path]::GetFullPath($WorkspaceRoot)
-$runnerPath = Join-Path $workspaceFull 'benchmarks\runners\abk_native\run.ps1'
 $campaignRoot = Join-Path $workspaceFull 'benchmarks\campaigns\artifact-dag-core-v1'
-$campaignPath = Join-Path $campaignRoot 'campaign.json'
-$schemaPath = Join-Path $workspaceFull 'benchmarks\schemas\benchmark-campaign.schema.json'
-$snapshotPath = Join-Path $workspaceFull 'benchmarks\snapshots\abk-native-ai-booster-kit-feature.json'
+$pilotScript = Join-Path $workspaceFull 'benchmarks\scripts\run-abk-native-bounded.ps1'
+$runSchema = Join-Path $workspaceFull 'benchmarks\schemas\abk-native-run.schema.json'
+$testRoot = Join-Path $campaignRoot ('runs\test-abk-native-' + [guid]::NewGuid().ToString('N'))
 $pwshPath = (Get-Command pwsh.exe -ErrorAction Stop).Source
 
-function Get-Sha256([string]$Path) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
-function Write-Json([object]$Document, [string]$Path) { $Document | ConvertTo-Json -Depth 30 -Compress | Set-Content -LiteralPath $Path -Encoding utf8NoBOM }
-
-foreach ($path in @($runnerPath, $campaignPath, $schemaPath, $snapshotPath)) {
-    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "TEST_FAILURE: required ABK-native contract file missing '$path'" }
-}
-
-$testRoot = Join-Path $campaignRoot ('runs\test-abk-native-' + [guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Path $testRoot -Force | Out-Null
+if (-not (Test-Path -LiteralPath $pilotScript -PathType Leaf) -or -not (Test-Path -LiteralPath $runSchema -PathType Leaf)) { throw 'TEST_FAILURE: ABK-native runner and run schema must exist' }
 try {
-    $runRoot = Join-Path $testRoot 'abk_native\R1'
-    New-Item -ItemType Directory -Path $runRoot -Force | Out-Null
-    $fixtureRelative = 'fixtures/COM-01-normal-primary.json'
-    $fixturePath = Join-Path $campaignRoot ($fixtureRelative -replace '/', '\')
-    $requestPath = Join-Path $runRoot 'request.json'
-    $request = [ordered]@{
-        schema_version = '1.0.0'
-        request_id = 'abk:run-request:artifact-dag-core-v1-abk-native-com-01-r1'
-        campaign_id = 'abk:benchmark-campaign:artifact-dag-core-v1'
-        branch = 'abk_native'
-        case_id = 'COM-01-normal-primary'
-        repeat = 1
-        fixture = [ordered]@{ relative_path = $fixtureRelative; sha256 = Get-Sha256 $fixturePath }
-        contracts = [ordered]@{
-            campaign_relative_path = [IO.Path]::GetRelativePath($runRoot, $campaignPath).Replace('\', '/')
-            campaign_sha256 = Get-Sha256 $campaignPath
-            schema_relative_path = [IO.Path]::GetRelativePath($runRoot, $schemaPath).Replace('\', '/')
-            schema_sha256 = Get-Sha256 $schemaPath
-        }
-        snapshot = [ordered]@{
-            relative_path = 'benchmarks/snapshots/abk-native-ai-booster-kit-feature.json'
-            sha256 = Get-Sha256 $snapshotPath
-        }
-        run = [ordered]@{
-            run_id = 'abk:run:artifact-dag-core-v1-abk-native-com-01-r1'
-            relative_run_root = [IO.Path]::GetRelativePath($campaignRoot, $runRoot).Replace('\', '/')
-            timeout_seconds = 120
-            stop_condition_id = 'readiness-and-evidence-emitted'
-        }
-        authority = [ordered]@{
-            read_roots = @('campaign', 'fixture', 'schema', 'metadata_snapshot')
-            write_root = 'run'
-            network = $false
-            credentials = $false
-            production_resources = $false
-            external_writes = $false
-            git_mutation = $false
-            process_spawn = $false
-        }
-        runner = [ordered]@{
-            contract_version = 'abk-native-runner-v1'
-            executable_sha256 = Get-Sha256 $runnerPath
-            host = 'codex'
+    & $pwshPath -NoLogo -NoProfile -NonInteractive -File $pilotScript -WorkspaceRoot $workspaceFull -OutputRoot $testRoot 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "TEST_FAILURE: bounded ABK-native runner harness exited with $LASTEXITCODE" }
+    $runFiles = @(Get-ChildItem -LiteralPath $testRoot -Filter 'run.json' -Recurse -File)
+    if ($runFiles.Count -ne 10) { throw "TEST_FAILURE: expected 10 ABK-native run records, got $($runFiles.Count)" }
+    $expected = @{
+        'COM-01-normal-primary' = @('SUCCEEDED', 0, $null)
+        'COM-05-invalid-input' = @('FAILED', 3, 'UNKNOWN_ARTIFACT_REFERENCE')
+        'COM-06-stop-interrupt' = @('STOPPED', 130, 'INTERRUPTED')
+        'SPC-01-domain-boundary' = @('REJECTED', 2, 'DEPENDENCY_OUT_OF_ROOT')
+        'SPC-03-recovery-rollback' = @('RECOVERED', 0, 'RECOVERED_AFTER_FAILURE')
+        'SPC-04-composition-handoff' = @('SUCCEEDED', 0, $null)
+    }
+    foreach ($runFile in $runFiles) {
+        if (-not (Test-Json -LiteralPath $runFile.FullName -SchemaFile $runSchema)) { throw "TEST_FAILURE: run schema rejected '$($runFile.FullName)'" }
+        $run = Get-Content -Raw -LiteralPath $runFile.FullName | ConvertFrom-Json
+        if ($run.branch -ne 'abk_native' -or $run.runner.contract_version -ne 'abk-native-runner-v2') { throw "TEST_FAILURE: ABK-native runner contract mismatch for $($run.case_id)" }
+        $provenance = Get-Content -Raw -LiteralPath (Join-Path $runFile.DirectoryName 'provenance.json') | ConvertFrom-Json
+        if ($provenance.external_project_read -ne $false -or $provenance.git_linked_into_framework_matrix -ne $false -or [string]::IsNullOrWhiteSpace([string]$provenance.snapshot_revision)) { throw "TEST_FAILURE: snapshot-bound provenance invalid for $($run.case_id)" }
+        if ($expected.ContainsKey($run.case_id)) {
+            $expectation = $expected[$run.case_id]
+            if ($run.terminal_state -ne $expectation[0] -or $run.exit_code -ne $expectation[1]) { throw "TEST_FAILURE: terminal contract mismatch for $($run.case_id)" }
+            $actualError = if ($null -ne $run.error) { $run.error.code } else { $null }
+            if ($actualError -ne $expectation[2]) { throw "TEST_FAILURE: typed error mismatch for $($run.case_id): $actualError" }
+            if ($run.case_id -eq 'SPC-03-recovery-rollback' -and $run.recovery.removed -ne $true) { throw 'TEST_FAILURE: recovery evidence missing' }
+            if ($run.case_id -eq 'SPC-04-composition-handoff' -and $run.handoff.verified -ne $true) { throw 'TEST_FAILURE: handoff evidence missing' }
         }
     }
-    Write-Json $request $requestPath
-
-    $runnerOutput = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $runnerPath -RequestPath $requestPath 2>&1
-    $exitCode = $LASTEXITCODE
-    if ($exitCode -ne 2) {
-        $runnerOutput | Write-Output
-        if (Test-Path -LiteralPath (Join-Path $runRoot 'run.json')) { Get-Content -LiteralPath (Join-Path $runRoot 'run.json') | Write-Output }
-        throw "TEST_FAILURE: ABK-native not-comparable run exited with $exitCode"
-    }
-    foreach ($name in @('run.json', 'stdout.log', 'stderr.log', 'tool-events.jsonl', 'output-inventory.json', 'oracle-result.json', 'readiness.json', 'provenance.json', 'operator.md')) {
-        if (-not (Test-Path -LiteralPath (Join-Path $runRoot $name) -PathType Leaf)) { throw "TEST_FAILURE: missing ABK-native evidence '$name'" }
-    }
-    $run = Get-Content -Raw -LiteralPath (Join-Path $runRoot 'run.json') | ConvertFrom-Json
-    if ($run.branch -ne 'abk_native' -or $run.terminal_state -ne 'REJECTED' -or $run.exit_code -ne 2) { throw 'TEST_FAILURE: ABK-native run terminal contract mismatch' }
-    if ($run.error.code -ne 'NOT_COMPARABLE') { throw "TEST_FAILURE: expected NOT_COMPARABLE, got $($run.error.code): $($run.error.message)" }
-    $oracle = Get-Content -Raw -LiteralPath (Join-Path $runRoot 'oracle-result.json') | ConvertFrom-Json
-    if ($oracle.status -ne 'inconclusive' -or $oracle.error.code -ne 'NOT_COMPARABLE') { throw 'TEST_FAILURE: ABK-native oracle did not preserve explicit non-comparable result' }
-
-    Write-Output 'ABK_NATIVE_RUNNER_TESTS: 1/1 PASS'
+    Write-Output 'ABK_NATIVE_RUNNER_TESTS: 10/10 PASS'
 } finally {
-    Remove-Item -LiteralPath $testRoot -Recurse -Force -ErrorAction SilentlyContinue
+    if (Test-Path -LiteralPath $testRoot) { [IO.Directory]::Delete($testRoot, $true) }
 }

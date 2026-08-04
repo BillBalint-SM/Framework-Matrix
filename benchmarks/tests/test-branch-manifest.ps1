@@ -118,7 +118,7 @@ try {
     $sourceSnapshotPath = 'benchmarks/snapshots/source-native-openspec-artifact-graph.json'
     $abkSnapshotPath = 'benchmarks/snapshots/abk-native-ai-booster-kit-feature.json'
     $sourceBranch = New-BranchManifest 'source_native' 'READY_FOR_ENTRYPOINT' 'READY_FOR_CLEAN_ROOM_ENTRYPOINT' $sourceSnapshotPath 'node'
-    $abkBranch = New-BranchManifest 'abk_native' 'NOT_COMPARABLE' 'NOT_COMPARABLE' $abkSnapshotPath 'node'
+    $abkBranch = New-BranchManifest 'abk_native' 'READY_FOR_EXECUTION' 'RUNNABLE' $abkSnapshotPath 'node'
     $sourcePath = Join-Path (Split-Path -Parent $manifestPath) ('test-source-branch-' + [guid]::NewGuid().ToString('N') + '.json')
     $abkPath = Join-Path (Split-Path -Parent $manifestPath) ('test-abk-branch-' + [guid]::NewGuid().ToString('N') + '.json')
     try {

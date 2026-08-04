@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:abk-native-pilot:1.0.0",
+  "title": "Bounded ABK-native clean-room pilot ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema_version", "pilot_id", "campaign_id", "branch", "captured_at", "status", "full_campaign", "raw_runs", "expected_full_campaign_runs", "campaign_sha256", "schema_sha256", "snapshot_sha256", "manifest_sha256", "entrypoint_sha256", "pilot_schema_sha256", "results", "run_evidence_ids", "scorecard_state", "blockers"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "pilot_id": { "const": "abk:pilot:abk-native-bounded-v1" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "branch": { "const": "abk_native" },
+    "captured_at": { "type": "string", "minLength": 20 },
+    "status": { "const": "passed" },
+    "full_campaign": { "const": false },
+    "raw_runs": { "const": 10 },
+    "expected_full_campaign_runs": { "const": 66 },
+    "campaign_sha256": { "$ref": "#/definitions/sha256" },
+    "schema_sha256": { "$ref": "#/definitions/sha256" },
+    "snapshot_sha256": { "$ref": "#/definitions/sha256" },
+    "manifest_sha256": { "$ref": "#/definitions/sha256" },
+    "entrypoint_sha256": { "$ref": "#/definitions/sha256" },
+    "pilot_schema_sha256": { "$ref": "#/definitions/sha256" },
+    "results": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "$ref": "#/definitions/result" } },
+    "run_evidence_ids": { "type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+    "scorecard_state": { "const": "UNSCORED" },
+    "blockers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 20 } }
+  },
+  "definitions": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "case_id", "status", "expected_terminal_state", "terminal_state", "exit_code", "oracle_status", "error_code", "comparable", "run_relative_path", "run_sha256", "oracle_relative_path", "oracle_sha256"],
+      "properties": {
+        "evidence_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+        "status": { "const": "passed" },
+        "expected_terminal_state": { "enum": ["SUCCEEDED", "RECOVERED", "STOPPED", "REJECTED", "FAILED"] },
+        "terminal_state": { "enum": ["SUCCEEDED", "RECOVERED", "STOPPED", "REJECTED", "FAILED"] },
+        "exit_code": { "enum": [0, 2, 3, 130] },
+        "oracle_status": { "enum": ["passed", "failed", "inconclusive", "stopped"] },
+        "error_code": { "type": ["string", "null"] },
+        "comparable": { "type": "boolean" },
+        "run_relative_path": { "type": "string", "pattern": "^benchmarks/campaigns/artifact-dag-core-v1/runs/.+/run\\.json$" },
+        "run_sha256": { "$ref": "#/definitions/sha256" },
+        "oracle_relative_path": { "type": "string", "pattern": "^benchmarks/campaigns/artifact-dag-core-v1/runs/.+/oracle-result\\.json$" },
+        "oracle_sha256": { "$ref": "#/definitions/sha256" }
+      }
+    }
+  }
+}
