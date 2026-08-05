@@ -108,6 +108,7 @@ Az ellenőrző és generáló entrypoint:
   -WorkspaceRoot (Get-Location).Path `
   -RunRoot .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-20260805 `
   -ReviewerInputRoot .\benchmarks\campaigns\artifact-dag-core-v1\reviewer-inputs `
+  -AdjudicationRoot .\benchmarks\campaigns\artifact-dag-core-v1\adjudications `
   -ScorecardRoot .\benchmarks\campaigns\artifact-dag-core-v1\scorecards
 ```
 
@@ -116,9 +117,18 @@ bizonyítékokra enged hivatkozni, nem ír felül meglévő outputot, és fail-c
 marad, ha nincs két `submitted` review, a reviewer-gate-ek nem egyhangúak,
 vagy a két reviewer bármely dimenzióban egynél nagyobb eltérést ad. Ilyenkor
 `REVIEW_ADJUDICATION_REQUIRED` blokkoló keletkezik; a harmadik adjudicator
-artifact külön következő szelet, automatikus score vagy döntés nem készül.
+artifact a
+[`adjudications/`](benchmarks/campaigns/artifact-dag-core-v1/adjudications/)
+könyvtárban rögzíthető. Numeric vita esetén a validator a három pont
+mediánját használja; authority/ownership/provenance/undocumented-effect vita
+`inconclusive` marad. Automatikus score vagy döntés továbbra sem készül.
+
+Az adjudicator-bemenet szigorú szerződése a
+[`reviewer-adjudication.schema.json`](benchmarks/schemas/reviewer-adjudication.schema.json).
 
 ```powershell
 & .\benchmarks\tests\test-reviewer-scorecards.ps1 `
+  -WorkspaceRoot (Get-Location).Path
+& .\benchmarks\tests\test-reviewer-adjudication.ps1 `
   -WorkspaceRoot (Get-Location).Path
 ```

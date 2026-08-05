@@ -121,7 +121,8 @@ módosít Git-et.
 ```
 
 Ezek az entrypointok és manifestek a futtatási szerződést zárják le; a 66 raw
-run-os kampány, scorecard és adoption outcome továbbra sincs elindítva. A
+run-os immutable evidence snapshot már elkészült, de a canonical campaign
+contract és az adoption outcome továbbra is reviewer-gated és `UNSCORED`. A
 source-native bounded harness hat pozitív/negatív esetet ellenőriz
 (`SOURCE_NATIVE_RUNNER_TESTS: 6/6 PASS`), de ez még nem kampányeredmény és nem
 adoption score.
@@ -165,3 +166,23 @@ pilot-20260804/` könyvtárban van, az `abk-native-pilot.schema.json` sémával
 validálva. A futás `10/10 PASS`: 6 oracle-siker, 2 typed hiba, 1 root-boundary
 inconclusive és 1 explicit stopped eredmény; az eltérő terminal ágak is
 megőrzött, összehasonlítható evidence-ként maradnak.
+
+## Reviewer scorecards és adjudication
+
+A teljes `artifact-dag-core-v1` snapshot a
+`runs/full-campaign-20260805/` immutable run-rootban van, és a branch
+scorecardok reviewer-bemenet hiányában `running`/`UNSCORED` állapotúak. A két
+reviewer inputot a `schemas/reviewer-input.schema.json`, az egynél nagyobb
+reviewer-eltérést a `schemas/reviewer-adjudication.schema.json` szerződés írja
+le. Numeric vita esetén a harmadik score mediánja használható;
+authority/ownership/provenance/undocumented-effect vita fail-closed
+`inconclusive` marad.
+
+```powershell
+& .\benchmarks\scripts\validate-reviewer-scorecards.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -RunRoot .\benchmarks\campaigns\artifact-dag-core-v1\runs\full-campaign-20260805 `
+  -ReviewerInputRoot .\benchmarks\campaigns\artifact-dag-core-v1\reviewer-inputs `
+  -AdjudicationRoot .\benchmarks\campaigns\artifact-dag-core-v1\adjudications `
+  -ScorecardRoot .\benchmarks\campaigns\artifact-dag-core-v1\scorecards
+```

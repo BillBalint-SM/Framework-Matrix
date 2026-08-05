@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:reviewer-adjudication:1.0.0",
+  "title": "Framework-Matrix third-adjudicator input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "adjudication_id", "campaign_id", "scorecard_id", "rubric_id", "branch", "adjudicator_key", "status", "adjudicated_at", "evidence_snapshot_path", "evidence_snapshot_sha256", "review_ids", "decisions", "rationale", "blockers"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "adjudication_id": { "type": "string", "pattern": "^abk:adjudication:artifact-dag-core-v1-[a-z0-9-]+$" },
+    "campaign_id": { "const": "abk:benchmark-campaign:artifact-dag-core-v1" },
+    "scorecard_id": { "type": "string", "pattern": "^abk:scorecard:artifact-dag-core-v1-(control|source-native|abk-native)$" },
+    "rubric_id": { "const": "abk:rubric:artifact-dag-core-v1" },
+    "branch": { "enum": ["control", "source_native", "abk_native"] },
+    "adjudicator_key": { "type": "string", "pattern": "^adjudicator-[0-9]{2}$" },
+    "status": { "enum": ["planned", "submitted"] },
+    "adjudicated_at": { "type": "string", "format": "date-time" },
+    "evidence_snapshot_path": { "const": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json" },
+    "evidence_snapshot_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "review_ids": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "type": "string", "pattern": "^abk:review:[a-z0-9-]+$" } },
+    "decisions": { "type": "array", "maxItems": 100, "items": { "$ref": "#/definitions/decision" } },
+    "rationale": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "blockers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 10, "maxLength": 500 } }
+  },
+  "definitions": {
+    "reviewer_score": {
+      "type": "object", "additionalProperties": false,
+      "required": ["review_id", "score"],
+      "properties": {
+        "review_id": { "type": "string", "pattern": "^abk:review:[a-z0-9-]+$" },
+        "score": { "type": "number", "minimum": 1, "maximum": 10 }
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_id", "dimension_id", "dispute_type", "reviewer_scores", "adjudicator_score", "resolution", "evidence_ids", "rationale"],
+      "properties": {
+        "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+        "dimension_id": { "enum": ["task_success", "correctness_and_evidence", "repeatability", "state_and_error_observability", "stop_and_recovery", "context_and_token_efficiency", "runtime_and_operational_overhead", "composition_and_handoff", "useful_autonomy", "understandability_and_maintainability"] },
+        "dispute_type": { "enum": ["numeric", "authority", "ownership", "provenance", "undocumented_effect"] },
+        "reviewer_scores": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "$ref": "#/definitions/reviewer_score" } },
+        "adjudicator_score": { "type": "number", "minimum": 1, "maximum": 10 },
+        "resolution": { "enum": ["median", "inconclusive"] },
+        "evidence_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 }
+      }
+    }
+  }
+}
