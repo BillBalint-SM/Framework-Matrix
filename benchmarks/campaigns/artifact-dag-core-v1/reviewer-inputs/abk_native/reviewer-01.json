@@ -1,0 +1,962 @@
+ {
+   "$schema": "../../../../schemas/reviewer-input.schema.json",
+   "schema_version": "1.0.0",
+   "review_id": "abk:review:artifact-dag-core-v1-abk-native-reviewer-01",
+   "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+   "scorecard_id": "abk:scorecard:artifact-dag-core-v1-abk-native",
+   "rubric_id": "abk:rubric:artifact-dag-core-v1",
+   "branch": "abk_native",
+   "reviewer_key": "reviewer-01",
+   "status": "submitted",
+   "reviewed_at": "2026-08-05T08:30:00Z",
+   "evidence_snapshot_path": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json",
+   "evidence_snapshot_sha256": "cbbff6d1cee4ec8598425a901c176bc1b281283c4dd542af34f015646d706a10",
+   "case_scores": [
+     {
+       "case_id": "COM-01-normal-primary",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-01-normal-primary shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-01-normal-primary-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1"
+       ]
+     },
+     {
+       "case_id": "COM-02-normal-variant",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-02-normal-variant shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-02-normal-variant-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-02-normal-variant-r1"
+       ]
+     },
+     {
+       "case_id": "COM-03-normal-repeat",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-03-normal-repeat shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-03-normal-repeat-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "case_id": "COM-04-boundary-minimum",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-04-boundary-minimum shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-04-boundary-minimum-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-04-boundary-minimum-r1"
+       ]
+     },
+     {
+       "case_id": "COM-05-invalid-input",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-05-invalid-input shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-05-invalid-input-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-05-invalid-input-r1"
+       ]
+     },
+     {
+       "case_id": "COM-06-stop-interrupt",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 10,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for COM-06-stop-interrupt shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-com-06-stop-interrupt-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-com-06-stop-interrupt-r1"
+       ]
+     },
+     {
+       "case_id": "SPC-01-domain-boundary",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-01-domain-boundary shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-01-domain-boundary-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-spc-01-domain-boundary-r1"
+       ]
+     },
+     {
+       "case_id": "SPC-02-failure-path",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-02-failure-path shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-02-failure-path-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-spc-02-failure-path-r1"
+       ]
+     },
+     {
+       "case_id": "SPC-03-recovery-rollback",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-03-recovery-rollback shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-spc-03-recovery-rollback-r1"
+       ]
+     },
+     {
+       "case_id": "SPC-04-composition-handoff",
+       "dimensions": [
+         {
+           "dimension_id": "task_success",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for task_success.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "correctness_and_evidence",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for correctness_and_evidence.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "repeatability",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for repeatability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "state_and_error_observability",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for state_and_error_observability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "stop_and_recovery",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for stop_and_recovery.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "context_and_token_efficiency",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for context_and_token_efficiency.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "runtime_and_operational_overhead",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for runtime_and_operational_overhead.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "composition_and_handoff",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for composition_and_handoff.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "useful_autonomy",
+           "score": 9,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for useful_autonomy.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         },
+         {
+           "dimension_id": "understandability_and_maintainability",
+           "score": 10,
+           "rationale": "abk_native evidence for SPC-04-composition-handoff shows observable terminal behavior and oracle-aligned handling for understandability_and_maintainability.",
+           "evidence_ids": [
+             "full-campaign-abk-native-spc-04-composition-handoff-r1"
+           ]
+         }
+       ],
+       "evidence_ids": [
+         "full-campaign-abk-native-spc-04-composition-handoff-r1"
+       ]
+     }
+   ],
+   "hard_gates": [
+     {
+       "gate_id": "observable_state_and_errors",
+       "status": "pass",
+       "rationale": "abk_native snapshot evidence supports observable_state_and_errors; reviewer gate remains passed pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "gate_id": "testable_behavior",
+       "status": "pass",
+       "rationale": "abk_native snapshot evidence supports testable_behavior; reviewer gate remains passed pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "gate_id": "declared_authority_and_side_effects",
+       "status": "pass",
+       "rationale": "abk_native snapshot evidence supports declared_authority_and_side_effects; reviewer gate remains passed pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "gate_id": "reversible_or_recoverable",
+       "status": "pending",
+       "rationale": "abk_native snapshot evidence supports reversible_or_recoverable; reviewer gate remains pending pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "gate_id": "upstream_runtime_independence",
+       "status": "pass",
+       "rationale": "abk_native snapshot evidence supports upstream_runtime_independence; reviewer gate remains passed pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     },
+     {
+       "gate_id": "no_undocumented_side_effects",
+       "status": "pending",
+       "rationale": "abk_native snapshot evidence supports no_undocumented_side_effects; reviewer gate remains pending pending independent confirmation.",
+       "evidence_ids": [
+         "full-campaign-abk-native-com-01-normal-primary-r1",
+         "full-campaign-abk-native-com-02-normal-variant-r1",
+         "full-campaign-abk-native-com-03-normal-repeat-r1"
+       ]
+     }
+   ],
+   "rationale": "Independent reviewer-01 assessment of the immutable full-campaign snapshot for abk_native; scores reflect terminal states, oracle outcomes, repeat behavior, and recovery/stop evidence across all ten cases.",
+   "blockers": [
+     "Two-reviewer agreement and adjudication remain required before branch scorecard completion."
+   ]
+ }

@@ -1,0 +1,1208 @@
+{
+  "$schema": "../../../../schemas/reviewer-input.schema.json",
+  "schema_version": "1.0.0",
+  "review_id": "abk:review:artifact-dag-core-v1-control-reviewer-02",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "scorecard_id": "abk:scorecard:artifact-dag-core-v1-control",
+  "rubric_id": "abk:rubric:artifact-dag-core-v1",
+  "branch": "control",
+  "reviewer_key": "reviewer-02",
+  "status": "submitted",
+  "reviewed_at": "2026-08-05T08:30:00Z",
+  "evidence_snapshot_path": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json",
+  "evidence_snapshot_sha256": "cbbff6d1cee4ec8598425a901c176bc1b281283c4dd542af34f015646d706a10",
+  "case_scores": [
+    {
+      "case_id": "COM-01-normal-primary",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by COM-01-normal-primary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-01-normal-primary-r1",
+            "full-campaign-control-com-01-normal-primary-r2",
+            "full-campaign-control-com-01-normal-primary-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3"
+      ]
+    },
+    {
+      "case_id": "COM-02-normal-variant",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by COM-02-normal-variant immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-02-normal-variant-r1",
+            "full-campaign-control-com-02-normal-variant-r2",
+            "full-campaign-control-com-02-normal-variant-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3"
+      ]
+    },
+    {
+      "case_id": "COM-03-normal-repeat",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by COM-03-normal-repeat immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-03-normal-repeat-r1",
+            "full-campaign-control-com-03-normal-repeat-r2",
+            "full-campaign-control-com-03-normal-repeat-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3"
+      ]
+    },
+    {
+      "case_id": "COM-04-boundary-minimum",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by COM-04-boundary-minimum immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-04-boundary-minimum-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-04-boundary-minimum-r1"
+      ]
+    },
+    {
+      "case_id": "COM-05-invalid-input",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 4,
+          "rationale": "task_success is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 4,
+          "rationale": "correctness_and_evidence is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 4,
+          "rationale": "repeatability is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 3,
+          "rationale": "state_and_error_observability is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 3,
+          "rationale": "stop_and_recovery is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 4,
+          "rationale": "context_and_token_efficiency is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 5,
+          "rationale": "runtime_and_operational_overhead is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 3,
+          "rationale": "composition_and_handoff is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 4,
+          "rationale": "useful_autonomy is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 4,
+          "rationale": "understandability_and_maintainability is supported by COM-05-invalid-input immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-05-invalid-input-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-05-invalid-input-r1"
+      ]
+    },
+    {
+      "case_id": "COM-06-stop-interrupt",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by COM-06-stop-interrupt immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-com-06-stop-interrupt-r1",
+            "full-campaign-control-com-06-stop-interrupt-r2",
+            "full-campaign-control-com-06-stop-interrupt-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3"
+      ]
+    },
+    {
+      "case_id": "SPC-01-domain-boundary",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by SPC-01-domain-boundary immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-01-domain-boundary-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-spc-01-domain-boundary-r1"
+      ]
+    },
+    {
+      "case_id": "SPC-02-failure-path",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by SPC-02-failure-path immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-02-failure-path-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-spc-02-failure-path-r1"
+      ]
+    },
+    {
+      "case_id": "SPC-03-recovery-rollback",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by SPC-03-recovery-rollback immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-03-recovery-rollback-r1",
+            "full-campaign-control-spc-03-recovery-rollback-r2",
+            "full-campaign-control-spc-03-recovery-rollback-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3"
+      ]
+    },
+    {
+      "case_id": "SPC-04-composition-handoff",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 3,
+          "rationale": "task_success is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 3,
+          "rationale": "correctness_and_evidence is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 3,
+          "rationale": "repeatability is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 2,
+          "rationale": "state_and_error_observability is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 2,
+          "rationale": "stop_and_recovery is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 3,
+          "rationale": "context_and_token_efficiency is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 4,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 2,
+          "rationale": "composition_and_handoff is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 3,
+          "rationale": "useful_autonomy is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 3,
+          "rationale": "understandability_and_maintainability is supported by SPC-04-composition-handoff immutable run evidence. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+          "evidence_ids": [
+            "full-campaign-control-spc-04-composition-handoff-r1",
+            "full-campaign-control-spc-04-composition-handoff-r2",
+            "full-campaign-control-spc-04-composition-handoff-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    }
+  ],
+  "hard_gates": [
+    {
+      "gate_id": "observable_state_and_errors",
+      "status": "fail",
+      "rationale": "observable_state_and_errors assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "testable_behavior",
+      "status": "fail",
+      "rationale": "testable_behavior assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "declared_authority_and_side_effects",
+      "status": "pending",
+      "rationale": "declared_authority_and_side_effects assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "reversible_or_recoverable",
+      "status": "pending",
+      "rationale": "reversible_or_recoverable assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "upstream_runtime_independence",
+      "status": "pass",
+      "rationale": "upstream_runtime_independence assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "no_undocumented_side_effects",
+      "status": "pending",
+      "rationale": "no_undocumented_side_effects assessed across all ten control cases. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+      "evidence_ids": [
+        "full-campaign-control-com-01-normal-primary-r1",
+        "full-campaign-control-com-01-normal-primary-r2",
+        "full-campaign-control-com-01-normal-primary-r3",
+        "full-campaign-control-com-02-normal-variant-r1",
+        "full-campaign-control-com-02-normal-variant-r2",
+        "full-campaign-control-com-02-normal-variant-r3",
+        "full-campaign-control-com-03-normal-repeat-r1",
+        "full-campaign-control-com-03-normal-repeat-r2",
+        "full-campaign-control-com-03-normal-repeat-r3",
+        "full-campaign-control-com-04-boundary-minimum-r1",
+        "full-campaign-control-com-05-invalid-input-r1",
+        "full-campaign-control-com-06-stop-interrupt-r1",
+        "full-campaign-control-com-06-stop-interrupt-r2",
+        "full-campaign-control-com-06-stop-interrupt-r3",
+        "full-campaign-control-spc-01-domain-boundary-r1",
+        "full-campaign-control-spc-02-failure-path-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r1",
+        "full-campaign-control-spc-03-recovery-rollback-r2",
+        "full-campaign-control-spc-03-recovery-rollback-r3",
+        "full-campaign-control-spc-04-composition-handoff-r1",
+        "full-campaign-control-spc-04-composition-handoff-r2",
+        "full-campaign-control-spc-04-composition-handoff-r3"
+      ]
+    }
+  ],
+  "rationale": "Independent reviewer-02 assessment of control across ten cases and ten rubric dimensions. Control runs preserve raw traces but emit no scored oracle or derived inventory, so readiness and recovery claims are not independently verifiable.",
+  "blockers": [
+    "Control oracle records remain UNSCORED for successful cases, limiting confidence in correctness and observable outputs."
+  ]
+}

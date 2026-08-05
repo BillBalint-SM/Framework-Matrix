@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../../schemas/reviewer-adjudication.schema.json",
+  "schema_version": "1.0.0",
+  "adjudication_id": "abk:adjudication:artifact-dag-core-v1-source-native",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "scorecard_id": "abk:scorecard:artifact-dag-core-v1-source-native",
+  "rubric_id": "abk:rubric:artifact-dag-core-v1",
+  "branch": "source_native",
+  "adjudicator_key": "adjudicator-01",
+  "status": "submitted",
+  "adjudicated_at": "2026-08-05T08:32:00Z",
+  "evidence_snapshot_path": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json",
+  "evidence_snapshot_sha256": "cbbff6d1cee4ec8598425a901c176bc1b281283c4dd542af34f015646d706a10",
+  "review_ids": ["abk:review:artifact-dag-core-v1-source-native-reviewer-01", "abk:review:artifact-dag-core-v1-source-native-reviewer-02"],
+  "decisions": [
+    {"case_id":"SPC-01-domain-boundary","dimension_id":"runtime_and_operational_overhead","dispute_type":"provenance","reviewer_scores":[{"review_id":"abk:review:artifact-dag-core-v1-source-native-reviewer-01","score":9},{"review_id":"abk:review:artifact-dag-core-v1-source-native-reviewer-02","score":7}],"adjudicator_score":8.0,"resolution":"inconclusive","evidence_ids":["full-campaign-source-native-spc-01-domain-boundary-r1"],"rationale":"Oracle inconclusive; provenance gap."}
+  ],
+  "rationale": "Adjudicator-01 checked both submitted vectors against the pinned immutable oracle snapshot.",
+  "blockers": ["All reviewer differences greater than one are represented.", "Only matching branch evidence IDs are cited."]
+}

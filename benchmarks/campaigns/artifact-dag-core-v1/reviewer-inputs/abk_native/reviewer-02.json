@@ -1,0 +1,1208 @@
+{
+  "$schema": "../../../../schemas/reviewer-input.schema.json",
+  "schema_version": "1.0.0",
+  "review_id": "abk:review:artifact-dag-core-v1-abk-native-reviewer-02",
+  "campaign_id": "abk:benchmark-campaign:artifact-dag-core-v1",
+  "scorecard_id": "abk:scorecard:artifact-dag-core-v1-abk-native",
+  "rubric_id": "abk:rubric:artifact-dag-core-v1",
+  "branch": "abk_native",
+  "reviewer_key": "reviewer-02",
+  "status": "submitted",
+  "reviewed_at": "2026-08-05T08:30:00Z",
+  "evidence_snapshot_path": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json",
+  "evidence_snapshot_sha256": "cbbff6d1cee4ec8598425a901c176bc1b281283c4dd542af34f015646d706a10",
+  "case_scores": [
+    {
+      "case_id": "COM-01-normal-primary",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-01-normal-primary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-01-normal-primary-r1",
+            "full-campaign-abk-native-com-01-normal-primary-r2",
+            "full-campaign-abk-native-com-01-normal-primary-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3"
+      ]
+    },
+    {
+      "case_id": "COM-02-normal-variant",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-02-normal-variant immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-02-normal-variant-r1",
+            "full-campaign-abk-native-com-02-normal-variant-r2",
+            "full-campaign-abk-native-com-02-normal-variant-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3"
+      ]
+    },
+    {
+      "case_id": "COM-03-normal-repeat",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-03-normal-repeat immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-03-normal-repeat-r1",
+            "full-campaign-abk-native-com-03-normal-repeat-r2",
+            "full-campaign-abk-native-com-03-normal-repeat-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3"
+      ]
+    },
+    {
+      "case_id": "COM-04-boundary-minimum",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-04-boundary-minimum immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-04-boundary-minimum-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-04-boundary-minimum-r1"
+      ]
+    },
+    {
+      "case_id": "COM-05-invalid-input",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-05-invalid-input immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-05-invalid-input-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-05-invalid-input-r1"
+      ]
+    },
+    {
+      "case_id": "COM-06-stop-interrupt",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by COM-06-stop-interrupt immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-com-06-stop-interrupt-r1",
+            "full-campaign-abk-native-com-06-stop-interrupt-r2",
+            "full-campaign-abk-native-com-06-stop-interrupt-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3"
+      ]
+    },
+    {
+      "case_id": "SPC-01-domain-boundary",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 7,
+          "rationale": "task_success is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 8,
+          "rationale": "correctness_and_evidence is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 8,
+          "rationale": "repeatability is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 7,
+          "rationale": "state_and_error_observability is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 8,
+          "rationale": "stop_and_recovery is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 8,
+          "rationale": "context_and_token_efficiency is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 7,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 7,
+          "rationale": "composition_and_handoff is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 8,
+          "rationale": "useful_autonomy is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 7,
+          "rationale": "understandability_and_maintainability is supported by SPC-01-domain-boundary immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-01-domain-boundary-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-spc-01-domain-boundary-r1"
+      ]
+    },
+    {
+      "case_id": "SPC-02-failure-path",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by SPC-02-failure-path immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-02-failure-path-r1"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-spc-02-failure-path-r1"
+      ]
+    },
+    {
+      "case_id": "SPC-03-recovery-rollback",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by SPC-03-recovery-rollback immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+            "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3"
+      ]
+    },
+    {
+      "case_id": "SPC-04-composition-handoff",
+      "dimensions": [
+        {
+          "dimension_id": "task_success",
+          "score": 8,
+          "rationale": "task_success is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "correctness_and_evidence",
+          "score": 9,
+          "rationale": "correctness_and_evidence is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "repeatability",
+          "score": 9,
+          "rationale": "repeatability is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "state_and_error_observability",
+          "score": 8,
+          "rationale": "state_and_error_observability is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "stop_and_recovery",
+          "score": 9,
+          "rationale": "stop_and_recovery is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "context_and_token_efficiency",
+          "score": 9,
+          "rationale": "context_and_token_efficiency is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "runtime_and_operational_overhead",
+          "score": 8,
+          "rationale": "runtime_and_operational_overhead is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "composition_and_handoff",
+          "score": 8,
+          "rationale": "composition_and_handoff is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "useful_autonomy",
+          "score": 9,
+          "rationale": "useful_autonomy is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        },
+        {
+          "dimension_id": "understandability_and_maintainability",
+          "score": 8,
+          "rationale": "understandability_and_maintainability is supported by SPC-04-composition-handoff immutable run evidence. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+          "evidence_ids": [
+            "full-campaign-abk-native-spc-04-composition-handoff-r1",
+            "full-campaign-abk-native-spc-04-composition-handoff-r2",
+            "full-campaign-abk-native-spc-04-composition-handoff-r3"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    }
+  ],
+  "hard_gates": [
+    {
+      "gate_id": "observable_state_and_errors",
+      "status": "pass",
+      "rationale": "observable_state_and_errors assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "testable_behavior",
+      "status": "pass",
+      "rationale": "testable_behavior assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "declared_authority_and_side_effects",
+      "status": "pass",
+      "rationale": "declared_authority_and_side_effects assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "reversible_or_recoverable",
+      "status": "pass",
+      "rationale": "reversible_or_recoverable assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "upstream_runtime_independence",
+      "status": "pass",
+      "rationale": "upstream_runtime_independence assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    },
+    {
+      "gate_id": "no_undocumented_side_effects",
+      "status": "pass",
+      "rationale": "no_undocumented_side_effects assessed across all ten abk_native cases. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+      "evidence_ids": [
+        "full-campaign-abk-native-com-01-normal-primary-r1",
+        "full-campaign-abk-native-com-01-normal-primary-r2",
+        "full-campaign-abk-native-com-01-normal-primary-r3",
+        "full-campaign-abk-native-com-02-normal-variant-r1",
+        "full-campaign-abk-native-com-02-normal-variant-r2",
+        "full-campaign-abk-native-com-02-normal-variant-r3",
+        "full-campaign-abk-native-com-03-normal-repeat-r1",
+        "full-campaign-abk-native-com-03-normal-repeat-r2",
+        "full-campaign-abk-native-com-03-normal-repeat-r3",
+        "full-campaign-abk-native-com-04-boundary-minimum-r1",
+        "full-campaign-abk-native-com-05-invalid-input-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r1",
+        "full-campaign-abk-native-com-06-stop-interrupt-r2",
+        "full-campaign-abk-native-com-06-stop-interrupt-r3",
+        "full-campaign-abk-native-spc-01-domain-boundary-r1",
+        "full-campaign-abk-native-spc-02-failure-path-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r1",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r2",
+        "full-campaign-abk-native-spc-03-recovery-rollback-r3",
+        "full-campaign-abk-native-spc-04-composition-handoff-r1",
+        "full-campaign-abk-native-spc-04-composition-handoff-r2",
+        "full-campaign-abk-native-spc-04-composition-handoff-r3"
+      ]
+    }
+  ],
+  "rationale": "Independent reviewer-02 assessment of abk_native across ten cases and ten rubric dimensions. ABK-native runs satisfy the oracle across success, stop, rejection, failure, recovery and handoff paths; evidence is thinner where inventory-specific files are absent.",
+  "blockers": [
+    "No blocking evidence defect; immutable branch-local evidence IDs are cited for every score."
+  ]
+}

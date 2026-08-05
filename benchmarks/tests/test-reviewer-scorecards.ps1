@@ -15,6 +15,7 @@ $canonicalScorecardRoot = Join-Path $campaignRoot 'scorecards'
 $token = [guid]::NewGuid().ToString('N')
 $tempReviewerRoot = Join-Path $campaignRoot ("reviewer-inputs\test-$token")
 $tempScorecardRoot = Join-Path $campaignRoot ("scorecards\test-$token")
+$tempAdjudicationRoot = Join-Path $campaignRoot ("adjudications\test-$token")
 $pwshPath = (Get-Command pwsh.exe -ErrorAction Stop).Source
 
 function Assert-InvalidJson([string]$Path, [string]$SchemaPath, [string]$Label) {
@@ -26,6 +27,7 @@ function Assert-InvalidJson([string]$Path, [string]$SchemaPath, [string]$Label) 
 if (-not (Test-Path -LiteralPath $validator -PathType Leaf) -or -not (Test-Path -LiteralPath $reviewerSchema -PathType Leaf) -or -not (Test-Path -LiteralPath $rubricSchema -PathType Leaf) -or -not (Test-Path -LiteralPath $adoptionSchema -PathType Leaf)) { throw 'TEST_FAILURE: reviewer validator, schemas, and adoption scorecard schema must exist' }
 try {
     New-Item -ItemType Directory -Path $tempReviewerRoot -Force | Out-Null
+    New-Item -ItemType Directory -Path $tempAdjudicationRoot -Force | Out-Null
     $indexPath = Join-Path $runRoot 'campaign-run-index.json'
     $indexHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $indexPath).Hash.ToLowerInvariant()
     $planned = [ordered]@{
@@ -60,11 +62,11 @@ try {
 
     $mismatchedPath = Join-Path (Split-Path -Parent $plannedPath) 'reviewer-02.json'
     $planned | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $mismatchedPath -Encoding utf8NoBOM
-    $mismatchOutput = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot (Join-Path $campaignRoot ("scorecards\test-mismatch-$token")) 2>&1
+    $mismatchOutput = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot (Join-Path $campaignRoot ("scorecards\test-mismatch-$token")) -AdjudicationRoot $tempAdjudicationRoot 2>&1
     if ($LASTEXITCODE -eq 0 -or -not (@($mismatchOutput) -match 'REVIEWER_INPUT_FILENAME_INVALID')) { throw 'TEST_FAILURE: reviewer filename mismatch was not rejected' }
     [IO.File]::Delete($mismatchedPath)
 
-    $runOutput = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot $tempScorecardRoot 2>&1
+    $runOutput = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot $tempScorecardRoot -AdjudicationRoot $tempAdjudicationRoot 2>&1
     if ($LASTEXITCODE -ne 0) { $runOutput | Write-Output; throw "TEST_FAILURE: reviewer scorecard generation failed with $LASTEXITCODE" }
     foreach ($branch in @('control', 'source_native', 'abk_native')) {
         $path = Join-Path $tempScorecardRoot "$branch.json"
@@ -72,7 +74,7 @@ try {
         $card = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
         if ($card.status -ne 'running' -or $card.outcome -ne 'UNSCORED' -or @($card.branch_scores).Count -ne 0 -or @($card.evidence).Count -ne 22) { throw "TEST_FAILURE: $branch scorecard did not fail closed" }
     }
-    $rerun = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot $tempScorecardRoot 2>&1
+    $rerun = & $pwshPath -NoLogo -NoProfile -NonInteractive -File $validator -WorkspaceRoot $workspaceFull -RunRoot $runRoot -ReviewerInputRoot $tempReviewerRoot -ScorecardRoot $tempScorecardRoot -AdjudicationRoot $tempAdjudicationRoot 2>&1
     if ($LASTEXITCODE -eq 0 -or -not (@($rerun) -match 'OUTPUT_EXISTS')) { throw 'TEST_FAILURE: scorecard output overwrite was not rejected' }
 
     foreach ($branch in @('control', 'source_native', 'abk_native')) {
@@ -81,7 +83,7 @@ try {
     }
     Write-Output 'REVIEWER_SCORECARD_TESTS: 6/6 PASS'
 } finally {
-    foreach ($path in @($tempReviewerRoot, $tempScorecardRoot)) {
+    foreach ($path in @($tempReviewerRoot, $tempScorecardRoot, $tempAdjudicationRoot)) {
         if (Test-Path -LiteralPath $path -PathType Container) { [IO.Directory]::Delete([IO.Path]::GetFullPath($path), $true) }
     }
 }

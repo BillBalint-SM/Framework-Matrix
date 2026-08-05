@@ -5,6 +5,8 @@ Each branch accepts exactly two independent reviewer documents named
 `benchmarks/schemas/reviewer-input.schema.json`, point to the pinned
 `campaign-run-index.json` hash, and cite only evidence from the matching branch.
 
-The current templates are intentionally absent: no reviewer score is invented
-by the campaign runner. Until two submitted reviews and any required
-adjudication are present, generated branch scorecards remain `UNSCORED`.
+The canonical campaign now contains one submitted input from each of the two
+independent reviewer keys for every branch. These are evidence-backed inputs,
+not runner-generated defaults. The validator still fails closed when reviewer
+vectors require an adjudication or when the evidence leaves a dispute
+inconclusive.

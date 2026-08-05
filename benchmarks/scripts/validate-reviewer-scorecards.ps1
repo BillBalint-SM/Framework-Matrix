@@ -255,6 +255,19 @@ function New-BranchScore([object]$FirstReview, [object]$SecondReview, [object[]]
     [ordered]@{ branch = $Branch; dimensions = @($dimensions); critical_minimum = [double]$criticalMinimum; weighted_average = [double]$weighted; calculation = 'round3(sum(score*weight))'; evidence_ids = @($Evidence | ForEach-Object evidence_id) }
 }
 
+function New-ScorecardRationale([string]$Branch, [string[]]$Blockers) {
+    $prefix = "Branch '$Branch' scorecard generated from the immutable 66-run evidence snapshot. Reviewer inputs are independent and fail closed until complete. Blockers: "
+    $uniqueBlockers = @($Blockers | Sort-Object -Unique)
+    $visibleBlockers = @($uniqueBlockers | Select-Object -First 8)
+    $summary = $visibleBlockers -join '; '
+    if ($uniqueBlockers.Count -gt $visibleBlockers.Count) {
+        $summary = "$summary; ... plus $($uniqueBlockers.Count - $visibleBlockers.Count) additional blockers"
+    }
+    $rationale = "$prefix$summary"
+    if ($rationale.Length -gt 2000) { return $rationale.Substring(0, 1997) + '...' }
+    return $rationale
+}
+
 $branchScores = @{}
 $branchBlockerMap = @{}
 $branchHardGates = @{}
@@ -319,7 +332,7 @@ foreach ($branch in $branches) {
     $cardOutcome = if ($campaignComplete -and $branch -eq 'abk_native') { $globalOutcome } else { 'UNSCORED' }
     $branchScoreList = [System.Collections.Generic.List[object]]::new()
     if ($campaignComplete) { foreach ($scoredBranch in $branches) { $branchScoreList.Add($branchScores[$scoredBranch]) } } elseif ($null -ne $branchScores[$branch]) { $branchScoreList.Add($branchScores[$branch]) }
-    $rationale = "Branch '$branch' scorecard generated from the immutable 66-run evidence snapshot. Reviewer inputs are independent and fail closed until complete. Blockers: $($blockers -join '; ')"
+    $rationale = New-ScorecardRationale $branch @($blockers)
     $card = [ordered]@{ schema_version = '1.0.0'; scorecard_id = $scorecardIds[$branch]; candidate_manifest_id = $manifestIds[$branch]; protocol_id = 'abk:benchmark:pattern-adoption-v1'; evaluated_at = [DateTime]::UtcNow.ToString('o'); status = if ($campaignComplete) { 'complete' } else { 'running' }; host = 'codex'; hard_gates = @($gates); benchmark = $benchmark; branch_scores = $branchScoreList; outcome = $cardOutcome; outcome_formula = 'incomplete=>UNSCORED;critical_min<=4=>REJECTED;weighted_average<8=>CANDIDATE;weighted_average>=8=>CHOSEN'; rationale = $rationale; evidence = $branchEvidenceOutput }
     $outputPath = Join-Path $scorecardRootFull ("$branch.json")
     if (Test-Path -LiteralPath $outputPath) { throw "OUTPUT_EXISTS: refusing to overwrite '$outputPath'" }
