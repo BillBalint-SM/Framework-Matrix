@@ -178,6 +178,24 @@ le. Numeric vita esetén a harmadik score mediánja használható;
 authority/ownership/provenance/undocumented-effect vita fail-closed
 `inconclusive` marad.
 
+The v2 resolution profile preserves the v1 evidence and excludes the legacy
+control runner from adoption eligibility as `baseline_only`. It normalizes only
+the expected SPC-01 `DEPENDENCY_OUT_OF_ROOT` boundary rejection and applies
+explicit eligible-branch gate adjudication. The resulting comparison artifact
+is `resolution-v2/comparison-scorecard.json`; `CHOSEN` there is not `ADOPTED`.
+
+```powershell
+& .\benchmarks\scripts\resolve-v2-comparison.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -ProfilePath .\benchmarks\campaigns\artifact-dag-core-v1\resolution-v2\profile.json `
+  -ReviewerInputRoot .\benchmarks\campaigns\artifact-dag-core-v1\reviewer-inputs `
+  -AdjudicationRoot .\benchmarks\campaigns\artifact-dag-core-v1\adjudications `
+  -OutputPath .\benchmarks\campaigns\artifact-dag-core-v1\resolution-v2\comparison-scorecard.json
+```
+
+The v2 resolver test is `test-v2-comparison.ps1` and asserts snapshot-hash,
+negative-normalization, baseline-only, and complete eligible-branch gates.
+
 ```powershell
 & .\benchmarks\scripts\validate-reviewer-scorecards.ps1 `
   -WorkspaceRoot (Get-Location).Path `

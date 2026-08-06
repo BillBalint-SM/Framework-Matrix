@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:comparison-scorecard-v2:1.0.0",
+  "title": "Framework-Matrix v2 eligible-branch comparison scorecard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "comparison_id", "protocol_id", "evaluated_at", "status", "source_snapshot", "baseline", "eligible_branches", "hard_gates", "branch_scores", "outcome", "outcome_formula", "rationale", "review_ids", "adjudication_ids", "evidence"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "comparison_id": { "const": "abk:comparison:artifact-dag-core-v2" },
+    "protocol_id": { "const": "abk:benchmark:pattern-adoption-v2" },
+    "evaluated_at": { "type": "string", "format": "date-time" },
+    "status": { "const": "complete" },
+    "source_snapshot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "raw_runs"],
+      "properties": {
+        "path": { "const": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "raw_runs": { "const": 66 }
+      }
+    },
+    "baseline": {
+      "type": "object", "additionalProperties": false,
+      "required": ["branch", "eligibility", "raw_oracle_status", "evidence_ids", "rationale"],
+      "properties": {
+        "branch": { "const": "control" },
+        "eligibility": { "const": "baseline_only" },
+        "raw_oracle_status": { "const": "UNSCORED" },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" },
+        "rationale": { "type": "string", "minLength": 20, "maxLength": 1000 }
+      }
+    },
+    "eligible_branches": { "const": ["source_native", "abk_native"] },
+    "hard_gates": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": { "$ref": "#/definitions/hard_gate" }
+    },
+    "branch_scores": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": { "$ref": "#/definitions/branch_score" }
+    },
+    "outcome": { "enum": ["REJECTED", "CANDIDATE", "CHOSEN"] },
+    "outcome_formula": { "const": "baseline-only control; critical_min<=4=>REJECTED; weighted_average<8=>CANDIDATE; weighted_average>=8=>CHOSEN" },
+    "rationale": { "type": "string", "minLength": 20, "maxLength": 2000 },
+    "review_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^abk:review:[a-z0-9-]+$" } },
+    "adjudication_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^abk:adjudication:[a-z0-9-]+$" } },
+    "evidence": {
+      "type": "array", "minItems": 66, "uniqueItems": true,
+      "items": { "$ref": "#/definitions/evidence" }
+    }
+  },
+  "definitions": {
+    "ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^abk:[a-z0-9-]+$" } },
+    "evidence_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+    "hard_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gate_id", "status", "rationale", "evidence_ids"],
+      "properties": {
+        "gate_id": { "enum": ["observable_state_and_errors", "testable_behavior", "declared_authority_and_side_effects", "reversible_or_recoverable", "upstream_runtime_independence", "no_undocumented_side_effects"] },
+        "status": { "const": "pass" },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "branch_score": {
+      "type": "object", "additionalProperties": false,
+      "required": ["branch", "dimensions", "critical_minimum", "weighted_average", "evidence_ids"],
+      "properties": {
+        "branch": { "enum": ["source_native", "abk_native"] },
+        "dimensions": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "$ref": "#/definitions/dimension" } },
+        "critical_minimum": { "type": "number", "minimum": 1, "maximum": 10 },
+        "weighted_average": { "type": "number", "minimum": 1, "maximum": 10 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "dimension": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dimension_id", "critical", "score", "weight", "rationale", "evidence_ids"],
+      "properties": {
+        "dimension_id": { "enum": ["task_success", "correctness_and_evidence", "repeatability", "state_and_error_observability", "stop_and_recovery", "context_and_token_efficiency", "runtime_and_operational_overhead", "composition_and_handoff", "useful_autonomy", "understandability_and_maintainability"] },
+        "critical": { "type": "boolean" },
+        "score": { "type": "number", "minimum": 1, "maximum": 10 },
+        "weight": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "rationale": { "type": "string", "minLength": 10, "maxLength": 1000 },
+        "evidence_ids": { "$ref": "#/definitions/evidence_ids" }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_id", "branch", "case_id", "raw_oracle_status", "assessment_status", "assessment_reason", "run_relative_path", "oracle_relative_path", "run_sha256", "oracle_sha256"],
+      "properties": {
+        "evidence_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "branch": { "enum": ["control", "source_native", "abk_native"] },
+        "case_id": { "type": "string", "pattern": "^(COM|SPC)-[0-9]{2}-[a-z][a-z0-9-]*$" },
+        "raw_oracle_status": { "enum": ["passed", "failed", "stopped", "inconclusive", "UNSCORED"] },
+        "assessment_status": { "enum": ["passed", "failed", "stopped", "inconclusive", "UNSCORED"] },
+        "assessment_reason": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "run_relative_path": { "type": "string", "minLength": 1 },
+        "oracle_relative_path": { "type": "string", "minLength": 1 },
+        "run_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "oracle_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}

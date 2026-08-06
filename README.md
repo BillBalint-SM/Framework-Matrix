@@ -95,11 +95,11 @@ készül. A reviewer-szerződést a
 [`benchmarks/schemas/reviewer-input.schema.json`](benchmarks/schemas/reviewer-input.schema.json),
 a befagyasztott tízdimenziós rubrikát pedig a
 [`benchmarks/campaigns/artifact-dag-core-v1/reviewer-rubric.json`](benchmarks/campaigns/artifact-dag-core-v1/reviewer-rubric.json)
-rögzíti. Minden branchhez pontosan két független reviewer-input szükséges;
-az aktuális canonical `reviewer-inputs/` könyvtár szándékosan csak a szerződés
-README-jét tartalmazza, ezért a generált
-[`scorecards/`](benchmarks/campaigns/artifact-dag-core-v1/scorecards/) artifactok
-`running`/`UNSCORED` állapotúak.
+rögzíti. Minden branchhez pontosan két független reviewer-input szükséges; ezek a
+canonical `reviewer-inputs/` könyvtárban, a harmadik adjudicator artifactok az
+`adjudications/` könyvtárban vannak. A v1 scorecardok szándékosan
+fail-closed `running`/`UNSCORED` állapotúak, mert a legacy control runner
+baseline és az SPC-01 raw oracle `inconclusive`.
 
 Az ellenőrző és generáló entrypoint:
 
@@ -122,6 +122,25 @@ artifact a
 könyvtárban rögzíthető. Numeric vita esetén a validator a három pont
 mediánját használja; authority/ownership/provenance/undocumented-effect vita
 `inconclusive` marad. Automatikus score vagy döntés továbbra sem készül.
+
+## V2 comparison resolution
+
+A v2 összehasonlítás a v1 snapshotot nem módosítja. A control ág
+`baseline_only`, a source-native és ABK-native ágak eligible összehasonlítási
+ágak. Az SPC-01 out-of-root rejection v2-ben explicit expected boundary
+behavior, miközben a raw `inconclusive` státusz megmarad az evidence ledgerben.
+
+```powershell
+& .\benchmarks\scripts\resolve-v2-comparison.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -ProfilePath .\benchmarks\campaigns\artifact-dag-core-v1\resolution-v2\profile.json `
+  -ReviewerInputRoot .\benchmarks\campaigns\artifact-dag-core-v1\reviewer-inputs `
+  -AdjudicationRoot .\benchmarks\campaigns\artifact-dag-core-v1\adjudications `
+  -OutputPath .\benchmarks\campaigns\artifact-dag-core-v1\resolution-v2\comparison-scorecard.json
+```
+
+The v2 comparison output is separate from the v1 adoption scorecards and
+`CHOSEN` remains a comparison result, not an `ADOPTED` approval.
 
 Az adjudicator-bemenet szigorú szerződése a
 [`reviewer-adjudication.schema.json`](benchmarks/schemas/reviewer-adjudication.schema.json).

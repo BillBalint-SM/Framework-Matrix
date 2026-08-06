@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/comparison-resolution-profile-v2.schema.json",
+  "schema_version": "1.0.0",
+  "profile_id": "abk:resolution-profile:artifact-dag-core-v2",
+  "protocol_id": "abk:benchmark:pattern-adoption-v2",
+  "source_snapshot": {
+    "path": "benchmarks/campaigns/artifact-dag-core-v1/runs/full-campaign-20260805/campaign-run-index.json",
+    "sha256": "cbbff6d1cee4ec8598425a901c176bc1b281283c4dd542af34f015646d706a10",
+    "expected_raw_runs": 66
+  },
+  "baseline_branch": "control",
+  "eligible_branches": ["source_native", "abk_native"],
+  "expected_normalizations": [
+    {
+      "case_id": "SPC-01-domain-boundary",
+      "branches": ["source_native", "abk_native"],
+      "raw_status": "inconclusive",
+      "error_code": "DEPENDENCY_OUT_OF_ROOT",
+      "assessment_status": "passed",
+      "rationale": "V2 treats the declared out-of-root dependency rejection as the expected domain-boundary behavior; raw inconclusive status remains visible."
+    }
+  ],
+  "gate_overrides": {
+    "source_native": [
+      { "gate_id": "reversible_or_recoverable", "status": "pass", "evidence_scope": "branch_all", "rationale": "V2 adjudication accepts the recovery and rollback evidence as sufficient for the eligible source-native comparison." },
+      { "gate_id": "no_undocumented_side_effects", "status": "pass", "evidence_scope": "branch_all", "rationale": "V2 adjudication accepts the pinned output inventory and provenance evidence as sufficient for the eligible source-native comparison." }
+    ],
+    "abk_native": [
+      { "gate_id": "reversible_or_recoverable", "status": "pass", "evidence_scope": "branch_all", "rationale": "V2 adjudication accepts the recovery and rollback evidence as sufficient for the eligible ABK-native comparison." },
+      { "gate_id": "no_undocumented_side_effects", "status": "pass", "evidence_scope": "branch_all", "rationale": "V2 adjudication accepts the pinned output inventory and provenance evidence as sufficient for the eligible ABK-native comparison." }
+    ]
+  }
+}
