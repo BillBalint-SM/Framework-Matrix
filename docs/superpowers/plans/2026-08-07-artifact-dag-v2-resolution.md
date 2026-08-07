@@ -82,6 +82,6 @@
 
 ### Task 5: Publish the bounded v2 slice
 
-- [ ] Create `dev-artifact-dag-v2-resolution` from current `main` only after a fresh preflight.
-- [ ] Stage only the v2 plan, schema, profile, resolver, test, output, and documentation changes.
-- [ ] Commit, push the feature branch, fast-forward merge to `main`, push `main`, and verify remote heads.
+- [x] Create `dev-artifact-dag-v2-resolution` from current `main` only after a fresh preflight.
+- [x] Stage only the v2 plan, schema, profile, resolver, test, output, and documentation changes.
+- [x] Commit, push the feature branch, fast-forward merge to `main`, push `main`, and verify remote heads.
