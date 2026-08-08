@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:framework-matrix:schema:core-contract-index:1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "contract_version",
+    "contract_path",
+    "contract_sha256",
+    "dimensions",
+    "work_unit_types",
+    "dependency_registry_paths"
+  ],
+  "properties": {
+    "$schema": { "const": "core-contract.schema.json" },
+    "schema_version": { "const": "1.0.0" },
+    "contract_version": { "const": "1.0.0" },
+    "contract_path": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "contract_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dimensions": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "CC-01", "CC-02", "CC-03", "CC-04", "CC-05",
+          "CC-06", "CC-07", "CC-08", "CC-09", "CC-10",
+          "CC-11", "CC-12", "CC-13", "CC-14", "CC-15"
+        ]
+      }
+    },
+    "work_unit_types": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "additionalItems": false,
+      "items": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requires_receipt", "minimum_dimension_count", "dimension_policy", "requires_dependency_check", "contract_validator_path", "receipt_creator_path", "receipt_validator_path"],
+          "properties": {
+            "type": { "const": "session" },
+            "requires_receipt": { "const": true },
+            "minimum_dimension_count": { "const": 1 },
+            "dimension_policy": { "const": "affected_explicit" },
+            "requires_dependency_check": { "const": true },
+            "contract_validator_path": { "const": "research/scripts/validate-core-contract.ps1" },
+            "receipt_creator_path": { "const": "research/scripts/new-contract-receipt.ps1" },
+            "receipt_validator_path": { "const": "research/scripts/validate-contract-receipt.ps1" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requires_receipt", "minimum_dimension_count", "dimension_policy", "requires_dependency_check", "contract_validator_path", "receipt_creator_path", "receipt_validator_path"],
+          "properties": {
+            "type": { "const": "task" },
+            "requires_receipt": { "const": true },
+            "minimum_dimension_count": { "const": 1 },
+            "dimension_policy": { "const": "affected_explicit" },
+            "requires_dependency_check": { "const": true },
+            "contract_validator_path": { "const": "research/scripts/validate-core-contract.ps1" },
+            "receipt_creator_path": { "const": "research/scripts/new-contract-receipt.ps1" },
+            "receipt_validator_path": { "const": "research/scripts/validate-contract-receipt.ps1" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "requires_receipt", "minimum_dimension_count", "dimension_policy", "requires_dependency_check", "contract_validator_path", "receipt_creator_path", "receipt_validator_path"],
+          "properties": {
+            "type": { "const": "work_part" },
+            "requires_receipt": { "const": true },
+            "minimum_dimension_count": { "const": 1 },
+            "dimension_policy": { "const": "affected_explicit" },
+            "requires_dependency_check": { "const": true },
+            "contract_validator_path": { "const": "research/scripts/validate-core-contract.ps1" },
+            "receipt_creator_path": { "const": "research/scripts/new-contract-receipt.ps1" },
+            "receipt_validator_path": { "const": "research/scripts/validate-contract-receipt.ps1" }
+          }
+        }
+      ]
+    },
+    "dependency_registry_paths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+    }
+  }
+}
