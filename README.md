@@ -151,3 +151,19 @@ Az adjudicator-bemenet szigorú szerződése a
 & .\benchmarks\tests\test-reviewer-adjudication.ps1 `
   -WorkspaceRoot (Get-Location).Path
 ```
+
+## ABK-native humán adoption döntés
+
+Az explicit humán jóváhagyás külön
+[`adoption-record`](benchmarks/campaigns/artifact-dag-core-v1/adoptions/abk-native-v2.json)
+artefaktumban van rögzítve. Ez a rekord SHA-256 hash-sel a v2
+[`comparison-scorecard`](benchmarks/campaigns/artifact-dag-core-v1/resolution-v2/comparison-scorecard.json)
+fájlhoz kötődik. Az `ADOPTED` státusz csak erre a humán döntési rekordra
+vonatkozik; a v1 bizonyíték, a v2 profile és a v2 scorecard változatlanul
+marad, utóbbi eredménye továbbra is `CHOSEN`.
+
+```powershell
+& .\benchmarks\scripts\validate-adoption-decision.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -RecordPath .\benchmarks\campaigns\artifact-dag-core-v1\adoptions\abk-native-v2.json
+```

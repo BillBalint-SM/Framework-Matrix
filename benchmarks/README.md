@@ -204,3 +204,19 @@ negative-normalization, baseline-only, and complete eligible-branch gates.
   -AdjudicationRoot .\benchmarks\campaigns\artifact-dag-core-v1\adjudications `
   -ScorecardRoot .\benchmarks\campaigns\artifact-dag-core-v1\scorecards
 ```
+
+## Human adoption decision
+
+The approved `abk_native` adoption is a separate
+[`adoption record`](campaigns/artifact-dag-core-v1/adoptions/abk-native-v2.json),
+not a mutation of the v1 or v2 scorecards. The record is hash-bound to the v2
+comparison scorecard and declares the explicit human approval. Validation
+rejects a changed scorecard hash, a missing, incomplete, or non-`CHOSEN`
+comparison, a non-human approval declaration, a reparse-point path, and a
+branch outside the scorecard's eligible branches.
+
+```powershell
+& .\benchmarks\scripts\validate-adoption-decision.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -RecordPath .\benchmarks\campaigns\artifact-dag-core-v1\adoptions\abk-native-v2.json
+```

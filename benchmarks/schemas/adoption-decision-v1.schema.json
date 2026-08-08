@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:abk:schema:adoption-decision-v1:1.0.0",
+  "title": "Framework-Matrix human adoption decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "protocol_id",
+    "status",
+    "decided_at",
+    "approval",
+    "selected_branch",
+    "basis",
+    "rationale"
+  ],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "1.0.0" },
+    "decision_id": { "const": "abk:adoption:artifact-dag-core-v2:abk-native" },
+    "protocol_id": { "const": "abk:benchmark:pattern-adoption-v2" },
+    "status": { "const": "ADOPTED" },
+    "decided_at": { "type": "string", "format": "date-time" },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference"],
+      "properties": {
+        "kind": { "const": "human_user_confirmation" },
+        "reference": { "type": "string", "minLength": 1, "maxLength": 200 }
+      }
+    },
+    "selected_branch": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scorecard_relative_path",
+        "scorecard_sha256",
+        "comparison_id",
+        "required_status",
+        "required_outcome"
+      ],
+      "properties": {
+        "scorecard_relative_path": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "scorecard_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "comparison_id": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "required_status": { "const": "complete" },
+        "required_outcome": { "const": "CHOSEN" }
+      }
+    },
+    "rationale": { "type": "string", "minLength": 1, "maxLength": 2000 }
+  }
+}
