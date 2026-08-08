@@ -198,11 +198,12 @@ try {
         }
     }
 
-    foreach ($registryPath in @($index.dependency_registry_paths)) {
+    $dependencyRegistryPaths = @($index.dependency_registry_paths)
+    foreach ($registryPath in $dependencyRegistryPaths) {
         Assert-ExplicitRegistryPath $workspacePath $registryPath
     }
 
-    Write-Output 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=0'
+    Write-Output "CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=$($dependencyRegistryPaths.Count)"
 }
 catch {
     if ($_.Exception.Message -match '^CORE_CONTRACT_VALIDATION_FAILURE:') {

@@ -86,6 +86,19 @@ try {
     $index.contract_sha256 = ('0' * 64)
     Write-Json $temporaryIndex $index
     Assert-Rejected (Invoke-Validator $temporaryWorkspace $temporaryIndex) 'CONTRACT_HASH_MISMATCH' 'A mismatched contract hash must be rejected.'
+
+    $dependencyRegistryDirectory = Join-Path $temporaryWorkspace 'registry'
+    $dependencyRegistryPath = Join-Path $dependencyRegistryDirectory 'dependencies.json'
+    New-Item -ItemType Directory -Path $dependencyRegistryDirectory -Force | Out-Null
+    [System.IO.File]::WriteAllText($dependencyRegistryPath, '{}', [System.Text.UTF8Encoding]::new($false))
+    $index.contract_sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $temporaryWorkspace 'contracts/CORE-CONTRACT.md')).Hash.ToLowerInvariant()
+    $index.dependency_registry_paths = @('registry/dependencies.json')
+    Write-Json $temporaryIndex $index
+    $dependencyResult = Invoke-Validator $temporaryWorkspace $temporaryIndex
+    Assert-True ($dependencyResult.code -eq 0) 'A core-contract index with a safe non-empty dependency registry must validate successfully.'
+    $dependencyOutput = @($dependencyResult.output)
+    Assert-True ($dependencyOutput.Count -eq 1) 'A non-empty dependency registry validation must emit exactly one success line.'
+    Assert-True ($dependencyOutput[0] -ceq 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=1') 'The success line must report the validated dependency registry count.'
     $passed++
 }
 finally {

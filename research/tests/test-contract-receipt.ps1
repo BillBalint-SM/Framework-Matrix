@@ -211,6 +211,24 @@ function Remove-TemporaryReceiptDirectory([string]$ReceiptsRoot, [string]$Tempor
     Remove-Item -LiteralPath $resolvedTemporaryPath -Recurse -Force
 }
 
+function New-ReceiptBoundaryWorkspace([string]$SourceWorkspace, [string]$FixtureDirectory, [string]$Guid) {
+    $boundaryWorkspace = Join-Path $FixtureDirectory "receipt-boundary-workspace-$Guid"
+    foreach ($relativeDirectory in @('schemas', 'contracts', 'registry/contract-receipts', 'research')) {
+        New-Item -ItemType Directory -Path (Join-Path $boundaryWorkspace $relativeDirectory) -Force | Out-Null
+    }
+    Copy-Item -LiteralPath (Join-Path $SourceWorkspace 'schemas/contract-receipt.schema.json') -Destination (Join-Path $boundaryWorkspace 'schemas/contract-receipt.schema.json')
+    foreach ($fileName in @('CORE-CONTRACT.md', 'core-contract.schema.json', 'core-contract-index.json')) {
+        Copy-Item -LiteralPath (Join-Path $SourceWorkspace "contracts/$fileName") -Destination (Join-Path $boundaryWorkspace "contracts/$fileName")
+    }
+    return $boundaryWorkspace
+}
+
+function Install-WorkspaceValidator([string]$SourceWorkspace, [string]$BoundaryWorkspace) {
+    $scriptsDirectory = Join-Path $BoundaryWorkspace 'research/scripts'
+    New-Item -ItemType Directory -Path $scriptsDirectory -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $SourceWorkspace 'research/scripts/validate-core-contract.ps1') -Destination (Join-Path $scriptsDirectory 'validate-core-contract.ps1')
+}
+
 $resolvedWorkspaceRoot = [System.IO.Path]::GetFullPath($WorkspaceRoot)
 $creator = Join-Path $resolvedWorkspaceRoot 'research/scripts/new-contract-receipt.ps1'
 $validator = Join-Path $resolvedWorkspaceRoot 'research/scripts/validate-contract-receipt.ps1'
@@ -308,6 +326,22 @@ try {
     Assert-Rejected (Invoke-Validator $resolvedWorkspaceRoot $extraPath) 'RECEIPT_SCHEMA_INVALID' 'A receipt with an extra property must be rejected.'
     $passed++
 
+    $invalidCoreWorkspace = New-ReceiptBoundaryWorkspace $resolvedWorkspaceRoot $temporaryDirectory ([guid]::NewGuid().ToString())
+    Install-WorkspaceValidator $resolvedWorkspaceRoot $invalidCoreWorkspace
+    $invalidIndexPath = Join-Path $invalidCoreWorkspace 'contracts/core-contract-index.json'
+    $childFailureSentinel = "child-validation-sentinel-$([guid]::NewGuid().ToString('N'))"
+    [System.IO.File]::WriteAllText($invalidIndexPath, "{`"untrusted`":`"$childFailureSentinel`"}", [System.Text.UTF8Encoding]::new($false))
+    $invalidCreatorResult = Invoke-Creator $invalidCoreWorkspace 'invalid-current-contract-creator' 'task' @('CC-01') $evidence 'registry/contract-receipts/creator-invalid.json'
+    Assert-Rejected $invalidCreatorResult 'CONTRACT_VALIDATION_FAILED' 'The receipt creator must contain a failed core-validator child process at the receipt boundary.'
+    Assert-OutputExcludes $invalidCreatorResult $childFailureSentinel 'The receipt creator must not replay untrusted core-validator output.'
+    Assert-OutputExcludes $invalidCreatorResult 'CORE_CONTRACT_VALIDATION_FAILURE' 'The receipt creator must emit only the receipt-layer validation failure.'
+    $invalidReceiptPath = Join-Path $invalidCoreWorkspace 'registry/contract-receipts/receipt.json'
+    [System.IO.File]::Copy((Join-Path $resolvedWorkspaceRoot $successPath), $invalidReceiptPath)
+    $invalidValidatorResult = Invoke-Validator $invalidCoreWorkspace 'registry/contract-receipts/receipt.json'
+    Assert-Rejected $invalidValidatorResult 'CONTRACT_VALIDATION_FAILED' 'The receipt validator must contain a failed core-validator child process at the receipt boundary.'
+    Assert-OutputExcludes $invalidValidatorResult $childFailureSentinel 'The receipt validator must not replay untrusted core-validator output.'
+    Assert-OutputExcludes $invalidValidatorResult 'CORE_CONTRACT_VALIDATION_FAILURE' 'The receipt validator must emit only the receipt-layer validation failure.'
+
     $junctionTarget = Join-Path $temporaryDirectory 'junction-target'
     $junctionPath = Join-Path $temporaryDirectory 'junction-parent'
     New-Item -ItemType Directory -Path $junctionTarget -Force | Out-Null
@@ -323,6 +357,26 @@ try {
     Assert-OutputExcludes $junctionValidateResult $temporaryDirectoryName 'Validator reparse errors must not disclose untrusted receipt path segments.'
     Remove-Item -LiteralPath $junctionPath -Force
     Assert-True (Test-Path -LiteralPath $junctionTarget) 'Removing a junction must not remove its target.'
+
+    $validatorReparseWorkspace = New-ReceiptBoundaryWorkspace $resolvedWorkspaceRoot $temporaryDirectory ([guid]::NewGuid().ToString())
+    $validatorReparseTarget = Join-Path $temporaryDirectory 'validator-reparse-target'
+    $validatorReparsePath = Join-Path $validatorReparseWorkspace 'research/scripts'
+    $validatorExecutionMarker = Join-Path $temporaryDirectory "validator-executed-$([guid]::NewGuid().ToString('N')).marker"
+    New-Item -ItemType Directory -Path $validatorReparseTarget -Force | Out-Null
+    $markerLiteral = ConvertTo-PowerShellLiteral $validatorExecutionMarker
+    $markerValidator = "[System.IO.File]::WriteAllText($markerLiteral, 'executed', [System.Text.UTF8Encoding]::new(`$false))`nexit 0"
+    [System.IO.File]::WriteAllText((Join-Path $validatorReparseTarget 'validate-core-contract.ps1'), $markerValidator, [System.Text.UTF8Encoding]::new($false))
+    New-Item -ItemType Junction -Path $validatorReparsePath -Target $validatorReparseTarget | Out-Null
+    $reparseCreatorResult = Invoke-Creator $validatorReparseWorkspace 'junction-validator-creator' 'task' @('CC-01') $evidence 'registry/contract-receipts/reparse-creator.json'
+    Assert-Rejected $reparseCreatorResult 'PATH_REPARSE_POINT' 'The receipt creator must reject a junctioned nested validator before invocation.'
+    Assert-True (-not (Test-Path -LiteralPath $validatorExecutionMarker)) 'The receipt creator must not execute a junctioned nested validator.'
+    $reparseReceiptPath = Join-Path $validatorReparseWorkspace 'registry/contract-receipts/receipt.json'
+    [System.IO.File]::Copy((Join-Path $resolvedWorkspaceRoot $successPath), $reparseReceiptPath)
+    $reparseValidatorResult = Invoke-Validator $validatorReparseWorkspace 'registry/contract-receipts/receipt.json'
+    Assert-Rejected $reparseValidatorResult 'PATH_REPARSE_POINT' 'The receipt validator must reject a junctioned nested validator before invocation.'
+    Assert-True (-not (Test-Path -LiteralPath $validatorExecutionMarker)) 'The receipt validator must not execute a junctioned nested validator.'
+    Remove-Item -LiteralPath $validatorReparsePath -Force
+    Assert-True (Test-Path -LiteralPath $validatorReparseTarget) 'Removing the nested-validator junction must not remove its target.'
     $passed++
 }
 finally {

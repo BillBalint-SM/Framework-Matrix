@@ -80,6 +80,36 @@ function Get-ConfinedReceiptPath([string]$WorkspacePath, [string]$RelativeReceip
     return $candidatePath
 }
 
+function Get-ConfinedWorkspacePath([string]$WorkspacePath, [string]$RelativePath) {
+    if (Test-IsUnsafeRelativePath $RelativePath) {
+        Fail 'PATH_INVALID' 'Required workspace path is not a safe relative path.'
+    }
+    $candidatePath = [System.IO.Path]::GetFullPath((Join-Path $WorkspacePath $RelativePath))
+    if (-not (Test-IsChildPath $WorkspacePath $candidatePath)) {
+        Fail 'PATH_INVALID' 'Required workspace path escapes the workspace.'
+    }
+    Assert-NoReparsePoint $WorkspacePath $candidatePath
+    return $candidatePath
+}
+
+function Invoke-CoreContractValidator([string]$ContractValidatorPath, [string]$WorkspacePath) {
+    $pwshPath = (Get-Process -Id $PID -ErrorAction Stop).Path
+    $arguments = @(
+        '-NoLogo', '-NoProfile', '-NonInteractive', '-File', $ContractValidatorPath,
+        '-WorkspaceRoot', $WorkspacePath,
+        '-IndexPath', 'contracts/core-contract-index.json'
+    )
+    try {
+        & $pwshPath @arguments *> $null
+    }
+    catch {
+        Fail 'CONTRACT_VALIDATION_FAILED' 'Current core contract did not validate.'
+    }
+    if ($LASTEXITCODE -ne 0) {
+        Fail 'CONTRACT_VALIDATION_FAILED' 'Current core contract did not validate.'
+    }
+}
+
 function Get-Sha256([string]$Path) {
     return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
@@ -120,15 +150,11 @@ try {
         Fail 'RECEIPT_ID_MISMATCH' 'receipt_id must equal work_unit_id.'
     }
 
-    $contractValidator = Join-Path $workspacePath 'research/scripts/validate-core-contract.ps1'
+    $contractValidator = Get-ConfinedWorkspacePath $workspacePath 'research/scripts/validate-core-contract.ps1'
     if (-not (Test-Path -LiteralPath $contractValidator -PathType Leaf)) {
         Fail 'INPUT_MISSING' 'Core-contract validator is missing.'
     }
-    $contractOutput = @(& $contractValidator -WorkspaceRoot $workspacePath -IndexPath 'contracts/core-contract-index.json' 2>&1)
-    $contractSucceeded = $?
-    if (-not $contractSucceeded) {
-        Fail 'CONTRACT_VALIDATION_FAILED' 'Current core contract did not validate.'
-    }
+    Invoke-CoreContractValidator $contractValidator $workspacePath
 
     $indexPath = Join-Path $workspacePath 'contracts/core-contract-index.json'
     Assert-NoReparsePoint $workspacePath $indexPath
