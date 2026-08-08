@@ -52,7 +52,7 @@ function Assert-NoReparsePoint([string]$RootPath, [string]$CandidatePath) {
         if (Test-Path -LiteralPath $currentPath) {
             $item = Get-Item -Force -LiteralPath $currentPath
             if (($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
-                Fail 'PATH_REPARSE_POINT' "Reparse point is not allowed: $relativePath"
+                Fail 'PATH_REPARSE_POINT' 'A reparse point exists on the checked path.'
             }
         }
     }
@@ -144,7 +144,7 @@ try {
         Fail 'GATE_STATUS_INVALID' 'Receipt gate fields are invalid.'
     }
 
-    Write-Output 'CONTRACT_RECEIPT_VALID: framework-matrix-core-contract-foundation; contract=1.0.0'
+    Write-Output "CONTRACT_RECEIPT_VALID: $($receipt.receipt_id); contract=$($receipt.contract.version)"
 }
 catch {
     if ($_.Exception.Message -match '^CONTRACT_RECEIPT_FAILURE:') {

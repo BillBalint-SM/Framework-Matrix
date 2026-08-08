@@ -15,8 +15,31 @@ function Assert-Rejected([object]$Result, [string]$Code, [string]$Message) {
     Assert-True ((@($Result.output) -join ' ') -match "CONTRACT_RECEIPT_FAILURE: $Code") $Message
 }
 
+function Assert-OutputExcludes([object]$Result, [string]$SensitiveValue, [string]$Message) {
+    Assert-True ((@($Result.output) -join ' ') -notmatch [regex]::Escape($SensitiveValue)) $Message
+}
+
 function ConvertTo-PowerShellLiteral([string]$Value) {
     return "'$($Value.Replace("'", "''"))'"
+}
+
+function New-CreatorCommand(
+    [string]$WorkspacePath,
+    [string]$WorkUnitId,
+    [string]$WorkUnitType,
+    [string[]]$DimensionIds,
+    [string[]]$ExpectedEvidence,
+    [string]$ReceiptPath
+) {
+    $dimensionLiteral = '@(' + (($DimensionIds | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ',') + ')'
+    $evidenceLiteral = '@(' + (($ExpectedEvidence | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ',') + ')'
+    return '& ' + (ConvertTo-PowerShellLiteral $creator) +
+        ' -WorkspaceRoot ' + (ConvertTo-PowerShellLiteral $WorkspacePath) +
+        ' -WorkUnitId ' + (ConvertTo-PowerShellLiteral $WorkUnitId) +
+        ' -WorkUnitType ' + (ConvertTo-PowerShellLiteral $WorkUnitType) +
+        ' -DimensionIds ' + $dimensionLiteral +
+        ' -ExpectedEvidence ' + $evidenceLiteral +
+        ' -ReceiptPath ' + (ConvertTo-PowerShellLiteral $ReceiptPath)
 }
 
 function Invoke-Creator(
@@ -27,18 +50,68 @@ function Invoke-Creator(
     [string[]]$ExpectedEvidence,
     [string]$ReceiptPath
 ) {
-    $dimensionLiteral = '@(' + (($DimensionIds | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ',') + ')'
-    $evidenceLiteral = '@(' + (($ExpectedEvidence | ForEach-Object { ConvertTo-PowerShellLiteral $_ }) -join ',') + ')'
-    $command = '& ' + (ConvertTo-PowerShellLiteral $creator) +
-        ' -WorkspaceRoot ' + (ConvertTo-PowerShellLiteral $WorkspacePath) +
-        ' -WorkUnitId ' + (ConvertTo-PowerShellLiteral $WorkUnitId) +
-        ' -WorkUnitType ' + (ConvertTo-PowerShellLiteral $WorkUnitType) +
-        ' -DimensionIds ' + $dimensionLiteral +
-        ' -ExpectedEvidence ' + $evidenceLiteral +
-        ' -ReceiptPath ' + (ConvertTo-PowerShellLiteral $ReceiptPath)
+    $command = New-CreatorCommand $WorkspacePath $WorkUnitId $WorkUnitType $DimensionIds $ExpectedEvidence $ReceiptPath
     $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-Command', $command)
     $output = @(& $pwshPath @arguments 2>&1)
     return [pscustomobject]@{ code = $LASTEXITCODE; output = $output }
+}
+
+function Invoke-CreatorWithPublicationRace(
+    [string]$WorkspacePath,
+    [string]$WorkUnitId,
+    [string]$WorkUnitType,
+    [string[]]$DimensionIds,
+    [string[]]$ExpectedEvidence,
+    [string]$ReceiptPath,
+    [byte[]]$OriginalBytes,
+    [string]$FixtureDirectory
+) {
+    $command = New-CreatorCommand $WorkspacePath $WorkUnitId $WorkUnitType $DimensionIds $ExpectedEvidence $ReceiptPath
+    $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($command))
+    $stdoutPath = Join-Path $FixtureDirectory 'publication-race.stdout.txt'
+    $stderrPath = Join-Path $FixtureDirectory 'publication-race.stderr.txt'
+    $targetFullPath = Join-Path $WorkspacePath $ReceiptPath
+    $targetParent = Split-Path -Parent $targetFullPath
+    $temporaryPattern = "$([System.IO.Path]::GetFileName($targetFullPath)).*.tmp"
+    $process = Start-Process -FilePath $pwshPath -ArgumentList @(
+        '-NoLogo', '-NoProfile', '-NonInteractive', '-EncodedCommand', $encodedCommand
+    ) -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath -WindowStyle Hidden -PassThru
+    $raceCreated = $false
+    $deadline = [datetime]::UtcNow.AddSeconds(10)
+    try {
+        while (-not $process.HasExited -and [datetime]::UtcNow -lt $deadline) {
+            if (@(Get-ChildItem -LiteralPath $targetParent -Filter $temporaryPattern -File -Force).Count -gt 0) {
+                $stream = [System.IO.FileStream]::new(
+                    $targetFullPath,
+                    [System.IO.FileMode]::CreateNew,
+                    [System.IO.FileAccess]::Write,
+                    [System.IO.FileShare]::None
+                )
+                try {
+                    $stream.Write($OriginalBytes, 0, $OriginalBytes.Length)
+                }
+                finally {
+                    $stream.Dispose()
+                }
+                $raceCreated = $true
+                break
+            }
+        }
+        $process.WaitForExit()
+        Assert-True $raceCreated 'The publication-race harness must create the destination after the temporary sibling appears.'
+        $output = @(
+            @(Get-Content -LiteralPath $stdoutPath -ErrorAction SilentlyContinue)
+            @(Get-Content -LiteralPath $stderrPath -ErrorAction SilentlyContinue)
+        )
+        return [pscustomobject]@{ code = $process.ExitCode; output = $output }
+    }
+    finally {
+        if (-not $process.HasExited) {
+            $process.Kill($true)
+            $process.WaitForExit()
+        }
+        $process.Dispose()
+    }
 }
 
 function Invoke-Validator([string]$WorkspacePath, [string]$ReceiptPath) {
@@ -77,8 +150,8 @@ $receiptsRoot = Join-Path $resolvedWorkspaceRoot 'registry/contract-receipts'
 $temporaryDirectory = Join-Path $receiptsRoot "test-receipt-$([guid]::NewGuid())"
 $successWorkUnitId = 'contract-receipt-integration'
 $successPath = 'registry/contract-receipts/test-receipt-placeholder/receipt.json'
-$successCreateLine = 'CONTRACT_RECEIPT_CREATED: framework-matrix-core-contract-foundation; dimensions=15'
-$successValidateLine = 'CONTRACT_RECEIPT_VALID: framework-matrix-core-contract-foundation; contract=1.0.0'
+$successCreateLine = 'CONTRACT_RECEIPT_CREATED: contract-receipt-integration; dimensions=15'
+$successValidateLine = 'CONTRACT_RECEIPT_VALID: contract-receipt-integration; contract=1.0.0'
 $passed = 0
 
 New-Item -ItemType Directory -Path $temporaryDirectory -Force | Out-Null
@@ -119,11 +192,27 @@ try {
     Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot $successWorkUnitId 'task' $dimensions $evidence $successPath) 'RECEIPT_EXISTS' 'A second create at the same path must be rejected.'
     $currentHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $resolvedWorkspaceRoot $successPath)).Hash
     Assert-True ($currentHash -ceq $originalHash) 'A rejected overwrite must preserve the original receipt hash.'
+
+    $racePath = "registry/contract-receipts/$temporaryDirectoryName/publication-race.json"
+    $raceFullPath = Join-Path $resolvedWorkspaceRoot $racePath
+    $raceOriginalBytes = [System.Text.Encoding]::UTF8.GetBytes('original publication-race target bytes')
+    $raceEvidence = @('publication race ' + ('x' * 5000))
+    $raceResult = Invoke-CreatorWithPublicationRace $resolvedWorkspaceRoot 'publication-race' 'task' @('CC-01') $raceEvidence $racePath $raceOriginalBytes $temporaryDirectory
+    Assert-Rejected $raceResult 'RECEIPT_EXISTS' 'A destination created at the final publication boundary must be rejected deterministically.'
+    $raceOriginalBase64 = [Convert]::ToBase64String($raceOriginalBytes)
+    $raceCurrentBase64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes($raceFullPath))
+    Assert-True ($raceCurrentBase64 -ceq $raceOriginalBase64) 'A publication race must preserve the original target bytes.'
+    $raceOriginalHash = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($raceOriginalBytes)).ToLowerInvariant()
+    $raceCurrentHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $raceFullPath).Hash.ToLowerInvariant()
+    Assert-True ($raceCurrentHash -ceq $raceOriginalHash) 'A publication race must preserve the original target hash.'
+    $raceTemporaryFiles = @(Get-ChildItem -LiteralPath $temporaryDirectory -Filter 'publication-race.json.*.tmp' -File -Force)
+    Assert-True ($raceTemporaryFiles.Count -eq 0) 'A rejected publication race must remove only its known temporary sibling.'
     $passed++
 
     $stalePath = "registry/contract-receipts/$temporaryDirectoryName/stale.json"
     $staleCreate = Invoke-Creator $resolvedWorkspaceRoot 'stale-contract-hash' 'task' @('CC-01') $evidence $stalePath
     Assert-True ($staleCreate.code -eq 0) 'A receipt fixture for stale hash validation must be created.'
+    Assert-True ($staleCreate.output[0] -ceq 'CONTRACT_RECEIPT_CREATED: stale-contract-hash; dimensions=1') 'Creator success must report the actual work-unit ID and dimension count.'
     $staleFullPath = Join-Path $resolvedWorkspaceRoot $stalePath
     $staleReceipt = Get-Content -Raw -LiteralPath $staleFullPath | ConvertFrom-Json
     $staleReceipt.contract.sha256 = ('0' * 64)
@@ -146,10 +235,14 @@ try {
     New-Item -ItemType Directory -Path $junctionTarget -Force | Out-Null
     New-Item -ItemType Junction -Path $junctionPath -Target $junctionTarget | Out-Null
     $junctionReceiptPath = "registry/contract-receipts/$temporaryDirectoryName/junction-parent/receipt.json"
-    Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'junction-create' 'task' @('CC-01') $evidence $junctionReceiptPath) 'PATH_REPARSE_POINT' 'A receipt parent reached through a junction must be rejected.'
+    $junctionCreateResult = Invoke-Creator $resolvedWorkspaceRoot 'junction-create' 'task' @('CC-01') $evidence $junctionReceiptPath
+    Assert-Rejected $junctionCreateResult 'PATH_REPARSE_POINT' 'A receipt parent reached through a junction must be rejected.'
+    Assert-OutputExcludes $junctionCreateResult $temporaryDirectoryName 'Creator reparse errors must not disclose untrusted receipt path segments.'
     $junctionTargetReceipt = Join-Path $junctionTarget 'receipt.json'
     [System.IO.File]::Copy((Join-Path $resolvedWorkspaceRoot $successPath), $junctionTargetReceipt)
-    Assert-Rejected (Invoke-Validator $resolvedWorkspaceRoot $junctionReceiptPath) 'PATH_REPARSE_POINT' 'A receipt reached through a junction must be rejected.'
+    $junctionValidateResult = Invoke-Validator $resolvedWorkspaceRoot $junctionReceiptPath
+    Assert-Rejected $junctionValidateResult 'PATH_REPARSE_POINT' 'A receipt reached through a junction must be rejected.'
+    Assert-OutputExcludes $junctionValidateResult $temporaryDirectoryName 'Validator reparse errors must not disclose untrusted receipt path segments.'
     Remove-Item -LiteralPath $junctionPath -Force
     Assert-True (Test-Path -LiteralPath $junctionTarget) 'Removing a junction must not remove its target.'
     $passed++

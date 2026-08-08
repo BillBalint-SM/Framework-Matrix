@@ -66,7 +66,7 @@ function Assert-NoReparsePoint([string]$RootPath, [string]$CandidatePath) {
         if (Test-Path -LiteralPath $currentPath) {
             $item = Get-Item -Force -LiteralPath $currentPath
             if (($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
-                Fail 'PATH_REPARSE_POINT' "Reparse point is not allowed: $relativePath"
+                Fail 'PATH_REPARSE_POINT' 'A reparse point exists on the checked path.'
             }
         }
     }
@@ -186,7 +186,22 @@ try {
         if (-not $isValid) {
             Fail 'RECEIPT_SCHEMA_INVALID' 'Generated receipt does not satisfy the receipt schema.'
         }
-        Move-Item -LiteralPath $temporaryPath -Destination $receiptFullPath -ErrorAction Stop
+        $receiptParentPath = Split-Path -Parent $receiptFullPath
+        Assert-NoReparsePoint $workspacePath $receiptParentPath
+        Assert-NoReparsePoint $workspacePath $receiptFullPath
+        if (Test-Path -LiteralPath $receiptFullPath) {
+            Fail 'RECEIPT_EXISTS' 'Receipt path already exists.'
+        }
+        try {
+            [System.IO.File]::Move($temporaryPath, $receiptFullPath, $false)
+        }
+        catch [System.IO.IOException] {
+            Assert-NoReparsePoint $workspacePath $receiptFullPath
+            if (Test-Path -LiteralPath $receiptFullPath) {
+                Fail 'RECEIPT_EXISTS' 'Receipt path already exists.'
+            }
+            Fail 'PUBLICATION_FAILED' 'Atomic receipt publication failed.'
+        }
     }
     finally {
         if (Test-Path -LiteralPath $temporaryPath) {
@@ -194,7 +209,7 @@ try {
         }
     }
 
-    Write-Output 'CONTRACT_RECEIPT_CREATED: framework-matrix-core-contract-foundation; dimensions=15'
+    Write-Output "CONTRACT_RECEIPT_CREATED: $WorkUnitId; dimensions=$($uniqueDimensions.Count)"
 }
 catch {
     if ($_.Exception.Message -match '^CONTRACT_RECEIPT_FAILURE:') {
