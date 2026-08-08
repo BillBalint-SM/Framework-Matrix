@@ -51,6 +51,14 @@ function Test-IsUnsafeRelativePath([string]$Path) {
     return $false
 }
 
+function Get-NormalizedRelativeReceiptPath([string]$Path) {
+    $normalizedPath = $Path
+    while ($normalizedPath.StartsWith('.\', [System.StringComparison]::Ordinal) -or $normalizedPath.StartsWith('./', [System.StringComparison]::Ordinal)) {
+        $normalizedPath = $normalizedPath.Substring(2)
+    }
+    return $normalizedPath
+}
+
 function Assert-NoReparsePoint([string]$RootPath, [string]$CandidatePath) {
     $relativePath = [System.IO.Path]::GetRelativePath($RootPath, $CandidatePath)
     $currentPath = $RootPath
@@ -73,11 +81,12 @@ function Assert-NoReparsePoint([string]$RootPath, [string]$CandidatePath) {
 }
 
 function Get-ConfinedReceiptPath([string]$WorkspacePath, [string]$RelativeReceiptPath) {
-    if (Test-IsUnsafeRelativePath $RelativeReceiptPath) {
+    $normalizedReceiptPath = Get-NormalizedRelativeReceiptPath $RelativeReceiptPath
+    if (Test-IsUnsafeRelativePath $normalizedReceiptPath) {
         Fail 'PATH_INVALID' 'Receipt path is not a safe relative path.'
     }
     $receiptsRoot = [System.IO.Path]::GetFullPath((Join-Path $WorkspacePath 'registry/contract-receipts'))
-    $candidatePath = [System.IO.Path]::GetFullPath((Join-Path $WorkspacePath $RelativeReceiptPath))
+    $candidatePath = [System.IO.Path]::GetFullPath((Join-Path $WorkspacePath $normalizedReceiptPath))
     if (-not (Test-IsChildPath $receiptsRoot $candidatePath)) {
         Fail 'PATH_INVALID' 'Receipt path must be beneath registry/contract-receipts.'
     }

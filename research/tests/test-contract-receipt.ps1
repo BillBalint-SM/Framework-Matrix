@@ -218,14 +218,14 @@ $pwshPath = (Get-Command pwsh.exe -ErrorAction Stop).Source
 $receiptsRoot = Join-Path $resolvedWorkspaceRoot 'registry/contract-receipts'
 $temporaryDirectory = Join-Path $receiptsRoot "test-receipt-$([guid]::NewGuid())"
 $successWorkUnitId = 'contract-receipt-integration'
-$successPath = 'registry/contract-receipts/test-receipt-placeholder/receipt.json'
+$successPath = '.\registry\contract-receipts\test-receipt-placeholder\receipt.json'
 $successCreateLine = 'CONTRACT_RECEIPT_CREATED: contract-receipt-integration; dimensions=15'
 $successValidateLine = 'CONTRACT_RECEIPT_VALID: contract-receipt-integration; contract=1.0.0'
 $passed = 0
 
 New-Item -ItemType Directory -Path $temporaryDirectory -Force | Out-Null
 $temporaryDirectoryName = Split-Path -Leaf $temporaryDirectory
-$successPath = "registry/contract-receipts/$temporaryDirectoryName/receipt.json"
+$successPath = ".\registry\contract-receipts\$temporaryDirectoryName\receipt.json"
 $dimensions = @(
     'CC-01', 'CC-02', 'CC-03', 'CC-04', 'CC-05',
     'CC-06', 'CC-07', 'CC-08', 'CC-09', 'CC-10',
@@ -254,7 +254,7 @@ try {
     $passed++
 
     Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'absolute-path' 'task' @('CC-01') $evidence (Join-Path $resolvedWorkspaceRoot 'registry/contract-receipts/absolute.json')) 'PATH_INVALID' 'An absolute receipt path must be rejected.'
-    Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'traversal-path' 'task' @('CC-01') $evidence "registry/contract-receipts/$temporaryDirectoryName/../traversal.json") 'PATH_INVALID' 'A traversal receipt path must be rejected.'
+    Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'traversal-path' 'task' @('CC-01') $evidence ".\registry\contract-receipts\$temporaryDirectoryName\..\traversal.json") 'PATH_INVALID' 'A traversal receipt path must be rejected.'
     $passed++
 
     $originalHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $resolvedWorkspaceRoot $successPath)).Hash
@@ -283,7 +283,7 @@ try {
     Assert-True ($raceHarnessFiles.Count -eq 0) 'The publication-race harness must remove its driver and captured-output files immediately.'
     $passed++
 
-    $stalePath = "registry/contract-receipts/$temporaryDirectoryName/stale.json"
+    $stalePath = "./registry/contract-receipts/$temporaryDirectoryName/stale.json"
     $staleCreate = Invoke-Creator $resolvedWorkspaceRoot 'stale-contract-hash' 'task' @('CC-01') $evidence $stalePath
     Assert-True ($staleCreate.code -eq 0) 'A receipt fixture for stale hash validation must be created.'
     Assert-True ($staleCreate.output[0] -ceq 'CONTRACT_RECEIPT_CREATED: stale-contract-hash; dimensions=1') 'Creator success must report the actual work-unit ID and dimension count.'
