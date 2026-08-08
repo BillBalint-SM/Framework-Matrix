@@ -59,12 +59,20 @@ $resolvedWorkspaceRoot = [System.IO.Path]::GetFullPath($WorkspaceRoot)
 $validator = Join-Path $resolvedWorkspaceRoot 'research/scripts/validate-core-contract.ps1'
 $pwshPath = (Get-Command pwsh -ErrorAction Stop).Source
 $realIndex = Join-Path $resolvedWorkspaceRoot 'contracts/core-contract-index.json'
-$successLine = 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; work_unit_types=3'
+$successLine = 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=0'
 $passed = 0
 
 $result = Invoke-Validator $resolvedWorkspaceRoot $realIndex
 Assert-True ($result.code -eq 0) 'The real core-contract index must validate successfully.'
-Assert-True ((@($result.output) -join ' ') -match [regex]::Escape($successLine)) 'The validator must emit the exact success line.'
+$resultOutput = @($result.output)
+Assert-True ($resultOutput.Count -eq 1) 'The validator must emit exactly one success line.'
+Assert-True ($resultOutput[0] -ceq $successLine) 'The validator must emit the exact success line.'
+$trailingWorkspaceRoot = "$resolvedWorkspaceRoot$([System.IO.Path]::DirectorySeparatorChar)"
+$trailingResult = Invoke-Validator $trailingWorkspaceRoot $realIndex
+Assert-True ($trailingResult.code -eq 0) 'The real core-contract index must validate with a trailing-separator WorkspaceRoot.'
+$trailingResultOutput = @($trailingResult.output)
+Assert-True ($trailingResultOutput.Count -eq 1) 'The trailing-separator validation must emit exactly one success line.'
+Assert-True ($trailingResultOutput[0] -ceq $successLine) 'The trailing-separator validation must emit the exact success line.'
 $passed++
 
 $temporaryWorkspace = $null

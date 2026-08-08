@@ -70,7 +70,9 @@ try {
         Fail 'INPUT_MISSING' 'Workspace root is missing.'
     }
 
-    $workspacePath = [System.IO.Path]::GetFullPath($WorkspaceRoot)
+    $workspacePath = [System.IO.Path]::TrimEndingDirectorySeparator(
+        [System.IO.Path]::GetFullPath($WorkspaceRoot)
+    )
     $indexFullPath = if ([System.IO.Path]::IsPathRooted($IndexPath)) {
         [System.IO.Path]::GetFullPath($IndexPath)
     }
@@ -192,7 +194,7 @@ try {
         Assert-ExplicitRegistryPath $workspacePath $registryPath
     }
 
-    Write-Output 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; work_unit_types=3'
+    Write-Output 'CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=0'
 }
 catch {
     if ($_.Exception.Message -match '^CORE_CONTRACT_VALIDATION_FAILURE:') {
