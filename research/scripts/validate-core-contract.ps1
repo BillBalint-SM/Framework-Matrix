@@ -18,7 +18,15 @@ function Get-Sha256([string]$Path) {
 }
 
 function Test-IsChildPath([string]$RootPath, [string]$CandidatePath) {
-    $rootWithSeparator = "$RootPath$([System.IO.Path]::DirectorySeparatorChar)"
+    $rootWithSeparator = if (
+        $RootPath.EndsWith([System.IO.Path]::DirectorySeparatorChar) -or
+        $RootPath.EndsWith([System.IO.Path]::AltDirectorySeparatorChar)
+    ) {
+        $RootPath
+    }
+    else {
+        "$RootPath$([System.IO.Path]::DirectorySeparatorChar)"
+    }
     return $CandidatePath.StartsWith($rootWithSeparator, [System.StringComparison]::OrdinalIgnoreCase)
 }
 

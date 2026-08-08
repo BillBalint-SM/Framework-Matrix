@@ -73,6 +73,9 @@ Assert-True ($trailingResult.code -eq 0) 'The real core-contract index must vali
 $trailingResultOutput = @($trailingResult.output)
 Assert-True ($trailingResultOutput.Count -eq 1) 'The trailing-separator validation must emit exactly one success line.'
 Assert-True ($trailingResultOutput[0] -ceq $successLine) 'The trailing-separator validation must emit the exact success line.'
+$volumeRoot = [System.IO.Path]::GetPathRoot($resolvedWorkspaceRoot)
+$missingVolumeChild = Join-Path $volumeRoot "test-core-contract-volume-root-$([guid]::NewGuid())/index.json"
+Assert-Rejected (Invoke-Validator $volumeRoot $missingVolumeChild) 'INPUT_MISSING' 'A child of a volume-root workspace must pass containment before missing-input validation.'
 $passed++
 
 $temporaryWorkspace = $null
