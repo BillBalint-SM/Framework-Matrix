@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/contract-receipt.schema.json",
+  "schema_version": "1.0.0",
+  "receipt_id": "framework-matrix-core-contract-foundation",
+  "work_unit_id": "framework-matrix-core-contract-foundation",
+  "work_unit_type": "task",
+  "created_at": "2026-08-08T13:08:53.2595886Z",
+  "contract": {
+    "version": "1.0.0",
+    "path": "contracts/CORE-CONTRACT.md",
+    "sha256": "713932c78d3ca010f22985bc5d0d035c1ae1cfa65c07b4a533819a77a2df5fe4"
+  },
+  "dimensions": [
+    "CC-01",
+    "CC-02",
+    "CC-03",
+    "CC-04",
+    "CC-05",
+    "CC-06",
+    "CC-07",
+    "CC-08",
+    "CC-09",
+    "CC-10",
+    "CC-11",
+    "CC-12",
+    "CC-13",
+    "CC-14",
+    "CC-15"
+  ],
+  "expected_evidence": [
+    "Task 2 contract-receipt integration test: CONTRACT_RECEIPT_TESTS: 9/9 PASS",
+    "Task 1 core-contract validation: CORE_CONTRACT_VALID: version=1.0.0; dimensions=15; dependencies=0"
+  ],
+  "dependencies_checked": true,
+  "gate_status": "PASSED"
+}

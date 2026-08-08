@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:framework-matrix:schema:contract-receipt:1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "receipt_id",
+    "work_unit_id",
+    "work_unit_type",
+    "created_at",
+    "contract",
+    "dimensions",
+    "expected_evidence",
+    "dependencies_checked",
+    "gate_status"
+  ],
+  "properties": {
+    "$schema": { "const": "../../schemas/contract-receipt.schema.json" },
+    "schema_version": { "const": "1.0.0" },
+    "receipt_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{0,199}$" },
+    "work_unit_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{0,199}$" },
+    "work_unit_type": { "enum": ["session", "task", "work_part"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "path", "sha256"],
+      "properties": {
+        "version": { "const": "1.0.0" },
+        "path": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "CC-01", "CC-02", "CC-03", "CC-04", "CC-05",
+          "CC-06", "CC-07", "CC-08", "CC-09", "CC-10",
+          "CC-11", "CC-12", "CC-13", "CC-14", "CC-15"
+        ]
+      }
+    },
+    "expected_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "dependencies_checked": { "const": true },
+    "gate_status": { "const": "PASSED" }
+  }
+}
