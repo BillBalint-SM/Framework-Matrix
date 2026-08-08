@@ -255,6 +255,10 @@ try {
 
     Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'absolute-path' 'task' @('CC-01') $evidence (Join-Path $resolvedWorkspaceRoot 'registry/contract-receipts/absolute.json')) 'PATH_INVALID' 'An absolute receipt path must be rejected.'
     Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'traversal-path' 'task' @('CC-01') $evidence ".\registry\contract-receipts\$temporaryDirectoryName\..\traversal.json") 'PATH_INVALID' 'A traversal receipt path must be rejected.'
+    Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'repeated-dot-prefix' 'task' @('CC-01') $evidence ".\.\registry\contract-receipts\$temporaryDirectoryName\repeated-dot-prefix.json") 'PATH_INVALID' 'A repeated same-form dot-relative creator prefix must be rejected.'
+    Assert-Rejected (Invoke-Creator $resolvedWorkspaceRoot 'mixed-dot-prefix' 'task' @('CC-01') $evidence ".\./registry/contract-receipts/$temporaryDirectoryName/mixed-dot-prefix.json") 'PATH_INVALID' 'A repeated mixed dot-relative creator prefix must be rejected.'
+    Assert-Rejected (Invoke-Validator $resolvedWorkspaceRoot "././registry/contract-receipts/$temporaryDirectoryName/receipt.json") 'PATH_INVALID' 'A repeated same-form dot-relative validator prefix must be rejected.'
+    Assert-Rejected (Invoke-Validator $resolvedWorkspaceRoot "./.\registry\contract-receipts\$temporaryDirectoryName\receipt.json") 'PATH_INVALID' 'A repeated mixed dot-relative validator prefix must be rejected.'
     $passed++
 
     $originalHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $resolvedWorkspaceRoot $successPath)).Hash

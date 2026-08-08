@@ -53,7 +53,7 @@ function Test-IsUnsafeRelativePath([string]$Path) {
 
 function Get-NormalizedRelativeReceiptPath([string]$Path) {
     $normalizedPath = $Path
-    while ($normalizedPath.StartsWith('.\', [System.StringComparison]::Ordinal) -or $normalizedPath.StartsWith('./', [System.StringComparison]::Ordinal)) {
+    if ($normalizedPath.StartsWith('.\', [System.StringComparison]::Ordinal) -or $normalizedPath.StartsWith('./', [System.StringComparison]::Ordinal)) {
         $normalizedPath = $normalizedPath.Substring(2)
     }
     return $normalizedPath
