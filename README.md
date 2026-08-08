@@ -19,6 +19,21 @@ projekt; annak forráskódja, branch-e és Git-története nincs ebben a repóba
   evidence, inventory-k, review-k, state-feljegyzések, dokumentum-renderelési
   munkák és a futtatott validáló scriptek.
 
+## Research core-contract
+
+A kutatás kötelező belépési pontja a
+[`contracts/CORE-CONTRACT.md`](contracts/CORE-CONTRACT.md). A célállapotot az
+[approved design](docs/superpowers/specs/2026-08-08-framework-matrix-full-scope-design.md),
+a megvalósítási sorrendet pedig a
+[rollout roadmap](docs/superpowers/plans/2026-08-08-framework-matrix-full-scope-rollout-roadmap.md)
+rögzíti.
+
+```powershell
+& .\research\scripts\validate-core-contract.ps1 `
+  -WorkspaceRoot (Get-Location).Path `
+  -IndexPath .\contracts\core-contract-index.json
+```
+
 ## Provenance és állapot
 
 Az upstream snapshotok commit-, branch- és URL-adatait a
