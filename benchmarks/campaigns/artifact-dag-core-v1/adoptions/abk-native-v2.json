@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/adoption-decision-v1.schema.json",
+  "schema_version": "1.0.0",
+  "decision_id": "abk:adoption:artifact-dag-core-v2:abk-native",
+  "protocol_id": "abk:benchmark:pattern-adoption-v2",
+  "status": "ADOPTED",
+  "decided_at": "2026-08-08T08:59:32.4140583Z",
+  "approval": {
+    "kind": "human_user_confirmation",
+    "reference": "Codex task user approval"
+  },
+  "selected_branch": "abk_native",
+  "basis": {
+    "scorecard_relative_path": "benchmarks/campaigns/artifact-dag-core-v1/resolution-v2/comparison-scorecard.json",
+    "scorecard_sha256": "0c8d2e3e3d075d6ecaca607c1d869550d14a7dc86c76362c472133bb01e76366",
+    "comparison_id": "abk:comparison:artifact-dag-core-v2",
+    "required_status": "complete",
+    "required_outcome": "CHOSEN"
+  },
+  "rationale": "Explicit human user confirmation adopted abk_native after the completed v2 comparison returned CHOSEN."
+}
