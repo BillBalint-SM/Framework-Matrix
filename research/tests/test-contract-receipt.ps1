@@ -68,37 +68,97 @@ function Invoke-CreatorWithPublicationRace(
 ) {
     $command = New-CreatorCommand $WorkspacePath $WorkUnitId $WorkUnitType $DimensionIds $ExpectedEvidence $ReceiptPath
     $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($command))
+    $driverPath = Join-Path $FixtureDirectory "publication-race-driver-$([guid]::NewGuid().ToString('N')).ps1"
     $stdoutPath = Join-Path $FixtureDirectory 'publication-race.stdout.txt'
     $stderrPath = Join-Path $FixtureDirectory 'publication-race.stderr.txt'
     $targetFullPath = Join-Path $WorkspacePath $ReceiptPath
-    $targetParent = Split-Path -Parent $targetFullPath
-    $temporaryPattern = "$([System.IO.Path]::GetFileName($targetFullPath)).*.tmp"
-    $process = Start-Process -FilePath $pwshPath -ArgumentList @(
-        '-NoLogo', '-NoProfile', '-NonInteractive', '-EncodedCommand', $encodedCommand
-    ) -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath -WindowStyle Hidden -PassThru
-    $raceCreated = $false
-    $deadline = [datetime]::UtcNow.AddSeconds(10)
-    try {
-        while (-not $process.HasExited -and [datetime]::UtcNow -lt $deadline) {
-            if (@(Get-ChildItem -LiteralPath $targetParent -Filter $temporaryPattern -File -Force).Count -gt 0) {
-                $stream = [System.IO.FileStream]::new(
-                    $targetFullPath,
-                    [System.IO.FileMode]::CreateNew,
-                    [System.IO.FileAccess]::Write,
-                    [System.IO.FileShare]::None
-                )
-                try {
-                    $stream.Write($OriginalBytes, 0, $OriginalBytes.Length)
-                }
-                finally {
-                    $stream.Dispose()
-                }
-                $raceCreated = $true
-                break
-            }
+    $originalBytesBase64 = [Convert]::ToBase64String($OriginalBytes)
+    $driver = @'
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true)][string]$CreatorPath,
+    [Parameter(Mandatory = $true)][string]$CreatorCommandBase64,
+    [Parameter(Mandatory = $true)][string]$TargetFullPath,
+    [Parameter(Mandatory = $true)][string]$OriginalBytesBase64
+)
+
+$ErrorActionPreference = 'Stop'
+$breakpoint = $null
+$failureStage = 'INITIALIZE'
+try {
+    $failureStage = 'MOVE_LINE_LOOKUP'
+    $movePattern = '[System.IO.File]::Move($temporaryPath, $receiptFullPath, $false)'
+    $moveMatches = @(Select-String -LiteralPath $CreatorPath -SimpleMatch $movePattern)
+    if ($moveMatches.Count -ne 1) {
+        throw 'MOVE_LINE_NOT_UNIQUE'
+    }
+
+    $global:ContractReceiptRaceTargetPath = $TargetFullPath
+    $global:ContractReceiptRaceOriginalBytes = [Convert]::FromBase64String($OriginalBytesBase64)
+    $failureStage = 'BREAKPOINT_REGISTRATION'
+    $breakpoint = Set-PSBreakpoint -Script $CreatorPath -Line $moveMatches[0].LineNumber -Action {
+        $stream = [System.IO.FileStream]::new(
+            $global:ContractReceiptRaceTargetPath,
+            [System.IO.FileMode]::CreateNew,
+            [System.IO.FileAccess]::Write,
+            [System.IO.FileShare]::None
+        )
+        try {
+            $stream.Write(
+                $global:ContractReceiptRaceOriginalBytes,
+                0,
+                $global:ContractReceiptRaceOriginalBytes.Length
+            )
         }
-        $process.WaitForExit()
-        Assert-True $raceCreated 'The publication-race harness must create the destination after the temporary sibling appears.'
+        finally {
+            $stream.Dispose()
+        }
+    }
+
+    $commandText = [System.Text.Encoding]::Unicode.GetString(
+        [Convert]::FromBase64String($CreatorCommandBase64)
+    )
+    $failureStage = 'CREATOR_INVOCATION'
+    & ([scriptblock]::Create($commandText))
+}
+catch {
+    if (
+        $failureStage -ceq 'CREATOR_INVOCATION' -and
+        $_.Exception.Message -match '^CONTRACT_RECEIPT_FAILURE: RECEIPT_EXISTS;'
+    ) {
+        [Console]::Error.WriteLine('CONTRACT_RECEIPT_FAILURE: RECEIPT_EXISTS; Receipt path already exists.')
+        exit 1
+    }
+    $failureCode = if ($_.Exception.Message -ceq 'MOVE_LINE_NOT_UNIQUE') { 'MOVE_LINE_NOT_UNIQUE' } else { $failureStage }
+    Write-Error "RACE_DRIVER_FAILURE: $failureCode"
+    exit 97
+}
+finally {
+    if ($null -ne $breakpoint) {
+        Remove-PSBreakpoint -Breakpoint $breakpoint -ErrorAction SilentlyContinue
+    }
+    Remove-Variable -Name ContractReceiptRaceTargetPath -Scope Global -ErrorAction SilentlyContinue
+    Remove-Variable -Name ContractReceiptRaceOriginalBytes -Scope Global -ErrorAction SilentlyContinue
+}
+'@ -replace "`r`n", "`n"
+    [System.IO.File]::WriteAllText($driverPath, $driver, [System.Text.UTF8Encoding]::new($false))
+
+    $process = $null
+    try {
+        $process = Start-Process -FilePath $pwshPath -ArgumentList @(
+            '-NoLogo', '-NoProfile', '-NonInteractive', '-File', $driverPath,
+            '-CreatorPath', $creator,
+            '-CreatorCommandBase64', $encodedCommand,
+            '-TargetFullPath', $targetFullPath,
+            '-OriginalBytesBase64', $originalBytesBase64
+        ) -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath -WindowStyle Hidden -PassThru
+        if (-not $process.WaitForExit(10000)) {
+            $process.Kill($true)
+            if (-not $process.WaitForExit(5000)) {
+                throw 'TEST_FAILURE: Publication-race child did not stop within the bounded timeout.'
+            }
+            throw 'TEST_FAILURE: Publication-race child exceeded the bounded timeout.'
+        }
         $output = @(
             @(Get-Content -LiteralPath $stdoutPath -ErrorAction SilentlyContinue)
             @(Get-Content -LiteralPath $stderrPath -ErrorAction SilentlyContinue)
@@ -106,11 +166,20 @@ function Invoke-CreatorWithPublicationRace(
         return [pscustomobject]@{ code = $process.ExitCode; output = $output }
     }
     finally {
-        if (-not $process.HasExited) {
-            $process.Kill($true)
-            $process.WaitForExit()
+        if ($null -ne $process) {
+            if (-not $process.HasExited) {
+                $process.Kill($true)
+                if (-not $process.WaitForExit(5000)) {
+                    throw 'TEST_FAILURE: Publication-race child cleanup exceeded the bounded timeout.'
+                }
+            }
+            $process.Dispose()
         }
-        $process.Dispose()
+        foreach ($knownFixturePath in @($driverPath, $stdoutPath, $stderrPath)) {
+            if (Test-Path -LiteralPath $knownFixturePath) {
+                Remove-Item -LiteralPath $knownFixturePath -Force
+            }
+        }
     }
 }
 
@@ -196,9 +265,9 @@ try {
     $racePath = "registry/contract-receipts/$temporaryDirectoryName/publication-race.json"
     $raceFullPath = Join-Path $resolvedWorkspaceRoot $racePath
     $raceOriginalBytes = [System.Text.Encoding]::UTF8.GetBytes('original publication-race target bytes')
-    $raceEvidence = @('publication race ' + ('x' * 5000))
-    $raceResult = Invoke-CreatorWithPublicationRace $resolvedWorkspaceRoot 'publication-race' 'task' @('CC-01') $raceEvidence $racePath $raceOriginalBytes $temporaryDirectory
-    Assert-Rejected $raceResult 'RECEIPT_EXISTS' 'A destination created at the final publication boundary must be rejected deterministically.'
+    $raceResult = Invoke-CreatorWithPublicationRace $resolvedWorkspaceRoot 'publication-race' 'task' @('CC-01') $evidence $racePath $raceOriginalBytes $temporaryDirectory
+    $raceResultOutput = @($raceResult.output) -join ' '
+    Assert-Rejected $raceResult 'RECEIPT_EXISTS' "A destination created at the final publication boundary must be rejected deterministically. Child output: $raceResultOutput"
     $raceOriginalBase64 = [Convert]::ToBase64String($raceOriginalBytes)
     $raceCurrentBase64 = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes($raceFullPath))
     Assert-True ($raceCurrentBase64 -ceq $raceOriginalBase64) 'A publication race must preserve the original target bytes.'
@@ -207,6 +276,11 @@ try {
     Assert-True ($raceCurrentHash -ceq $raceOriginalHash) 'A publication race must preserve the original target hash.'
     $raceTemporaryFiles = @(Get-ChildItem -LiteralPath $temporaryDirectory -Filter 'publication-race.json.*.tmp' -File -Force)
     Assert-True ($raceTemporaryFiles.Count -eq 0) 'A rejected publication race must remove only its known temporary sibling.'
+    $raceHarnessFiles = @(Get-ChildItem -LiteralPath $temporaryDirectory -File -Force | Where-Object {
+        $_.Name -like 'publication-race-driver-*.ps1' -or
+        $_.Name -in @('publication-race.stdout.txt', 'publication-race.stderr.txt')
+    })
+    Assert-True ($raceHarnessFiles.Count -eq 0) 'The publication-race harness must remove its driver and captured-output files immediately.'
     $passed++
 
     $stalePath = "registry/contract-receipts/$temporaryDirectoryName/stale.json"
